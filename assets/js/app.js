@@ -7,7 +7,7 @@ const state = {
   empresas: [],
   empresaAtivaId: null,
   empresaEditandoId: null,
-  logoEditando: ''
+  logoEditando: '',
 };
 
 const icons = {
@@ -21,6 +21,19 @@ const icons = {
 const els = {};
 
 function $(id) { return document.getElementById(id); }
+
+/* Toast Notifications */
+function showToast(message, type = 'info', duration = 3000) {
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.classList.add('removing');
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+}
 
 function initElements() {
   [
@@ -137,7 +150,7 @@ function adicionarNota() {
   const descricao = els.descricao.value.trim();
 
   if (!data || !nf || !destinatario || !Number.isInteger(volumes) || volumes < 1) {
-    alert('Preencha Data, NF, Endereço Destinatário e Qtd. de Volumes.');
+    showToast('Preencha Data, NF, Endereço Destinatário e Qtd. de Volumes.', 'error');
     return;
   }
 
@@ -317,7 +330,7 @@ function salvarEmpresaAtual() {
   };
 
   if (!empresa.nome || !empresa.cnpj) {
-    alert('Preencha pelo menos Nome da Empresa e CNPJ.');
+    showToast('Preencha pelo menos Nome da Empresa e CNPJ.', 'error');
     return;
   }
 
@@ -329,16 +342,16 @@ function salvarEmpresaAtual() {
   state.empresaEditandoId = empresa.id;
   salvarEmpresas();
   renderizar();
-  alert('Modelo de empresa salvo localmente.');
+  showToast('Modelo de empresa salvo com sucesso!', 'success');
 }
 
 function excluirEmpresaAtual() {
   if (!state.empresaEditandoId) {
-    alert('Selecione uma empresa cadastrada para excluir.');
+    showToast('Selecione uma empresa cadastrada para excluir.', 'error');
     return;
   }
   if (state.empresas.length <= 1) {
-    alert('É necessário manter pelo menos uma empresa cadastrada.');
+    showToast('É necessário manter pelo menos uma empresa cadastrada.', 'error');
     return;
   }
   if (!confirm('Deseja excluir este modelo de empresa?')) return;
@@ -369,11 +382,11 @@ function atualizarPreviewLogo() {
 function lerLogo(file) {
   if (!file) return;
   if (!['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
-    alert('Use uma imagem PNG, JPG ou JPEG.');
+    showToast('Use uma imagem PNG, JPG ou JPEG.', 'error');
     return;
   }
   if (file.size > 2 * 1024 * 1024) {
-    alert('A logo precisa ter no máximo 2MB para salvar no navegador.');
+    showToast('A logo precisa ter no máximo 2MB para salvar no navegador.', 'error');
     return;
   }
 
