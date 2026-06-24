@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b78f0">
+  <title>Expedição - Etiquetas</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/app-icon.svg">
+  <link rel="apple-touch-icon" href="assets/icons/app-icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script defer src="assets/js/app.js"></script>
+</head>
+<body>
+<div class="app">
+    <aside class="panel">
+      <h1>EXPEDIÇÃO - ETIQUETAS</h1>
+      <p class="subtitle">Etiqueta 10x5cm. Use A4 com 10 unidades ou bobina térmica adesiva 10x5cm.</p>
+
+      <h2>DADOS DA NOTA / EXPEDIÇÃO</h2>
+      <div class="field">
+        <label for="data">Data:</label>
+        <input type="date" id="data">
+      </div>
+      <div class="field">
+        <label for="nf">Nº da NF:</label>
+        <input id="nf" maxlength="16" placeholder="000123">
+      </div>
+      <div class="field">
+        <label for="destinatario">Endereço Destinatário:</label>
+        <textarea id="destinatario" maxlength="240" placeholder="Rua, número&#10;Bairro - Cidade / UF&#10;CEP: 00000-000"></textarea>
+      </div>
+      <div class="field">
+        <label for="volumes">Qtd. de Volumes:</label>
+        <input type="number" id="volumes" min="1" max="999" value="1">
+      </div>
+      <div class="field">
+        <label for="descricao">Descrição dos Itens:</label>
+        <textarea id="descricao" maxlength="180" placeholder="Opcional"></textarea>
+      </div>
+
+      <button class="btn-primary" id="btnAdicionar" type="button">
+        <span data-icon="plus"></span>Adicionar Nota
+      </button>
+      <p class="hint">Cada volume gera uma etiqueta. No A4, notas diferentes são encaixadas na mesma folha até completar 10.</p>
+
+      <h2>NOTAS ADICIONADAS (<span id="countNotas">0</span>)</h2>
+      <div id="listaNotas"></div>
+      <div class="summary" id="summary">Total de etiquetas: 0<br>Folhas necessárias (A4): 0</div>
+
+      <div class="actions">
+        <button class="btn-success" id="btnImprimir" type="button"><span data-icon="printer"></span>Imprimir Etiquetas</button>
+        <button class="btn-gray" id="btnLimpar" type="button"><span data-icon="trash"></span>Limpar Tudo</button>
+      </div>
+    </aside>
+
+    <main class="preview-wrap">
+      <div class="preview-toolbar">
+        <span class="toolbar-pill"><span data-icon="printer"></span>Pré-visualização</span>
+        <select id="modoImpressao" class="toolbar-select" title="Formato de impressão">
+          <option value="a4">A4 - 10 etiquetas por folha</option>
+          <option value="bobina">Bobina térmica - 10x5cm</option>
+        </select>
+        <span class="toolbar-pill" id="modeloAtual">Etiqueta: 10x5cm</span>
+      </div>
+      <div id="preview"><div class="empty">Adicione uma nota para visualizar as etiquetas.</div></div>
+    </main>
+
+    <aside class="panel companies-panel">
+      <h2>EMPRESAS CADASTRADAS</h2>
+      <div id="listaEmpresas" class="company-list"></div>
+      <button class="btn-primary btn-small" id="btnNovaEmpresa" type="button" style="margin-top:10px;"><span data-icon="plus"></span>Nova Empresa</button>
+
+      <div class="form-divider"></div>
+
+      <h2>CONFIGURAR EMPRESA</h2>
+      <p class="subtitle">O modelo fica salvo neste navegador/dispositivo e pode ser alternado quando precisar.</p>
+
+      <label class="upload-box" id="uploadBox" for="logoEmpresa">
+        <span id="logoPreviewIcon" data-icon="building" class="icon-lg"></span>
+        <span id="logoPreviewText">Clique para enviar a logo<br>PNG, JPG ou JPEG até 2MB</span>
+        <img id="logoPreview" alt="Prévia da logo" style="display:none;">
+      </label>
+      <input class="hidden-input" type="file" id="logoEmpresa" accept="image/png,image/jpeg,image/jpg">
+
+      <div class="field compact" style="margin-top:12px;">
+        <label for="nomeEmpresa">Nome da Empresa</label>
+        <input id="nomeEmpresa" maxlength="60" placeholder="Nome da Empresa">
+      </div>
+      <div class="field compact">
+        <label for="cnpjEmpresa">CNPJ</label>
+        <input id="cnpjEmpresa" maxlength="25" placeholder="00.000.000/0001-00">
+      </div>
+      <div class="field compact">
+        <label for="enderecoEmpresa">Endereço</label>
+        <input id="enderecoEmpresa" maxlength="60" placeholder="Rua, número">
+      </div>
+      <div class="field compact">
+        <label for="bairroEmpresa">Bairro</label>
+        <input id="bairroEmpresa" maxlength="40" placeholder="Bairro">
+      </div>
+      <div class="field-row">
+        <div class="field compact">
+          <label for="cidadeEmpresa">Cidade</label>
+          <input id="cidadeEmpresa" maxlength="40" placeholder="Cidade">
+        </div>
+        <div class="field compact">
+          <label for="ufEmpresa">UF</label>
+          <input id="ufEmpresa" maxlength="2" placeholder="PR">
+        </div>
+        <div class="field compact">
+          <label for="cepEmpresa">CEP</label>
+          <input id="cepEmpresa" maxlength="10" placeholder="00000-000">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" id="btnSalvarEmpresa" type="button"><span data-icon="save"></span>Salvar Modelo</button>
+        <button class="btn-danger" id="btnExcluirEmpresa" type="button"><span data-icon="trash"></span>Excluir Modelo</button>
+      </div>
+    </aside>
+  </div>
+</body>
+</html>
