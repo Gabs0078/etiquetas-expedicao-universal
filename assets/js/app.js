@@ -235,10 +235,9 @@ function criarEtiqueta(etiqueta) {
         </div>
       </div>
 
-      <div class="date-line">Data:<span>${formatarDataInput(etiqueta.data)}</span></div>
-
       <div class="content-grid">
         <div class="content-main">
+          <div class="date-line">Data:<span>${formatarDataInput(etiqueta.data)}</span></div>
           <div class="block-title">Endereço Destinatário:</div>
           <div class="shipping-text">${textoComQuebras(etiqueta.destinatario)}</div>
           ${etiqueta.descricao ? `<div class="desc"><span class="block-title">Descrição dos Itens:</span><br>${textoComQuebras(etiqueta.descricao)}</div>` : ''}
@@ -248,8 +247,8 @@ function criarEtiqueta(etiqueta) {
           <div class="nf-label">NF:</div>
           <div class="nf-number" title="${escaparHTML(etiqueta.nf)}">${escaparHTML(etiqueta.nf)}</div>
           <div class="right-sep"></div>
-          <div class="vol-label">Qtd. Volumes:</div>
-          <div class="volume-number">Volume: ${etiqueta.etiquetaAtual}/${etiqueta.volumes}</div>
+          <div class="vol-label">Volume:</div>
+          <div class="volume-number">${etiqueta.etiquetaAtual}/${etiqueta.volumes}</div>
         </div>
       </div>
     </div>
