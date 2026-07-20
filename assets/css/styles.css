@@ -665,7 +665,6 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   .preview-wrap { border: 0; box-shadow: none; overflow: visible; }
   .empty { display: none; }
   .sheet {
-    page: a4;
     margin: 0;
     width: 210mm;
     height: 297mm;
@@ -677,13 +676,10 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   .sheet:last-child { page-break-after: auto; }
   .roll-preview { margin: 0; padding: 0; width: 100mm; outline: none; }
   .bobina-page {
-    page: bobina;
     margin: 0;
     width: 100mm;
     height: 50mm;
     page-break-after: always;
   }
   .bobina-page:last-child { page-break-after: auto; }
-  @page a4 { size: A4 portrait; margin: 0; }
-  @page bobina { size: 100mm 50mm; margin: 0; }
 }

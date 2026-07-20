@@ -440,11 +440,25 @@ function configurarUploadLogo() {
   els.uploadBox.addEventListener('drop', event => lerLogo(event.dataTransfer.files[0]));
 }
 
+function atualizarRegraPagina() {
+  const modo = els.modoImpressao.value;
+  let style = document.getElementById('print-page-rule');
+  if (!style) {
+    style = document.createElement('style');
+    style.id = 'print-page-rule';
+    document.head.appendChild(style);
+  }
+  style.textContent = modo === 'a4'
+    ? '@page { size: A4 portrait; margin: 0; }'
+    : '@page { size: 100mm 50mm; margin: 0; }';
+}
+
 function renderizar() {
   salvarNotas();
   renderNotas();
   renderEmpresas();
   renderIcons();
+  atualizarRegraPagina();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -457,7 +471,10 @@ document.addEventListener('DOMContentLoaded', () => {
   configurarUploadLogo();
 
   els.btnAdicionar.addEventListener('click', adicionarNota);
-  els.btnImprimir.addEventListener('click', () => window.print());
+  els.btnImprimir.addEventListener('click', () => {
+    atualizarRegraPagina();
+    window.print();
+  });
   els.btnLimpar.addEventListener('click', limparTudo);
   els.modoImpressao.addEventListener('change', renderizar);
   els.btnNovaEmpresa.addEventListener('click', novaEmpresa);
