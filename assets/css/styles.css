@@ -452,8 +452,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 
 .vol-label { font-size: 8px; }
-.volume-number { font-size: 17px; font-weight: 900; margin-top: 1.7mm; }
-.volume-count { font-size: 7.5px; margin-top: .4mm; font-weight: 700; }
+.volume-number { font-size: 11px; font-weight: 900; margin-top: 1.7mm; white-space: nowrap; }
 .block-title { font-weight: 800; }
 .shipping-text { max-height: 15.6mm; overflow: hidden; }
 .desc { margin-top: 1mm; max-height: 9mm; overflow: hidden; }

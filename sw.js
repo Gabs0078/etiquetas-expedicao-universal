@@ -3,7 +3,7 @@
    Ao alterar qualquer arquivo da lista, incremente CACHE_VERSION
    para que os usuários recebam a versão nova. */
 
-const CACHE_VERSION = 'etiquetas-v1';
+const CACHE_VERSION = 'etiquetas-v2';
 
 const ARQUIVOS = [
   './',

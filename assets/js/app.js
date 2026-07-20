@@ -249,8 +249,7 @@ function criarEtiqueta(etiqueta) {
           <div class="nf-number" title="${escaparHTML(etiqueta.nf)}">${escaparHTML(etiqueta.nf)}</div>
           <div class="right-sep"></div>
           <div class="vol-label">Qtd. Volumes:</div>
-          <div class="volume-number">${etiqueta.volumes}</div>
-          <div class="volume-count">Etiqueta ${etiqueta.etiquetaAtual}/${etiqueta.volumes}</div>
+          <div class="volume-number">Volume: ${etiqueta.etiquetaAtual}/${etiqueta.volumes}</div>
         </div>
       </div>
     </div>
