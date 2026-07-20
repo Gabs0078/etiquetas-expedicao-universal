@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ícone do app de etiquetas">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="48" x2="432" y2="464" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b78f0"/>
+      <stop offset="1" stop-color="#075fbd"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#003d7a" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <g filter="url(#shadow)">
+    <path d="M146 160h220a34 34 0 0 1 34 34v74H112v-74a34 34 0 0 1 34-34Z" fill="#ffffff"/>
+    <path d="M168 280h176a24 24 0 0 1 24 24v100H144V304a24 24 0 0 1 24-24Z" fill="#ffffff"/>
+    <path d="M182 110h148a22 22 0 0 1 22 22v56H160v-56a22 22 0 0 1 22-22Z" fill="#dff0ff"/>
+    <path d="M186 326h140" stroke="#0b78f0" stroke-width="22" stroke-linecap="round"/>
+    <path d="M186 374h92" stroke="#0b78f0" stroke-width="22" stroke-linecap="round"/>
+    <circle cx="370" cy="232" r="13" fill="#0b78f0"/>
+  </g>
+</svg>

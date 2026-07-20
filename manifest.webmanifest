@@ -1,0 +1,26 @@
+{
+  "name": "Expedição - Etiquetas",
+  "short_name": "Etiquetas",
+  "description": "Gerador simples de etiquetas de expedição 10x5cm para A4 ou bobina térmica.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#0b78f0",
+  "icons": [
+    {
+      "src": "assets/icons/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
