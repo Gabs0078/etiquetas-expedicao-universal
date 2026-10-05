@@ -2,6 +2,7 @@ const DEFAULT_LOGO = '';
 const STORAGE_KEY = 'expedicao_empresas_v2';
 const ACTIVE_KEY = 'expedicao_empresa_ativa_v2';
 const NOTAS_KEY = 'expedicao_notas_v1';
+const OPCOES_IMPRESSAO_KEY = 'expedicao_opcoes_impressao_v1';
 
 const state = {
   notas: [],
@@ -10,6 +11,7 @@ const state = {
   empresaEditandoId: null,
   logoEditando: '',
   notaImportada: null,
+  opcoesImpressao: { exibirData: false, exibirDescricao: true },
 };
 
 const icons = {
@@ -43,7 +45,7 @@ function initElements() {
     'listaNotas', 'countNotas', 'summary', 'preview', 'modoImpressao', 'modeloAtual', 'listaEmpresas',
     'btnNovaEmpresa', 'btnSalvarEmpresa', 'btnExcluirEmpresa', 'logoEmpresa', 'uploadBox', 'logoPreview',
     'logoPreviewIcon', 'logoPreviewText', 'nomeEmpresa', 'cnpjEmpresa', 'enderecoEmpresa', 'bairroEmpresa',
-    'cidadeEmpresa', 'ufEmpresa', 'cepEmpresa'
+    'cidadeEmpresa', 'ufEmpresa', 'cepEmpresa', 'exibirData', 'exibirDescricao'
   ].forEach(id => els[id] = $(id));
 }
 
@@ -151,6 +153,23 @@ function carregarNotas() {
   state.notas.forEach(n => { if (!n.empresa) n.empresa = { ...empresaAtiva() }; });
 }
 
+function carregarOpcoesImpressao() {
+  try {
+    const salvas = JSON.parse(localStorage.getItem(OPCOES_IMPRESSAO_KEY));
+    for (const campo of ['exibirData', 'exibirDescricao']) {
+      if (typeof salvas?.[campo] === 'boolean') state.opcoesImpressao[campo] = salvas[campo];
+    }
+  } catch { /* Preferências inválidas usam os padrões da interface. */ }
+  for (const campo of ['exibirData', 'exibirDescricao']) els[campo].checked = state.opcoesImpressao[campo];
+}
+
+function salvarOpcoesImpressao() {
+  for (const campo of ['exibirData', 'exibirDescricao']) state.opcoesImpressao[campo] = els[campo].checked;
+  try { localStorage.setItem(OPCOES_IMPRESSAO_KEY, JSON.stringify(state.opcoesImpressao)); }
+  catch { showToast('As opções de impressão valem apenas nesta sessão: não foi possível salvar no navegador.', 'error'); }
+  renderNotas();
+}
+
 function empresaAtiva() {
   return state.empresas.find(e => e.id === state.empresaAtivaId) || state.empresas[0];
 }
@@ -226,9 +245,9 @@ function limparTudo() {
 
 function gerarEtiquetas() {
   const etiquetas = [];
-  state.notas.forEach(nota => {
+  state.notas.forEach((nota, notaIndex) => {
     for (let i = 1; i <= nota.volumes; i++) {
-      etiquetas.push({ ...nota, etiquetaAtual: i });
+      etiquetas.push({ ...nota, etiquetaAtual: i, notaIndex });
     }
   });
   return etiquetas;
@@ -243,7 +262,7 @@ function quebrarEmFolhas(etiquetas) {
 function criarEtiqueta(etiqueta) {
   const empresa = etiqueta.empresa || empresaAtiva();
   return `
-    <div class="label">
+    <div class="label" data-nota="${etiqueta.notaIndex}">
       <div class="label-header">
         <div class="logo-box">${logoHTML(empresa)}</div>
         <div class="company">
@@ -257,10 +276,9 @@ function criarEtiqueta(etiqueta) {
 
       <div class="content-grid">
         <div class="content-main">
-          <div class="date-line">Data:<span>${escaparHTML(formatarDataInput(etiqueta.data))}</span></div>
+          ${state.opcoesImpressao.exibirData ? `<div class="date-line">Data:<span>${escaparHTML(formatarDataInput(etiqueta.data))}</span></div>` : ''}
           <div class="block-title">Endereço Destinatário:</div>
           <div class="shipping-text">${textoComQuebras(etiqueta.destinatario)}</div>
-          ${etiqueta.descricao ? `<div class="desc"><span class="block-title">Descrição dos Itens:</span><br>${textoComQuebras(etiqueta.descricao)}</div>` : ''}
         </div>
 
         <div class="right-box">
@@ -270,6 +288,7 @@ function criarEtiqueta(etiqueta) {
           <div class="vol-label">Volume:</div>
           <div class="volume-number">${etiqueta.etiquetaAtual}/${etiqueta.volumes}</div>
         </div>
+        ${state.opcoesImpressao.exibirDescricao && etiqueta.descricao ? `<div class="desc"><span class="block-title">Descrição dos Itens:</span><br><span class="desc-text">${textoComQuebras(etiqueta.descricao)}</span></div>` : ''}
       </div>
     </div>
   `;
@@ -310,6 +329,39 @@ function renderNotas() {
   document.querySelectorAll('[data-remover-nota]').forEach(btn => {
     btn.addEventListener('click', () => removerNota(Number(btn.dataset.removerNota)));
   });
+  ajustarTextosEtiquetas();
+}
+
+function ajustarTextosEtiquetas() {
+  const grupos = new Map();
+  els.preview.querySelectorAll('.label').forEach(etiqueta => {
+    const id = etiqueta.dataset.nota;
+    if (!grupos.has(id)) grupos.set(id, []);
+    grupos.get(id).push(etiqueta);
+  });
+  const excedidas = [];
+  for (const etiquetas of grupos.values()) {
+    const amostra = etiquetas[0];
+    const principal = amostra.querySelector('.content-main');
+    const descricao = amostra.querySelector('.desc');
+    const corpo = amostra.querySelector('.content-grid');
+    const lateral = amostra.querySelector('.right-box');
+    const cabe = () => [principal, corpo, lateral, descricao].filter(Boolean).every(el => el.scrollHeight <= el.clientHeight + 1 && el.scrollWidth <= el.clientWidth + 1);
+    let tamanho = 9;
+    const aplicar = etiqueta => {
+      etiqueta.querySelector('.content-main').style.fontSize = `${tamanho}px`;
+      const desc = etiqueta.querySelector('.desc');
+      if (desc) desc.style.fontSize = `${tamanho}px`;
+    };
+    aplicar(amostra);
+    while (!cabe() && tamanho > 8) { tamanho -= .25; aplicar(amostra); }
+    etiquetas.slice(1).forEach(aplicar);
+    if (!cabe()) excedidas.push(amostra.querySelector('.nf-number').textContent);
+  }
+  const aviso = $('avisoLayout');
+  aviso.hidden = excedidas.length === 0;
+  aviso.textContent = excedidas.length ? `Texto não cabe na etiqueta da(s) NF(s) ${excedidas.join(', ')}. Resuma a descrição ou revise as quebras do endereço antes de imprimir.` : '';
+  return excedidas.length === 0;
 }
 
 function renderEmpresas() {
@@ -487,17 +539,22 @@ document.addEventListener('DOMContentLoaded', () => {
   renderIcons();
   carregarEmpresas();
   carregarNotas();
+  carregarOpcoesImpressao();
   els.data.value = dataHojeInput();
   preencherFormularioEmpresa(empresaAtiva());
   configurarUploadLogo();
 
   els.btnAdicionar.addEventListener('click', adicionarNota);
   els.btnImprimir.addEventListener('click', () => {
+    if (!ajustarTextosEtiquetas()) { showToast('Revise os textos indicados antes de imprimir: eles excedem os 10 × 5 cm.', 'error', 6000); return; }
     atualizarRegraPagina();
     window.print();
   });
+  window.addEventListener('beforeprint', ajustarTextosEtiquetas);
   els.btnLimpar.addEventListener('click', limparTudo);
   els.modoImpressao.addEventListener('change', renderizar);
+  els.exibirData.addEventListener('change', salvarOpcoesImpressao);
+  els.exibirDescricao.addEventListener('change', salvarOpcoesImpressao);
   els.btnNovaEmpresa.addEventListener('click', novaEmpresa);
   els.btnSalvarEmpresa.addEventListener('click', salvarEmpresaAtual);
   els.btnExcluirEmpresa.addEventListener('click', excluirEmpresaAtual);

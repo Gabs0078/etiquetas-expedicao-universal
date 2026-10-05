@@ -101,7 +101,7 @@ async function testar() {
     await arquivo.locator('[data-revisar]').click();
     assert.equal(await arquivo.locator('#nf').inputValue(), '123');
     const cachesPermitidos = await pagina.evaluate(async () => {
-      const cache = await caches.open('etiquetas-v6-importacao');
+      const cache = await caches.open('etiquetas-v9-opcoes-impressao');
       return (await cache.keys()).every(r => !new URL(r.url).pathname.startsWith('/api/'));
     });
     assert.equal(cachesPermitidos, true);
@@ -138,6 +138,7 @@ async function testar() {
       await corrida.unroute('**/api/notas?**');
     }
     await contextoCorrida.close();
+    await require('./textos-etiqueta.cjs')(browser, `http://127.0.0.1:${servidor.address().port}`, saida);
     await arquivo.locator('#btnManual').click();
     await arquivo.locator('#nf').fill('XSS');
     await arquivo.locator('#destinatario').fill('<img src=x onerror="window.injetado=true">');

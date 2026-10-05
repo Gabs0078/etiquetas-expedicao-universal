@@ -20,6 +20,12 @@ O aplicativo mantém HTML, CSS e JavaScript sem framework e sem build. **Manual 
 4. No upload, clique em **Revisar**, confira os campos e marque a confirmação. Clique em **Adicionar nota revisada**.
 5. Escolha A4 ou bobina e imprima. Use escala 100%, sem cabeçalho/rodapé e sem margens do navegador.
 
+No topo da pré-visualização, **Exibir data na etiqueta** e **Exibir descrição dos itens** controlam esses campos em todas as etiquetas do lote. A data começa desativada e a descrição ativada; a escolha fica salva neste navegador. Desmarcar não apaga os dados da nota. A data registrada pode continuar sendo revisada no formulário mesmo quando não aparece na impressão.
+
+A descrição ocupa a largura inteira abaixo do endereço e da identificação da NF/volume. O app ajusta o texto entre 8 e 9 px e verifica o espaço disponível. Se uma descrição ou endereço ainda exceder a etiqueta, a interface avisa e o botão de impressão solicita revisão; é possível ocultar a descrição ou resumir os dados antes de adicionar a nota. O resumo de produtos do XML continua limitado a 180 caracteres, com aviso na revisão.
+
+A escolha da impressora pertence ao diálogo do navegador. Se o navegador integrado não permitir trocar o destino, abra o aplicativo no Chrome ou Edge local para imprimir. Os dados salvos pertencem a cada navegador: importe as notas nesse navegador antes de imprimir. Em bobina, selecione também o papel 100 × 50 mm no driver.
+
 Cada nota adicionada mantém uma cópia do remetente. Trocar a empresa selecionada afeta as próximas notas manuais. XMLs usam o emitente da NF-e; uma logo cadastrada é aproveitada somente se o CNPJ corresponder. O cadastro de empresas não é alterado pela importação.
 
 ## O que o XML preenche

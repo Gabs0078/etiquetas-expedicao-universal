@@ -288,6 +288,10 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   border-radius: 8px;
 }
 
+.print-options { display: flex; flex-wrap: wrap; gap: 10px 16px; flex-basis: 100%; }
+.print-options label { display: inline-flex; align-items: center; gap: 6px; padding: 0; font-size: 12px; cursor: pointer; }
+.print-options input { width: 16px; height: 16px; margin: 0; }
+
 .empty {
   margin: 14px;
   padding: 32px 20px;
@@ -340,6 +344,8 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   position: relative;
   background: #fff;
   color: #000;
+  display: flex;
+  flex-direction: column;
 }
 
 .label-header {
@@ -348,13 +354,14 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   gap: 3mm;
   align-items: center;
   border-bottom: 1px solid #111;
-  padding-bottom: 1.3mm;
-  margin-bottom: 1.2mm;
+  padding-bottom: 1mm;
+  margin-bottom: 1mm;
+  flex: 0 0 auto;
 }
 
 .logo-box {
   width: 43mm;
-  height: 15mm;
+  height: 12mm;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -364,7 +371,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .label-logo {
   max-width: var(--logo-max-w);
-  max-height: var(--logo-max-h);
+  max-height: 11mm;
   object-fit: contain;
   display: block;
 }
@@ -422,17 +429,22 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 27mm;
-  gap: 2mm;
+  column-gap: 2mm;
+  row-gap: .6mm;
+  grid-template-rows: minmax(0, 1fr) auto;
+  flex: 1;
+  min-height: 0;
 }
 
-.content-main { min-width: 0; }
+.content-main { min-width: 0; min-height: 0; }
 
 .right-box {
   border-left: 1px solid #777;
   text-align: center;
   padding-left: 2mm;
-  min-height: 27mm;
+  min-height: 0;
   font-weight: 800;
+  line-height: 1;
 }
 
 .nf-label { font-size: 7pt; line-height: 1; }
@@ -442,7 +454,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   line-height: 1.05;
   font-weight: 900;
   letter-spacing: .25px;
-  margin: .8mm 0 1.2mm;
+  margin: .4mm 0 .4mm;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -450,14 +462,15 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .right-sep {
   border-top: 1px solid #111;
-  margin-bottom: 1.2mm;
+  margin-bottom: .4mm;
 }
 
 .vol-label { font-size: 7pt; }
-.volume-number { font-size: 15pt; font-weight: 900; margin-top: 1.7mm; white-space: nowrap; }
+.volume-number { font-size: 15pt; font-weight: 900; margin-top: .3mm; white-space: nowrap; }
 .block-title { font-weight: 800; }
-.shipping-text { max-height: 15.6mm; overflow: hidden; }
-.desc { margin-top: 1mm; max-height: 9mm; overflow: hidden; }
+.shipping-text { overflow-wrap: anywhere; }
+.desc { grid-column: 1 / -1; overflow-wrap: anywhere; }
+.layout-warning { color: #fbbf24; font-weight: 600; }
 
 .company-list { display: grid; gap: 8px; }
 
