@@ -658,7 +658,8 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 @media print {
   body { background: #fff; }
   .panel,
-  .preview-toolbar {
+  .preview-toolbar,
+  .toast {
     display: none !important;
   }
   .app { display: block; padding: 0; }
@@ -683,3 +684,20 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   }
   .bobina-page:last-child { page-break-after: auto; }
 }
+
+[hidden] { display: none !important; }
+.import-section { border-bottom: 1px solid var(--border-soft); padding-bottom: 16px; }
+.import-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.import-details { margin-top: 12px; border: 1px solid var(--border-soft); border-radius: 8px; padding: 10px; }
+.import-details summary { cursor: pointer; font-size: 13px; font-weight: 600; }
+.import-details .field { margin-top: 10px; }
+.import-details p, .review-box p, .review-box li { font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.import-list { max-height: 360px; overflow: auto; display: grid; gap: 8px; margin-top: 10px; }
+.import-card { background: var(--surface-hover); border: 1px solid var(--border-soft); border-radius: 8px; padding: 10px; font-size: 13px; overflow-wrap: anywhere; }
+.import-card p { margin: 6px 0; font-size: 12px; color: var(--text-secondary); }
+.import-dates { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.check-label { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; line-height: 1.5; margin: 12px 0; padding: 0; }
+.check-label input { flex: 0 0 auto; width: 16px; height: 16px; margin: 2px 0 0; }
+.review-box { border: 1px solid var(--warning); background: var(--warning-light); padding: 12px; border-radius: 8px; margin-bottom: 12px; }
+.review-box ul { padding-left: 18px; }
+button:focus-visible, summary:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }

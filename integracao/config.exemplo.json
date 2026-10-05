@@ -1,0 +1,12 @@
+{
+  "fontes": [
+    {
+      "id": "empresa-exemplo",
+      "nome": "XMLs emitidos — empresa exemplo",
+      "tipo": "pastas",
+      "pastas": ["C:\\XMLs\\Emitidas", "\\\\SERVIDOR\\Fiscal\\Emitidas"],
+      "recursivo": true,
+      "cnpjEmitente": ""
+    }
+  ]
+}

@@ -9,6 +9,7 @@ const state = {
   empresaAtivaId: null,
   empresaEditandoId: null,
   logoEditando: '',
+  notaImportada: null,
 };
 
 const icons = {
@@ -96,7 +97,11 @@ function defaultCompany() {
 
 function carregarEmpresas() {
   try {
-    state.empresas = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    const salvas = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    state.empresas = Array.isArray(salvas) ? salvas.filter(e => e && typeof e.id === 'string' && typeof e.nome === 'string').slice(0, 100).map(e => ({
+      ...Object.fromEntries(['id', 'nome', 'cnpj', 'endereco', 'bairro', 'cidade', 'uf', 'cep'].map(campo => [campo, String(e[campo] || '')])),
+      logo: typeof e.logo === 'string' && /^data:image\/(png|jpe?g);base64,/.test(e.logo) ? e.logo : ''
+    })) : [];
   } catch {
     state.empresas = [];
   }
@@ -106,7 +111,8 @@ function carregarEmpresas() {
     salvarEmpresas();
   }
 
-  state.empresaAtivaId = localStorage.getItem(ACTIVE_KEY) || state.empresas[0].id;
+  try { state.empresaAtivaId = localStorage.getItem(ACTIVE_KEY) || state.empresas[0].id; }
+  catch { state.empresaAtivaId = state.empresas[0].id; }
   if (!state.empresas.some(e => e.id === state.empresaAtivaId)) {
     state.empresaAtivaId = state.empresas[0].id;
   }
@@ -129,16 +135,20 @@ function salvarNotas() {
     localStorage.setItem(NOTAS_KEY, JSON.stringify(state.notas));
   } catch (erro) {
     console.error('Falha ao salvar notas:', erro);
+    showToast('As notas estão apenas nesta sessão: não foi possível salvar no navegador.', 'error', 6000);
   }
 }
 
 function carregarNotas() {
   try {
     const salvas = JSON.parse(localStorage.getItem(NOTAS_KEY));
-    state.notas = Array.isArray(salvas) ? salvas : [];
+    state.notas = Array.isArray(salvas) ? salvas.filter(n => n && typeof n.nf === 'string' && typeof n.destinatario === 'string' && typeof n.data === 'string' && Number.isInteger(n.volumes) && n.volumes >= 1 && n.volumes <= 999).slice(0, 100) : [];
+    let total = 0;
+    state.notas = state.notas.filter(n => (total += n.volumes) <= 3000);
   } catch {
     state.notas = [];
   }
+  state.notas.forEach(n => { if (!n.empresa) n.empresa = { ...empresaAtiva() }; });
 }
 
 function empresaAtiva() {
@@ -170,20 +180,30 @@ function adicionarNota() {
   const data = els.data.value;
   const nf = els.nf.value.trim();
   const destinatario = els.destinatario.value.trim();
-  const volumes = Number.parseInt(els.volumes.value, 10);
+  const volumes = Number(els.volumes.value);
   const descricao = els.descricao.value.trim();
 
-  if (!data || !nf || !destinatario || !Number.isInteger(volumes) || volumes < 1) {
-    showToast('Preencha Data, NF, Endereço Destinatário e Qtd. de Volumes.', 'error');
+  if (!data || !nf || !destinatario || !Number.isInteger(volumes) || volumes < 1 || volumes > 999) {
+    showToast('Preencha Data, NF, Destinatário e um total inteiro de 1 a 999 volumes.', 'error');
     return;
   }
 
-  state.notas.push({ data, nf, destinatario, volumes, descricao });
+  if (state.notas.length >= 100 || state.notas.reduce((total, n) => total + n.volumes, 0) + volumes > 3000) {
+    showToast('Limite do lote: 100 notas ou 3.000 etiquetas. Imprima e inicie outro lote.', 'error'); return;
+  }
+  const importada = state.notaImportada;
+  if (importada && !$('confirmarRevisao').checked) { showToast('Confirme a revisão dos dados do XML.', 'error'); return; }
+  if (importada && nf !== importada.nf) { showToast('O número deve corresponder ao XML. Volte ao manual para digitar outra nota.', 'error'); return; }
+  if (importada && state.notas.some(n => n.chave === importada.chave)) { showToast('Esta chave de NF-e já está no lote.', 'error'); return; }
+  const empresa = { ...(importada?.emitente || empresaAtiva()) };
+  state.notas.push({ data, nf, destinatario, volumes, descricao, empresa,
+    ...(importada ? { chave: importada.chave, serie: importada.serie, origem: importada.origem, dataEmissao: importada.data } : { origem: 'manual' }) });
   limparCamposNota(false);
   renderizar();
 }
 
 function limparCamposNota(limparData) {
+  finalizarRevisao(state.notaImportada?.chave && !limparData ? state.notaImportada.chave : null);
   if (limparData) els.data.value = dataHojeInput();
   els.nf.value = '';
   els.destinatario.value = '';
@@ -221,7 +241,7 @@ function quebrarEmFolhas(etiquetas) {
 }
 
 function criarEtiqueta(etiqueta) {
-  const empresa = empresaAtiva();
+  const empresa = etiqueta.empresa || empresaAtiva();
   return `
     <div class="label">
       <div class="label-header">
@@ -237,7 +257,7 @@ function criarEtiqueta(etiqueta) {
 
       <div class="content-grid">
         <div class="content-main">
-          <div class="date-line">Data:<span>${formatarDataInput(etiqueta.data)}</span></div>
+          <div class="date-line">Data:<span>${escaparHTML(formatarDataInput(etiqueta.data))}</span></div>
           <div class="block-title">Endereço Destinatário:</div>
           <div class="shipping-text">${textoComQuebras(etiqueta.destinatario)}</div>
           ${etiqueta.descricao ? `<div class="desc"><span class="block-title">Descrição dos Itens:</span><br>${textoComQuebras(etiqueta.descricao)}</div>` : ''}
@@ -245,7 +265,7 @@ function criarEtiqueta(etiqueta) {
 
         <div class="right-box">
           <div class="nf-label">NF:</div>
-          <div class="nf-number" title="${escaparHTML(etiqueta.nf)}">${escaparHTML(etiqueta.nf)}</div>
+          <div class="nf-number" style="font-size:${Math.min(15, 100 / Math.max(1, etiqueta.nf.length))}pt" title="${escaparHTML(etiqueta.nf)}">${escaparHTML(etiqueta.nf)}</div>
           <div class="right-sep"></div>
           <div class="vol-label">Volume:</div>
           <div class="volume-number">${etiqueta.etiquetaAtual}/${etiqueta.volumes}</div>
@@ -270,7 +290,8 @@ function renderNotas() {
     <div class="note-card">
       <div>
         <strong>NF: ${escaparHTML(nota.nf)}</strong><span class="badge">${nota.volumes} etiquetas</span>
-        <p><b>Data:</b> ${formatarDataInput(nota.data)} &nbsp;|&nbsp; <b>Volumes:</b> ${nota.volumes}</p>
+        <p><b>Data:</b> ${escaparHTML(formatarDataInput(nota.data))} &nbsp;|&nbsp; <b>Volumes:</b> ${nota.volumes}</p>
+        <p>${escaparHTML(nota.empresa?.nome || empresaAtiva().nome)} · ${escaparHTML(nota.origem || 'manual')}${nota.serie ? ` · série ${escaparHTML(nota.serie)}` : ''}</p>
         <p><b>Dest.:</b> ${escaparHTML(nota.destinatario.split('\n')[0] || '')}</p>
         ${nota.descricao ? `<p><b>Itens:</b> ${escaparHTML(nota.descricao)}</p>` : ''}
       </div>

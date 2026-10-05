@@ -6,7 +6,6 @@ yarn-error.log*
 
 # Dependencies
 node_modules/
-package-lock.json
 yarn.lock
 
 # IDE
@@ -57,3 +56,16 @@ pids
 *.pid
 *.seed
 *.pid.lock
+
+# Orientações de IA são locais, fora da apresentação pública
+CLAUDE.md
+AGENTS.md
+.claude/
+.agents/
+.codex/
+
+# Configurações de cada empresa e documentos fiscais
+integracao/config.local.json
+*.xml
+!tests/fixtures/*.xml
+test-results/

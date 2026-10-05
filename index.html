@@ -9,7 +9,10 @@
   <link rel="apple-touch-icon" href="assets/icons/app-icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/css/styles.css">
+  <script defer src="assets/js/nfe.js"></script>
+  <script defer src="assets/js/fontes.js"></script>
   <script defer src="assets/js/app.js"></script>
+  <script defer src="assets/js/importacao.js"></script>
 </head>
 <body>
 <div class="app">
@@ -17,7 +20,41 @@
       <h1>EXPEDIÇÃO - ETIQUETAS</h1>
       <p class="subtitle">Etiqueta 10x5cm. Use A4 com 10 unidades ou bobina térmica adesiva 10x5cm.</p>
 
+      <section class="import-section" aria-label="Formas de preenchimento">
+        <h2>COMO DESEJA PREENCHER?</h2>
+        <div class="import-actions">
+          <button class="btn-gray btn-small" id="btnManual" type="button">Digitar manualmente</button>
+          <button class="btn-primary btn-small" id="btnUploadXML" type="button">Upload de XML</button>
+          <button class="btn-gray btn-small" id="btnIntegracao" type="button">Integração</button>
+        </div>
+        <input class="hidden-input" id="xmlArquivos" type="file" accept=".xml,application/xml,text/xml" multiple>
+        <p class="hint">NF-e de saída, modelo 55. Até 100 arquivos por lote, 2 MB por XML. Revise antes de gerar etiquetas.</p>
+        <p id="statusImportacao" class="hint" role="status" aria-live="polite"></p>
+        <details class="import-details"><summary>Arquivos com avisos</summary><div id="errosImportacao"></div></details>
+        <div id="filaImportacao" class="import-list" aria-label="Notas para revisão"></div>
+        <details id="painelIntegracao" class="import-details">
+          <summary>Busca de XMLs por integração</summary>
+          <p class="hint">Abra este app pelo serviço local da empresa. Informe o código exibido ao iniciar o serviço. Pastas locais e compartilhadas são configuradas por quem administra a integração.</p>
+          <div class="field compact"><label for="tokenIntegracao">Código de acesso</label><input id="tokenIntegracao" type="password" autocomplete="off"></div>
+          <button id="btnConectar" class="btn-gray btn-small" type="button">Conectar</button>
+          <div class="field compact"><label for="fonteIntegracao">Fonte de XMLs</label><select id="fonteIntegracao"><option value="">Conecte para ver as fontes</option></select></div>
+          <div class="field compact"><label for="buscaIntegracao">Número, chave, destinatário ou emitente</label><input id="buscaIntegracao" maxlength="100" placeholder="Buscar notas emitidas"></div>
+          <div class="import-dates">
+            <div class="field compact"><label for="inicioIntegracao">Emitidas desde</label><input id="inicioIntegracao" type="date"></div>
+            <div class="field compact"><label for="fimIntegracao">Até</label><input id="fimIntegracao" type="date"></div>
+          </div>
+          <button id="btnBuscarIntegracao" class="btn-primary btn-small" type="button" disabled>Buscar notas</button>
+          <label class="check-label"><input id="buscaAutomatica" type="checkbox"> Atualizar busca a cada 30 segundos enquanto o app estiver aberto</label>
+          <p id="statusIntegracao" class="hint" role="status" aria-live="polite"></p>
+          <div id="resultadosIntegracao" class="import-list"></div>
+        </details>
+      </section>
       <h2>DADOS DA NOTA / EXPEDIÇÃO</h2>
+      <section id="revisaoXML" class="review-box" hidden>
+        <strong>Revisão do XML</strong><p id="origemRevisao"></p><ul id="avisosRevisao"></ul>
+        <label class="check-label"><input type="checkbox" id="confirmarRevisao"> Conferi o remetente, a situação da NF, o endereço e os volumes.</label>
+        <button id="btnCancelarRevisao" class="btn-gray btn-small" type="button">Voltar ao manual</button>
+      </section>
       <div class="field">
         <label for="data">Data:</label>
         <input type="date" id="data">

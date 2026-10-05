@@ -1,0 +1,20 @@
+{
+  "name": "etiquetas-expedicao-universal",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Etiquetas locais com importação modular de NF-e",
+  "scripts": {
+    "start": "node integracao/servidor.cjs",
+    "test": "node --test tests/*.test.cjs",
+    "test:browser": "node tests/navegador.cjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@xmldom/xmldom": "0.9.12"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

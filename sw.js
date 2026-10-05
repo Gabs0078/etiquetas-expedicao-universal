@@ -3,7 +3,7 @@
    Ao alterar qualquer arquivo da lista, incremente CACHE_VERSION
    para que os usuários recebam a versão nova. */
 
-const CACHE_VERSION = 'etiquetas-v4';
+const CACHE_VERSION = 'etiquetas-v5-importacao';
 
 const ARQUIVOS = [
   './',
@@ -11,6 +11,9 @@ const ARQUIVOS = [
   './manifest.webmanifest',
   './assets/css/styles.css',
   './assets/js/app.js',
+  './assets/js/nfe.js',
+  './assets/js/fontes.js',
+  './assets/js/importacao.js',
   './assets/icons/app-icon.svg',
   './assets/icons/app-icon-192.png',
   './assets/icons/app-icon-512.png'
@@ -29,7 +32,7 @@ self.addEventListener('activate', event => {
     caches.keys()
       .then(chaves => Promise.all(
         chaves
-          .filter(chave => chave !== CACHE_VERSION)
+          .filter(chave => chave.startsWith('etiquetas-') && chave !== CACHE_VERSION)
           .map(chave => caches.delete(chave))
       ))
       .then(() => self.clients.claim())
@@ -37,13 +40,15 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
+  if (event.request.method !== 'GET' || event.request.headers.has('Authorization')) return;
+  const permitidos = ARQUIVOS.map(arquivo => new URL(arquivo, self.registration.scope).href);
+  if (!permitidos.includes(event.request.url)) return;
 
   event.respondWith(
     caches.match(event.request).then(resposta => {
       if (resposta) return resposta;
 
-      return fetch(event.request).catch(() => caches.match('./index.html'));
+      return fetch(event.request);
     })
   );
 });
