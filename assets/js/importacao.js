@@ -1,5 +1,5 @@
 'use strict';
-const importacao = { fila: [], servico: null, buscando: false, carregando: false, intervalo: null };
+const importacao = { fila: [], servico: null, buscando: false, carregando: false, intervalo: null, versaoBusca: 0 };
 function mensagemImportacao(texto, erros = []) {
   $('statusImportacao').textContent = texto;
   $('errosImportacao').replaceChildren();
@@ -78,9 +78,10 @@ async function buscarIntegracao() {
   $('btnBuscarIntegracao').disabled = true;
   const filtros = filtrosIntegracao();
   const servico = importacao.servico;
+  const versaoBusca = importacao.versaoBusca;
   try {
     const dados = await servico.buscar(filtros);
-    if (servico !== importacao.servico) return;
+    if (servico !== importacao.servico || versaoBusca !== importacao.versaoBusca) return;
     $('resultadosIntegracao').innerHTML = dados.notas.map(n => `<div class="import-card"><strong>NF ${escaparHTML(n.nf)} · série ${escaparHTML(n.serie)}</strong>
       <p>${escaparHTML(n.data)} · ${escaparHTML(n.emitente)}<br>${escaparHTML(n.destinatario.split('\n')[0])}</p>
       <button class="btn-primary btn-small" type="button" data-importar-id="${escaparHTML(n.id)}">Trazer para revisão</button></div>`).join('');
@@ -93,6 +94,7 @@ async function buscarIntegracao() {
     $('statusIntegracao').textContent = `${dados.total} resultado(s). Atualizado às ${new Date().toLocaleTimeString('pt-BR')}.${dados.limitado ? ' Limite de leitura atingido; reduza as pastas ou refine a busca (até 100 resultados).' : ''}`;
     mensagemImportacao(`${dados.erros.length} arquivo(s)/pasta(s) com avisos na busca.`, dados.erros);
   } catch (e) {
+    if (servico !== importacao.servico || versaoBusca !== importacao.versaoBusca) return;
     $('statusIntegracao').textContent = e.message;
     pararBuscaAutomatica();
   } finally { importacao.buscando = false; $('btnBuscarIntegracao').disabled = !importacao.servico; }
@@ -114,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('btnIntegracao').addEventListener('click', () => { $('painelIntegracao').open = !$('painelIntegracao').open; });
   $('btnCancelarRevisao').addEventListener('click', () => limparCamposNota(true));
   $('btnConectar').addEventListener('click', async () => {
+    importacao.versaoBusca++;
     pararBuscaAutomatica();
     importacao.servico = null;
     $('btnBuscarIntegracao').disabled = true;
@@ -131,7 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
     finally { $('btnConectar').disabled = false; }
   });
   $('btnBuscarIntegracao').addEventListener('click', buscarIntegracao);
-  $('fonteIntegracao').addEventListener('change', () => { pararBuscaAutomatica(); $('resultadosIntegracao').replaceChildren(); });
+  function invalidarBusca() {
+    importacao.versaoBusca++;
+    pararBuscaAutomatica();
+    $('resultadosIntegracao').replaceChildren();
+    $('statusIntegracao').textContent = 'Seleção ou filtros alterados. Clique em Buscar notas para atualizar.';
+  }
+  $('fonteIntegracao').addEventListener('change', invalidarBusca);
+  ['buscaIntegracao', 'inicioIntegracao', 'fimIntegracao'].forEach(id => $(id).addEventListener('input', invalidarBusca));
   $('buscaAutomatica').addEventListener('change', () => {
     clearInterval(importacao.intervalo);
     if ($('buscaAutomatica').checked && importacao.servico) { buscarIntegracao(); importacao.intervalo = setInterval(buscarIntegracao, 30000); }

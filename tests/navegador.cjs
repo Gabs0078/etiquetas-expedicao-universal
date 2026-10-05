@@ -8,7 +8,10 @@ const { criarServidor } = require('../integracao/servidor.cjs');
 const { xmlNota } = require('./ajudantes.cjs');
 async function testar() {
   const pasta = await fs.mkdtemp(path.join(os.tmpdir(), 'etiquetas-browser-'));
-  const { servidor, token } = criarServidor({ fontes: [{ id: 'teste', nome: 'Empresa de demonstração', tipo: 'pastas', pastas: [pasta] }] });
+  const { servidor, token } = criarServidor({ fontes: [
+    { id: 'teste', nome: 'Empresa de demonstração', tipo: 'pastas', pastas: [pasta] },
+    { id: 'teste2', nome: 'Segunda empresa', tipo: 'pastas', pastas: [pasta] }
+  ] });
   await fs.writeFile(path.join(pasta, 'nota.xml'), xmlNota());
   await new Promise(resolve => servidor.listen(0, '127.0.0.1', resolve));
   let browser;
@@ -98,10 +101,43 @@ async function testar() {
     await arquivo.locator('[data-revisar]').click();
     assert.equal(await arquivo.locator('#nf').inputValue(), '123');
     const cachesPermitidos = await pagina.evaluate(async () => {
-      const cache = await caches.open('etiquetas-v5-importacao');
+      const cache = await caches.open('etiquetas-v6-importacao');
       return (await cache.keys()).every(r => !new URL(r.url).pathname.startsWith('/api/'));
     });
     assert.equal(cachesPermitidos, true);
+    const contextoCorrida = await browser.newContext({ serviceWorkers: 'block' });
+    const corrida = await contextoCorrida.newPage();
+    corrida.on('pageerror', e => erros.push(e.message));
+    await corrida.goto(`http://127.0.0.1:${servidor.address().port}`);
+    await corrida.locator('#btnIntegracao').click();
+    await corrida.locator('#tokenIntegracao').fill(token);
+    await corrida.locator('#btnConectar').click();
+    await corrida.waitForFunction(() => !document.querySelector('#btnBuscarIntegracao').disabled);
+    for (const alterarSelecao of [
+      () => corrida.locator('#fonteIntegracao').selectOption('teste2'),
+      () => corrida.locator('#buscaIntegracao').fill('novo filtro')
+    ]) {
+      let liberarResposta, sinalizarInicio;
+      const iniciada = new Promise(resolve => { sinalizarInicio = resolve; });
+      const liberada = new Promise(resolve => { liberarResposta = resolve; });
+      await corrida.route('**/api/notas?**', async route => {
+        sinalizarInicio();
+        await liberada;
+        await route.fulfill({ json: {
+          notas: [{ id: 'a'.repeat(64), nf: 'ANTIGA', serie: '1', data: '2026-10-05', emitente: 'Fonte anterior', destinatario: 'Cliente fictício' }],
+          total: 1, erros: [], limitado: false
+        } });
+      });
+      await corrida.locator('#btnBuscarIntegracao').click();
+      await iniciada;
+      await alterarSelecao();
+      liberarResposta();
+      await corrida.waitForFunction(() => !document.querySelector('#btnBuscarIntegracao').disabled);
+      assert.equal(await corrida.locator('#resultadosIntegracao .import-card').count(), 0);
+      assert.match(await corrida.locator('#statusIntegracao').textContent(), /alterados/);
+      await corrida.unroute('**/api/notas?**');
+    }
+    await contextoCorrida.close();
     await arquivo.locator('#btnManual').click();
     await arquivo.locator('#nf').fill('XSS');
     await arquivo.locator('#destinatario').fill('<img src=x onerror="window.injetado=true">');
@@ -112,7 +148,7 @@ async function testar() {
     await arquivo.reload();
     assert.equal(await arquivo.locator('#countNotas').textContent(), '0');
     assert.deepEqual(erros, []);
-    console.log('Navegador: manual, upload, revisão, duplicidade, remetentes, persistência, integração, volumes ausentes, file://, mobile e impressão verificados.');
+    console.log('Navegador: manual, upload, revisão, duplicidade, remetentes, persistência, integração, troca de fonte/filtros durante busca, volumes ausentes, file://, mobile e impressão verificados.');
   } finally {
     if (browser) await browser.close();
     await new Promise(resolve => servidor.close(resolve));
