@@ -72,10 +72,28 @@ function pararBuscaAutomatica() {
   clearInterval(importacao.intervalo); importacao.intervalo = null;
   $('buscaAutomatica').checked = false;
 }
+async function conectarIntegracao(token, silencioso = false) {
+  const servico = Fontes.servico(token);
+  try {
+    const dados = await servico.conectar();
+    $('fonteIntegracao').replaceChildren(...dados.fontes.map(f => new Option(f.nome, f.id)));
+    importacao.servico = dados.fontes.length ? servico : null;
+    $('btnBuscarIntegracao').disabled = !importacao.servico;
+    if (dados.desktop) {
+      $('acessoIntegracao').hidden = true;
+      $('btnIntegracao').textContent = 'Buscar na pasta';
+      $('painelIntegracao').open = true;
+    }
+    $('statusIntegracao').textContent = dados.fontes.length ? 'Pasta conectada. Busque as notas.' : 'Nenhuma pasta configurada. Escolha uma pasta pelo ícone do aplicativo.';
+  } catch (e) {
+    if (!silencioso) $('statusIntegracao').textContent = e.message;
+  }
+}
 async function buscarIntegracao() {
   if (!importacao.servico || importacao.buscando || importacao.carregando) return;
   importacao.buscando = true;
   $('btnBuscarIntegracao').disabled = true;
+  $('statusIntegracao').textContent = 'Buscando notas nas pastas...';
   const filtros = filtrosIntegracao();
   const servico = importacao.servico;
   const versaoBusca = importacao.versaoBusca;
@@ -123,13 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
     $('resultadosIntegracao').replaceChildren();
     $('btnConectar').disabled = true;
     try {
-      const servico = Fontes.servico($('tokenIntegracao').value.trim());
-      const dados = await servico.conectar();
-      $('fonteIntegracao').replaceChildren(...dados.fontes.map(f => new Option(f.nome, f.id)));
-      importacao.servico = dados.fontes.length ? servico : null;
+      await conectarIntegracao($('tokenIntegracao').value.trim());
       $('tokenIntegracao').value = '';
-      $('btnBuscarIntegracao').disabled = !importacao.servico;
-      $('statusIntegracao').textContent = dados.fontes.length ? 'Conectado. Selecione uma fonte e busque as notas.' : 'Serviço disponível. Configure as pastas no arquivo local e reinicie o serviço.';
     } catch (e) { $('statusIntegracao').textContent = e.message; }
     finally { $('btnConectar').disabled = false; }
   });
@@ -147,4 +160,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($('buscaAutomatica').checked && importacao.servico) { buscarIntegracao(); importacao.intervalo = setInterval(buscarIntegracao, 30000); }
     else pararBuscaAutomatica();
   });
+  if (['http:', 'https:'].includes(location.protocol)) conectarIntegracao('', true);
 });

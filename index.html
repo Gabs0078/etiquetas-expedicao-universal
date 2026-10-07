@@ -33,10 +33,12 @@
         <details class="import-details"><summary>Arquivos com avisos</summary><div id="errosImportacao"></div></details>
         <div id="filaImportacao" class="import-list" aria-label="Notas para revisão"></div>
         <details id="painelIntegracao" class="import-details">
-          <summary>Busca de XMLs por integração</summary>
+          <summary>Buscar notas na pasta</summary>
+          <div id="acessoIntegracao">
           <p class="hint">Abra este app pelo serviço local da empresa. Informe o código exibido ao iniciar o serviço. Pastas locais e compartilhadas são configuradas por quem administra a integração.</p>
           <div class="field compact"><label for="tokenIntegracao">Código de acesso</label><input id="tokenIntegracao" type="password" autocomplete="off"></div>
           <button id="btnConectar" class="btn-gray btn-small" type="button">Conectar</button>
+          </div>
           <div class="field compact"><label for="fonteIntegracao">Fonte de XMLs</label><select id="fonteIntegracao"><option value="">Conecte para ver as fontes</option></select></div>
           <div class="field compact"><label for="buscaIntegracao">Número, chave, destinatário ou emitente</label><input id="buscaIntegracao" maxlength="100" placeholder="Buscar notas emitidas"></div>
           <div class="import-dates">
@@ -98,6 +100,7 @@
         <select id="modoImpressao" class="toolbar-select" title="Formato de impressão">
           <option value="a4">A4 - 10 etiquetas por folha</option>
           <option value="bobina">Bobina térmica - 10x5cm</option>
+          <option value="bobina85">Bobina térmica - 8,5x3,5cm</option>
         </select>
         <span class="toolbar-pill" id="modeloAtual">Etiqueta: 10x5cm</span>
         <div class="print-options" role="group" aria-label="Campos exibidos na etiqueta">

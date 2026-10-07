@@ -331,6 +331,24 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   margin: 0 0 4mm;
 }
 
+.bobina-compacta {
+  --label-w: 85mm;
+  --label-h: 35mm;
+  --label-pad: 1.5mm;
+  --logo-max-w: 25mm;
+}
+.bobina-compacta .roll-preview { width: 97mm; }
+.bobina-compacta .label-header { grid-template-columns: 26mm minmax(0, 1fr); gap: 2mm; padding-bottom: .5mm; margin-bottom: .5mm; }
+.bobina-compacta .logo-box { width: 26mm; height: 9mm; }
+.bobina-compacta .label-logo { max-height: 8mm; }
+.bobina-compacta .company { font-size: 7px; line-height: 1.1; }
+.bobina-compacta .company strong { font-size: 7.5px; margin-bottom: .2mm; }
+.bobina-compacta .content-grid { grid-template-columns: minmax(0, 1fr) 20mm; column-gap: 1mm; row-gap: .3mm; }
+.bobina-compacta .right-box { padding-left: 1mm; }
+.bobina-compacta .nf-label, .bobina-compacta .vol-label { font-size: 6pt; }
+.bobina-compacta .volume-number { font-size: 11pt; }
+.bobina-compacta .date-line { margin-bottom: .3mm; }
+
 .label {
   width: var(--label-w);
   height: var(--label-h);
@@ -609,7 +627,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .toast.removing { animation: slideOut 0.3s ease-out forwards; }
 
-@media (max-width: 1400px) {
+@media screen and (max-width: 1400px) {
   .app {
     grid-template-columns: minmax(300px, 350px) minmax(0, 1fr) minmax(280px, 320px);
     gap: 12px;
@@ -617,7 +635,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   }
 }
 
-@media (max-width: 1200px) {
+@media screen and (max-width: 1200px) {
   .app {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -628,7 +646,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   .companies-panel { order: 3; }
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .app {
     grid-template-columns: 1fr;
     padding: 8px;
@@ -649,7 +667,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   }
 }
 
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
   .app {
     padding: 6px;
     gap: 6px;
@@ -669,14 +687,15 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 
 @media print {
-  body { background: #fff; }
+  html, body { min-height: 0; }
+  body { background: #fff; overflow: visible; }
   .panel,
   .preview-toolbar,
   .toast {
     display: none !important;
   }
-  .app { display: block; padding: 0; }
-  .preview-wrap { border: 0; box-shadow: none; overflow: visible; }
+  .app { display: block; padding: 0; min-height: 0; }
+  .preview-wrap { padding: 0; margin: 0; border: 0; border-radius: 0; box-shadow: none; overflow: visible; }
   .empty { display: none; }
   .sheet {
     margin: 0;
@@ -688,11 +707,12 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
     page-break-after: always;
   }
   .sheet:last-child { page-break-after: auto; }
-  .roll-preview { margin: 0; padding: 0; width: 100mm; outline: none; }
+  .roll-preview, .bobina-compacta .roll-preview { margin: 0; padding: 0; width: var(--label-w); outline: none; }
   .bobina-page {
     margin: 0;
-    width: 100mm;
-    height: 50mm;
+    width: var(--label-w);
+    height: var(--label-h);
+    break-inside: avoid;
     page-break-after: always;
   }
   .bobina-page:last-child { page-break-after: auto; }

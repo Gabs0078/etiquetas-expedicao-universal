@@ -14,6 +14,10 @@ O aplicativo mantém HTML, CSS e JavaScript sem framework e sem build. **Manual 
 
 ## Começar pelo modo simples
 
+O [protótipo Windows](desktop/README.md) inicia a integração, permite selecionar
+a pasta por uma janela e abre o navegador com conexão automática. Ainda requer
+Node.js e dependências instaladas; o instalador será uma etapa posterior.
+
 1. Baixe o projeto e abra `index.html` em um navegador moderno.
 2. Cadastre a empresa e sua logo para as notas digitadas manualmente.
 3. Preencha o formulário ou clique em **Upload de XML**.
@@ -83,7 +87,7 @@ A conta que executa o serviço precisa ter permissão de leitura no compartilham
 
 O serviço escuta apenas em `127.0.0.1`; ele pode ler arquivos de um servidor remoto acessível, mas não fica exposto à rede. Para vários postos, instale o serviço em cada posto com acesso ao compartilhamento. Acesso central por navegador em outras máquinas exige uma implantação futura com HTTPS, autenticação de usuários e autorização por empresa; alterar apenas o endereço de escuta não implementa essa solução.
 
-A busca verifica novamente as pastas, reutilizando a listagem por até 10 segundos. A nota é relida ao ser trazida para revisão. Cada varredura limita 10.000 entradas e 20 níveis de subpastas; a resposta mostra até 100 notas e 50 erros. Se atingir o limite de varredura, reduza ou separe as pastas; filtros de busca não ampliam esse limite. Pastas indisponíveis e arquivos inválidos são apresentados como avisos.
+A busca verifica novamente as pastas, reutilizando a listagem por até 10 segundos. A nota é relida ao ser trazida para revisão. Cada pasta configurada tem seu próprio limite de 10.000 entradas e 20 níveis de subpastas; atingir esse limite não impede a leitura das pastas seguintes. A resposta mostra até 100 notas e 50 erros. Se atingir o limite de leitura de uma pasta, reduza ou separe seu histórico; filtros de busca não ampliam esse limite. Pastas indisponíveis e arquivos inválidos são apresentados como avisos.
 
 Variáveis opcionais: `PORT` muda a porta; `ETIQUETAS_CONFIG` indica outro arquivo de configuração; `ETIQUETAS_TOKEN` define um código com pelo menos 32 caracteres. Sem código fixo, cada reinício gera um novo. O código fica apenas na memória da página, sem persistência no navegador.
 

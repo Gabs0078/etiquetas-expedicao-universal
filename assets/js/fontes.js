@@ -18,7 +18,7 @@ window.Fontes = {
       if (!['http:', 'https:'].includes(location.protocol)) throw new Error('Abra o app pelo serviço local para usar a integração.');
       const url = new URL(caminho, location.origin);
       Object.entries(params).forEach(([chave, valor]) => { if (valor) url.searchParams.set(chave, valor); });
-      const resposta = await fetch(url, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store', signal: AbortSignal.timeout(60000) });
+      const resposta = await fetch(url, { headers: token ? { Authorization: `Bearer ${token}` } : {}, credentials: 'same-origin', cache: 'no-store', signal: AbortSignal.timeout(120000) });
       if (!resposta.headers.get('Content-Type')?.includes('application/json')) throw new Error('Integração indisponível neste endereço. Abra o app pelo serviço local.');
       const dados = await resposta.json();
       if (!resposta.ok) throw new Error(dados.erro || 'Falha na integração.');

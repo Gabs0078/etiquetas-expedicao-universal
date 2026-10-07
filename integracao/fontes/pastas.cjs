@@ -34,12 +34,12 @@ function criarFontePastas(config) {
   async function varrer() {
     const novos = new Map();
     const erros = [];
-    let visitados = 0;
     let limitado = false;
     function erro(arquivo, motivo) {
       if (erros.length < 50) erros.push({ arquivo, motivo });
     }
     for (const pasta of config.pastas) {
+      let visitados = 0;
       let raiz;
       try { raiz = await fs.realpath(pasta); } catch { erro('Pasta configurada', 'Pasta indisponível. Verifique acesso no servidor.'); continue; }
       async function visitar(diretorio, profundidade = 0) {
@@ -63,6 +63,7 @@ function criarFontePastas(config) {
         }
       }
       await visitar(raiz);
+      if (visitados > 10000) erro(path.basename(pasta), 'Limite de 10.000 entradas nesta pasta. Separe o histórico em pastas menores.');
     }
     registros = novos;
     ultima = Date.now();
@@ -77,11 +78,13 @@ function criarFontePastas(config) {
       return pendente;
     },
     async obter(id) {
-      await this.listar(true);
+      if (!registros.has(id)) await this.listar();
       const registro = registros.get(id);
       if (!registro) return null;
-      const nota = await lerArquivo(registro.raiz, registro.caminho);
-      return nota ? { ...nota, id, fonte: config.id, arquivo: registro.arquivo } : null;
+      try {
+        const nota = await lerArquivo(registro.raiz, registro.caminho);
+        return nota ? { ...nota, id, fonte: config.id, arquivo: registro.arquivo } : null;
+      } catch { return null; }
     }
   };
 }

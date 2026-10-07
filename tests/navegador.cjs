@@ -101,7 +101,7 @@ async function testar() {
     await arquivo.locator('[data-revisar]').click();
     assert.equal(await arquivo.locator('#nf').inputValue(), '123');
     const cachesPermitidos = await pagina.evaluate(async () => {
-      const cache = await caches.open('etiquetas-v9-opcoes-impressao');
+      const cache = await caches.open('etiquetas-v15-bobina-print');
       return (await cache.keys()).every(r => !new URL(r.url).pathname.startsWith('/api/'));
     });
     assert.equal(cachesPermitidos, true);
@@ -148,7 +148,29 @@ async function testar() {
     await arquivo.evaluate(() => { localStorage.setItem('expedicao_empresas_v2', '{}'); localStorage.setItem('expedicao_notas_v1', '[{"volumes":-1}]'); });
     await arquivo.reload();
     assert.equal(await arquivo.locator('#countNotas').textContent(), '0');
+    await arquivo.evaluate(() => {
+      const nota = { nf: 'LEGADO', data: '2026-10-05', destinatario: 'Cliente\nRua Exemplo', volumes: 1 };
+      localStorage.setItem('expedicao_notas_v1', JSON.stringify([
+        nota,
+        { ...nota, nf: 'INVALIDA', empresa: [] },
+        { ...nota, nf: 'NORMALIZADA', descricao: {}, empresa: { nome: 'Remetente salvo', cidade: {}, logo: 'https://externo.example/logo.png' } }
+      ]));
+    });
+    await arquivo.reload();
+    assert.equal(await arquivo.locator('#countNotas').textContent(), '2');
+    assert.match(await arquivo.locator('.label').nth(1).textContent(), /Remetente salvo/);
+    assert.equal(await arquivo.locator('.label img').count(), 0);
+    await arquivo.evaluate(() => {
+      Storage.prototype.setItem = () => { throw new DOMException('Sem espaco', 'QuotaExceededError'); };
+    });
+    await arquivo.locator('#nomeEmpresa').fill('Empresa apenas na sessao');
+    await arquivo.locator('#btnSalvarEmpresa').click();
+    assert.match(await arquivo.locator('.toast.error').first().textContent(), /Não foi possível salvar/);
+    assert.equal(await arquivo.locator('.toast.success').count(), 0);
     assert.deepEqual(erros, []);
+    await require('./desktop-navegador.cjs')(browser, pasta);
+    await require('./logo-cnpj.cjs')(browser, `http://127.0.0.1:${servidor.address().port}`);
+    await require('./bobina85.cjs')(browser, `http://127.0.0.1:${servidor.address().port}`);
     console.log('Navegador: manual, upload, revisão, duplicidade, remetentes, persistência, integração, troca de fonte/filtros durante busca, volumes ausentes, file://, mobile e impressão verificados.');
   } finally {
     if (browser) await browser.close();

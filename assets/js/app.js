@@ -125,10 +125,12 @@ function salvarEmpresas() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state.empresas));
     if (state.empresaAtivaId) localStorage.setItem(ACTIVE_KEY, state.empresaAtivaId);
+    return true;
   } catch (erro) {
     // QuotaExceededError: logos em base64 estouram o limite (~5MB) do localStorage.
     console.error('Falha ao salvar empresas:', erro);
     showToast('Não foi possível salvar: armazenamento do navegador cheio. Use uma logo menor ou exclua uma empresa.', 'error', 6000);
+    return false;
   }
 }
 
@@ -144,7 +146,18 @@ function salvarNotas() {
 function carregarNotas() {
   try {
     const salvas = JSON.parse(localStorage.getItem(NOTAS_KEY));
-    state.notas = Array.isArray(salvas) ? salvas.filter(n => n && typeof n.nf === 'string' && typeof n.destinatario === 'string' && typeof n.data === 'string' && Number.isInteger(n.volumes) && n.volumes >= 1 && n.volumes <= 999).slice(0, 100) : [];
+    state.notas = Array.isArray(salvas) ? salvas.filter(n => n && typeof n.nf === 'string' && n.nf.trim() && typeof n.destinatario === 'string' && n.destinatario.trim() && typeof n.data === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(n.data) && Number.isInteger(n.volumes) && n.volumes >= 1 && n.volumes <= 999 && (n.empresa == null || (typeof n.empresa === 'object' && !Array.isArray(n.empresa) && typeof n.empresa.nome === 'string' && n.empresa.nome.trim()))).slice(0, 100).map(n => ({
+      data: n.data, nf: n.nf, destinatario: n.destinatario, volumes: n.volumes,
+      descricao: typeof n.descricao === 'string' ? n.descricao : '',
+      empresa: n.empresa == null ? { ...empresaAtiva() } : {
+        ...Object.fromEntries(['nome', 'cnpj', 'endereco', 'bairro', 'cidade', 'uf', 'cep'].map(campo => [campo, typeof n.empresa[campo] === 'string' ? n.empresa[campo] : ''])),
+        logo: typeof n.empresa.logo === 'string' && /^data:image\/(png|jpe?g);base64,/.test(n.empresa.logo) ? n.empresa.logo : ''
+      },
+      origem: ['manual', 'upload', 'integracao'].includes(n.origem) ? n.origem : 'manual',
+      ...(typeof n.chave === 'string' && /^\d{44}$/.test(n.chave) ? { chave: n.chave } : {}),
+      ...(typeof n.serie === 'string' ? { serie: n.serie } : {}),
+      ...(typeof n.dataEmissao === 'string' ? { dataEmissao: n.dataEmissao } : {})
+    })) : [];
     let total = 0;
     state.notas = state.notas.filter(n => (total += n.volumes) <= 3000);
   } catch {
@@ -260,7 +273,10 @@ function quebrarEmFolhas(etiquetas) {
 }
 
 function criarEtiqueta(etiqueta) {
-  const empresa = etiqueta.empresa || empresaAtiva();
+  const remetente = etiqueta.empresa || empresaAtiva();
+  const cnpj = NFe.digitos(remetente.cnpj);
+  const modelo = /^\d{14}$/.test(cnpj) ? state.empresas.find(e => NFe.digitos(e.cnpj) === cnpj && e.logo) : null;
+  const empresa = { ...remetente, logo: modelo?.logo || remetente.logo || '' };
   return `
     <div class="label" data-nota="${etiqueta.notaIndex}">
       <div class="label-header">
@@ -283,7 +299,7 @@ function criarEtiqueta(etiqueta) {
 
         <div class="right-box">
           <div class="nf-label">NF:</div>
-          <div class="nf-number" style="font-size:${Math.min(15, 100 / Math.max(1, etiqueta.nf.length))}pt" title="${escaparHTML(etiqueta.nf)}">${escaparHTML(etiqueta.nf)}</div>
+          <div class="nf-number" style="font-size:${Math.min(els.modoImpressao.value === 'bobina85' ? 11 : 15, 100 / Math.max(1, etiqueta.nf.length))}pt" title="${escaparHTML(etiqueta.nf)}">${escaparHTML(etiqueta.nf)}</div>
           <div class="right-sep"></div>
           <div class="vol-label">Volume:</div>
           <div class="volume-number">${etiqueta.etiquetaAtual}/${etiqueta.volumes}</div>
@@ -298,9 +314,10 @@ function renderNotas() {
   const etiquetas = gerarEtiquetas();
   const folhas = quebrarEmFolhas(etiquetas);
   const modo = els.modoImpressao.value;
+  els.preview.classList.toggle('bobina-compacta', modo === 'bobina85');
 
   els.countNotas.textContent = state.notas.length;
-  els.modeloAtual.textContent = modo === 'a4' ? '10 etiquetas por folha' : '1 etiqueta por página';
+  els.modeloAtual.textContent = modo === 'a4' ? '10 etiquetas por folha' : modo === 'bobina85' ? '85 × 35 mm' : '100 × 50 mm';
   els.summary.innerHTML = modo === 'a4'
     ? `Total de etiquetas: ${etiquetas.length}<br>Folhas necessárias (A4): ${folhas.length}`
     : `Total de etiquetas: ${etiquetas.length}<br>Páginas na bobina: ${etiquetas.length}`;
@@ -368,7 +385,7 @@ function renderEmpresas() {
   els.listaEmpresas.innerHTML = state.empresas.map(empresa => {
     const ativa = empresa.id === state.empresaAtivaId;
     return `
-      <div class="company-card ${ativa ? 'active' : ''}" data-selecionar-empresa="${empresa.id}">
+      <div class="company-card ${ativa ? 'active' : ''}" data-selecionar-empresa="${escaparHTML(empresa.id)}">
         <div class="thumb">${empresa.logo ? `<img src="${escaparHTML(empresa.logo)}" alt="Logo">` : icons.building}</div>
         <div>
           <strong>${escaparHTML(empresa.nome || 'Empresa sem nome')}</strong>
@@ -435,9 +452,9 @@ function salvarEmpresaAtual() {
 
   state.empresaAtivaId = empresa.id;
   state.empresaEditandoId = empresa.id;
-  salvarEmpresas();
+  const salvo = salvarEmpresas();
   renderizar();
-  showToast('Modelo de empresa salvo com sucesso!', 'success');
+  if (salvo) showToast('Modelo de empresa salvo com sucesso!', 'success');
 }
 
 function excluirEmpresaAtual() {
@@ -523,7 +540,7 @@ function atualizarRegraPagina() {
   }
   style.textContent = modo === 'a4'
     ? '@page { size: A4 portrait; margin: 0; }'
-    : '@page { size: 100mm 50mm; margin: 0; }';
+    : modo === 'bobina85' ? '@page { size: 85mm 35mm; margin: 0; }' : '@page { size: 100mm 50mm; margin: 0; }';
 }
 
 function renderizar() {
@@ -546,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   els.btnAdicionar.addEventListener('click', adicionarNota);
   els.btnImprimir.addEventListener('click', () => {
-    if (!ajustarTextosEtiquetas()) { showToast('Revise os textos indicados antes de imprimir: eles excedem os 10 × 5 cm.', 'error', 6000); return; }
+    if (!ajustarTextosEtiquetas()) { showToast('Revise os textos indicados antes de imprimir: eles excedem o tamanho selecionado.', 'error', 6000); return; }
     atualizarRegraPagina();
     window.print();
   });
