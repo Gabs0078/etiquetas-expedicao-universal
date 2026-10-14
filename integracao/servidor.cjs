@@ -1,12 +1,13 @@
 'use strict';
 const http = require('node:http');
+const { execFile } = require('node:child_process');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { randomBytes, timingSafeEqual } = require('node:crypto');
 const { criarFontePastas } = require('./fontes/pastas.cjs');
 const FABRICAS = { pastas: criarFontePastas };
 const RAIZ_APP = path.resolve(__dirname, '..');
-const ESTATICOS = ['index.html', 'sw.js', 'manifest.webmanifest', 'assets/css/styles.css', 'assets/js/app.js', 'assets/js/nfe.js', 'assets/js/importacao.js', 'assets/js/fontes.js', 'assets/icons/app-icon.svg', 'assets/icons/app-icon-192.png', 'assets/icons/app-icon-512.png'];
+const ESTATICOS = ['index.html', 'sw.js', 'manifest.webmanifest', 'assets/css/styles.css', 'assets/js/app.js', 'assets/js/nfe.js', 'assets/js/importacao.js', 'assets/js/fontes.js', 'assets/icons/github-invertocat-black.svg', 'assets/icons/github-invertocat-white.svg', 'assets/icons/app-icon.svg', 'assets/icons/app-icon-192.png', 'assets/icons/app-icon-512.png'];
 const TIPOS = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.webmanifest': 'application/manifest+json', '.svg': 'image/svg+xml', '.png': 'image/png' };
 function correspondeBusca(nota, busca) {
   if (!busca) return true;
@@ -19,12 +20,13 @@ function criarServidor(config = {}, opcoes = {}) {
   const fontes = new Map();
   for (const fonte of config.fontes || []) {
     if (!/^[a-z0-9-]{1,40}$/.test(fonte.id || '') || fontes.has(fonte.id) || !FABRICAS[fonte.tipo]) throw new Error('Fonte inválida, duplicada ou sem adaptador.');
-    fontes.set(fonte.id, FABRICAS[fonte.tipo](fonte));
+    fontes.set(fonte.id, opcoes.diretorioIndice ? require('./fontes/indice.cjs').criarIndice(fonte, opcoes.diretorioIndice) : FABRICAS[fonte.tipo](fonte));
   }
   const sessao = randomBytes(32).toString('hex');
   const ingressos = new Map();
+  let abrirAssistente = false;
   const emitirIngresso = () => {
-    ingressos.clear();
+    for (const [codigo, validade] of ingressos) { if (validade < Date.now()) ingressos.delete(codigo); }
     const ingresso = randomBytes(32).toString('hex');
     ingressos.set(ingresso, Date.now() + 60000);
     return ingresso;
@@ -51,8 +53,11 @@ function criarServidor(config = {}, opcoes = {}) {
         const validade = ingressos.get(ingresso);
         ingressos.delete(ingresso);
         if (!validade || validade < Date.now()) return responder(401, { erro: 'Abra novamente pelo ícone do aplicativo.' });
-        res.writeHead(303, { Location: '/', 'Set-Cookie': `etiquetas_sessao=${sessao}; HttpOnly; SameSite=Strict; Path=/` });
-        return res.end();
+        // Entregar a interface na própria navegação evita uma segunda carga via redirecionamento/cache.
+        const html = await fs.readFile(path.join(RAIZ_APP, 'index.html'), 'utf8');
+        res.setHeader('Cache-Control', 'no-cache');
+        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Set-Cookie': 'etiquetas_sessao=' + sessao + '; HttpOnly; SameSite=Strict; Path=/' });
+        return res.end(html.replace('<head>', "<head><script>history.replaceState(null, '', '/');</script>"));
       }
       if (opcoes.desktop && url.pathname === '/api/sessao' && req.method === 'POST') {
         const recebido = Buffer.from((req.headers.authorization || '').replace(/^Bearer /, ''));
@@ -60,17 +65,41 @@ function criarServidor(config = {}, opcoes = {}) {
         if (recebido.length !== esperado.length || !timingSafeEqual(recebido, esperado)) return responder(401, { erro: 'Acesso negado.' });
         return responder(200, { caminho: `/iniciar?codigo=${emitirIngresso()}` });
       }
+      if (opcoes.desktop && url.pathname === '/api/assistente' && req.method === 'POST') {
+        if (!autenticar(req)) return responder(401, { erro: 'Abra novamente pelo ícone do aplicativo.' });
+        abrirAssistente = true;
+        return responder(202, { solicitado: true });
+      }
+      if (opcoes.desktop && url.pathname === '/api/controle' && req.method === 'GET') {
+        const recebido = Buffer.from((req.headers.authorization || '').replace(/^Bearer /, ''));
+        const esperado = Buffer.from(token);
+        if (recebido.length !== esperado.length || !timingSafeEqual(recebido, esperado)) return responder(401, { erro: 'Acesso negado.' });
+        const solicitado = abrirAssistente; abrirAssistente = false;
+        return responder(200, { abrirAssistente: solicitado });
+      }
       if (!['GET', 'HEAD'].includes(req.method)) return responder(405, { erro: 'Método não permitido.' });
       if (url.pathname.startsWith('/api/')) {
         if (!autenticar(req)) return responder(401, { erro: 'Informe o código de acesso mostrado no serviço.' });
+        if (opcoes.desktop && url.pathname === '/api/diagnostico') {
+          const pastas = [...new Set((config.fontes || []).filter(f => f.tipo === 'pastas').flatMap(f => f.pastas))];
+          const filho = execFile(process.execPath, [path.join(RAIZ_APP, 'desktop/diagnostico.cjs'), '--stdin'], { timeout: 30000, maxBuffer: 1024 * 1024, windowsHide: true }, (erro, stdout) => {
+            if (erro) return responder(504, { erro: 'O teste demorou ou falhou. Confira a rede e tente novamente.' });
+            try { responder(200, { pastas: JSON.parse(stdout) }); } catch { responder(500, { erro: 'Resultado do diagnóstico indisponível.' }); }
+          });
+          filho.stdin.on('error', () => {});
+          filho.stdin.end(JSON.stringify({ pastas }));
+          return;
+        }
         if (url.pathname === '/api/fontes') return responder(200, { desktop: Boolean(opcoes.desktop), fontes: Array.from(fontes.values()).map(({ id, nome, tipo }) => ({ id, nome, tipo })) });
         const fonte = fontes.get(url.searchParams.get('fonte'));
         if (!fonte) return responder(400, { erro: 'Selecione uma fonte configurada.' });
+        if (url.pathname === '/api/indice') return responder(200, fonte.progresso ? fonte.progresso() : {habilitado:false,pronto:true});
         if (url.pathname === '/api/notas') {
           const inicio = url.searchParams.get('inicio') || '';
           const fim = url.searchParams.get('fim') || '';
           if ([inicio, fim].some(v => v && !/^\d{4}-\d{2}-\d{2}$/.test(v)) || (inicio && fim && inicio > fim)) return responder(400, { erro: 'Período inválido.' });
           const busca = (url.searchParams.get('busca') || '').trim().slice(0, 100).toLocaleLowerCase('pt-BR');
+          if (fonte.pesquisar) { const r = await fonte.pesquisar({busca,inicio,fim}); return responder(r.preparando ? 202 : 200, r); }
           const resultado = await fonte.listar();
           const filtradas = resultado.notas.filter(n => (!inicio || n.data >= inicio) && (!fim || n.data <= fim) && correspondeBusca(n, busca)).sort((a, b) => b.data.localeCompare(a.data));
           const notas = filtradas.slice(0, 100).map(({ id, nf, serie, data, destinatario, emitente, chave, volumes }) => ({ id, nf, serie, data, destinatario, emitente: emitente.nome, chave, volumes }));
@@ -89,6 +118,8 @@ function criarServidor(config = {}, opcoes = {}) {
       res.end(req.method === 'HEAD' ? undefined : conteudo);
     } catch { responder(500, { erro: 'Falha na leitura. Verifique as pastas e permissões do serviço.' }); }
   });
+  servidor.on('listening', () => { for (const fonte of fontes.values()) fonte.iniciarIndice?.(); });
+  servidor.on('close', () => { for (const fonte of fontes.values()) void fonte.fechar?.(); });
   return { servidor, token };
 }
 async function iniciar() {
@@ -96,6 +127,7 @@ async function iniciar() {
   let config = {};
   try { config = JSON.parse(await fs.readFile(arquivo, 'utf8')); } catch (e) { if (e.code !== 'ENOENT') throw new Error('Configuração inválida. Revise o JSON.'); }
   const desktop = process.env.ETIQUETAS_DESKTOP === '1';
+  if (desktop && Number(process.versions.node.split('.')[0]) < 24) throw new Error('O aplicativo desktop precisa do runtime Node.js 24 incluído no pacote.');
   const pai = Number(process.env.ETIQUETAS_PARENT_PID);
   if (desktop && Number.isInteger(pai) && pai > 0) {
     const vigiarPai = setInterval(() => {
@@ -104,7 +136,7 @@ async function iniciar() {
     }, 1000);
     vigiarPai.unref();
   }
-  const { servidor, token } = criarServidor(config, { desktop });
+  const { servidor, token } = criarServidor(config, { desktop, diretorioIndice: desktop ? path.join(path.dirname(arquivo), 'indice') : undefined });
   const porta = Number(process.env.PORT || 8787);
   if (!Number.isInteger(porta) || porta < 1 || porta > 65535) throw new Error('Porta inválida.');
   servidor.listen(porta, '127.0.0.1', () => {

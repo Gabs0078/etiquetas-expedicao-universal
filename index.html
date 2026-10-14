@@ -4,124 +4,131 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0ea5e9">
-  <title>Expedição - Etiquetas</title>
-  <link rel="icon" type="image/svg+xml" href="assets/icons/app-icon.svg">
-  <link rel="apple-touch-icon" href="assets/icons/app-icon-192.png">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="assets/css/styles.css">
-  <script defer src="assets/js/nfe.js"></script>
-  <script defer src="assets/js/fontes.js"></script>
-  <script defer src="assets/js/app.js"></script>
-  <script defer src="assets/js/importacao.js"></script>
+  <title>TagEX — Etiquetas para expedição</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/app-icon.svg?v=63">
+  <link rel="apple-touch-icon" href="assets/icons/app-icon-192.png?v=63">
+  <link rel="manifest" href="manifest.webmanifest?v=63">
+  <script src="assets/js/app.js?v=63"></script>
+  <link rel="stylesheet" href="assets/css/styles.css?v=63">
+  <script defer src="assets/js/nfe.js?v=63"></script>
+  <script defer src="assets/js/fontes.js?v=63"></script>
+
+  <script defer src="assets/js/importacao.js?v=63"></script>
 </head>
 <body>
-<div class="app">
-    <aside class="panel">
-      <h1>EXPEDIÇÃO - ETIQUETAS</h1>
-      <p class="subtitle">Etiqueta 10x5cm. Use A4 com 10 unidades ou bobina térmica adesiva 10x5cm.</p>
+<div class="brand-shell">
+  <header class="workspace-header">
+    <div class="brand-identity"><span class="brand-mark" data-icon="tag" aria-hidden="true"></span><div><h1 class="brand-wordmark">Tag<span>EX</span></h1><p class="brand-description">Etiquetas para expedição</p></div></div>
+    <div class="header-actions">
+      <button id="temaAparencia" class="theme-switch" type="button" role="switch" aria-label="Modo escuro" aria-checked="false" title="Alternar tema"><span class="theme-switch-thumb" aria-hidden="true"></span><span class="theme-sun" data-icon="sun" aria-hidden="true"></span><span class="theme-moon" data-icon="moon" aria-hidden="true"></span></button>
+      <button id="btnConfiguracoes" class="header-company" type="button" aria-haspopup="dialog" aria-controls="configuracoesEmpresa" title="Empresas e identidade visual"><span data-icon="building" aria-hidden="true"></span><span>Empresa</span><span data-icon="chevronDown" aria-hidden="true"></span></button>
+    </div>
+  </header>
+  <nav class="workflow-nav" aria-label="Etapas para imprimir etiquetas"><ol>
+    <li><a href="#etapaNota" aria-label="Etapa 1: preencher as informações da etiqueta" aria-current="step"><span>1</span><strong>Preencher</strong></a></li>
+    <li><a href="#etapaConferencia" aria-label="Etapa 2: conferir e adicionar ao lote"><span>2</span><strong>Conferir</strong></a></li>
+    <li><a href="#etapaImpressao" aria-label="Etapa 3: imprimir o lote"><span>3</span><strong>Imprimir</strong></a></li>
+  </ol></nav>
+</div><div class="app">
+    <aside class="panel operation-panel">
 
-      <section class="import-section" aria-label="Formas de preenchimento">
-        <h2>COMO DESEJA PREENCHER?</h2>
-        <div class="import-actions">
-          <button class="btn-gray btn-small" id="btnManual" type="button">Digitar manualmente</button>
-          <button class="btn-primary btn-small" id="btnUploadXML" type="button">Upload de XML</button>
-          <button class="btn-gray btn-small" id="btnIntegracao" type="button">Integração</button>
+
+      <section id="etapaNota" class="import-section" aria-label="Formas de preenchimento">
+        <div class="step-heading"><span class="step-number">Etapa 1</span><div><div class="step-title-help"><h2>Modo de Preenchimento</h2><span class="context-help"><button class="context-help-button" type="button" aria-label="Ajuda: Modo de Preenchimento" aria-describedby="ajudaModoPreenchimento" aria-expanded="false">?</button><span id="ajudaModoPreenchimento" class="context-help-tooltip" role="tooltip">Escolha como prefere preencher as informações da etiqueta.</span></span></div></div></div>
+        <div class="import-actions source-tabs" role="group" aria-label="Origem da nota">
+          <button class="btn-gray btn-small" id="btnIntegracao" type="button" aria-pressed="false">Buscar nas pastas</button>
+          <button class="btn-gray btn-small" id="btnUploadXML" type="button" aria-pressed="false">Importar XML</button>
+          <button class="btn-gray btn-small" id="btnManual" type="button" aria-pressed="true">Preencher manualmente</button>
         </div>
         <input class="hidden-input" id="xmlArquivos" type="file" accept=".xml,application/xml,text/xml" multiple>
-        <p class="hint">NF-e de saída, modelo 55. Até 100 arquivos por lote, 2 MB por XML. Revise antes de gerar etiquetas.</p>
+        <div id="orientacaoXML" class="xml-help"><p>Selecione os arquivos de notas que deseja conferir.</p><details><summary>Quais arquivos são aceitos?</summary><p class="hint">NF-e de saída, modelo 55. Até 100 XMLs por lote, 2 MB por arquivo.</p></details></div>
         <p id="statusImportacao" class="hint" role="status" aria-live="polite"></p>
-        <details class="import-details"><summary>Arquivos com avisos</summary><div id="errosImportacao"></div></details>
+        <details class="import-details" id="avisosArquivos" hidden><summary>Arquivos que precisam de atenção</summary><div id="errosImportacao"></div></details>
         <div id="filaImportacao" class="import-list" aria-label="Notas para revisão"></div>
         <details id="painelIntegracao" class="import-details">
-          <summary>Buscar notas na pasta</summary>
+          <summary>Notas da empresa</summary><p id="orientacaoIntegracaoLocal" class="hint" hidden>A busca em pastas funciona no aplicativo instalado neste computador. <a href="http://127.0.0.1:8788/" target="_blank" rel="noopener">Abrir aplicativo local</a></p><div id="controlesIntegracao">
           <div id="acessoIntegracao">
           <p class="hint">Abra este app pelo serviço local da empresa. Informe o código exibido ao iniciar o serviço. Pastas locais e compartilhadas são configuradas por quem administra a integração.</p>
           <div class="field compact"><label for="tokenIntegracao">Código de acesso</label><input id="tokenIntegracao" type="password" autocomplete="off"></div>
           <button id="btnConectar" class="btn-gray btn-small" type="button">Conectar</button>
           </div>
-          <div class="field compact"><label for="fonteIntegracao">Fonte de XMLs</label><select id="fonteIntegracao"><option value="">Conecte para ver as fontes</option></select></div>
-          <div class="field compact"><label for="buscaIntegracao">Número, chave, destinatário ou emitente</label><input id="buscaIntegracao" maxlength="100" placeholder="Buscar notas emitidas"></div>
-          <div class="import-dates">
+          <div class="field compact" id="selecaoFonte"><label for="fonteIntegracao">Origem das notas</label><select id="fonteIntegracao"><option value="">Conecte para ver as fontes</option></select></div>
+          <label class="search-label" for="buscaIntegracao">Buscar nota</label>
+          <div class="search-control"><input id="buscaIntegracao" type="search" maxlength="100" placeholder="Ex.: 764 ou Sanepar" enterkeyhint="search"><button id="btnBuscarIntegracao" class="btn-primary" type="button" aria-label="Buscar nota" title="Buscar nota (Enter)" disabled><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10.5" cy="10.5" r="7"></circle><path d="m16 16 5 5"></path></svg></button></div>
+          <div id="progressoBusca" hidden><progress id="barraBusca" aria-label="Progresso da preparação da busca"></progress><p id="textoProgressoBusca" class="hint" role="status" aria-live="polite"></p></div>
+          <details id="filtrosBusca" class="search-filters"><summary>Filtros por data</summary><div class="import-dates">
             <div class="field compact"><label for="inicioIntegracao">Emitidas desde</label><input id="inicioIntegracao" type="date"></div>
             <div class="field compact"><label for="fimIntegracao">Até</label><input id="fimIntegracao" type="date"></div>
-          </div>
-          <button id="btnBuscarIntegracao" class="btn-primary btn-small" type="button" disabled>Buscar notas</button>
-          <label class="check-label"><input id="buscaAutomatica" type="checkbox"> Atualizar busca a cada 30 segundos enquanto o app estiver aberto</label>
-          <p id="statusIntegracao" class="hint" role="status" aria-live="polite"></p>
-          <div id="resultadosIntegracao" class="import-list"></div>
+          </div></details>
+          <label class="check-label"><input id="buscaAutomatica" type="checkbox"> Atualizar resultados automaticamente (a cada 30 segundos)</label>
+          <button id="btnAssistenteIntegracao" class="btn-gray btn-small" type="button" hidden>Configurar integração</button><p id="ultimaBuscaIntegracao" class="hint" hidden></p><div id="indicadorIntegracao" class="integration-state" data-estado="amarelo"><span class="integration-light" aria-hidden="true"></span><span>Integração</span><button id="ajudaEstadoIntegracao" type="button" aria-label="Estado da integração" aria-describedby="descricaoEstadoIntegracao" aria-expanded="false">?</button><span id="descricaoEstadoIntegracao" class="integration-tooltip" role="tooltip">Aguardando conexão com o serviço local.</span></div><p id="statusIntegracao" class="hint" role="status" aria-live="polite"></p>
+          <div id="resultadosIntegracao" class="import-list"></div></div>
         </details>
       </section>
-      <h2>DADOS DA NOTA / EXPEDIÇÃO</h2>
-      <section id="revisaoXML" class="review-box" hidden>
-        <strong>Revisão do XML</strong><p id="origemRevisao"></p><ul id="avisosRevisao"></ul>
-        <label class="check-label"><input type="checkbox" id="confirmarRevisao"> Conferi o remetente, a situação da NF, o endereço e os volumes.</label>
-        <button id="btnCancelarRevisao" class="btn-gray btn-small" type="button">Voltar ao manual</button>
-      </section>
+      <section id="etapaConferencia" class="conference-section" aria-label="Conferência da nota"><div class="step-heading"><span class="step-number">Etapa 2</span><div><h2>Conferir e adicionar ao lote</h2><p>Revise os dados abaixo. Depois, adicione a nota ao lote que será impresso.</p></div></div>
+      <section id="revisaoXML" class="xml-source" hidden><span id="origemRevisao"></span><button id="btnCancelarRevisao" class="review-manual" type="button">Voltar ao manual</button></section>
       <div class="field">
         <label for="data">Data:</label>
-        <input type="date" id="data">
+        <div class="field-input-wrap" data-campo="data"><input type="date" id="data"><span class="field-attention" id="avisoCampo-data" hidden><button type="button" class="field-warning-button" id="botaoAviso-data" aria-label="Atenção: Data" aria-describedby="dicaCampo-data" aria-expanded="false"><svg class="field-warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.3 3.8 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4.5m0 3h.01"/></svg></button><span class="field-warning-tooltip" id="dicaCampo-data" role="tooltip" hidden><span id="textoAviso-data"></span></span></span></div>
       </div>
       <div class="field">
         <label for="nf">Nº da NF:</label>
-        <input id="nf" maxlength="16" placeholder="000123">
+        <div class="field-input-wrap" data-campo="nf"><input id="nf" maxlength="16" placeholder="000123"><span class="field-attention" id="avisoCampo-nf" hidden><button type="button" class="field-warning-button" id="botaoAviso-nf" aria-label="Atenção: Nº da NF" aria-describedby="dicaCampo-nf" aria-expanded="false"><svg class="field-warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.3 3.8 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4.5m0 3h.01"/></svg></button><span class="field-warning-tooltip" id="dicaCampo-nf" role="tooltip" hidden><span id="textoAviso-nf"></span></span></span></div>
       </div>
       <div class="field">
-        <label for="destinatario">Endereço Destinatário:</label>
-        <textarea id="destinatario" maxlength="240" placeholder="Rua, número&#10;Bairro - Cidade / UF&#10;CEP: 00000-000"></textarea>
+        <label for="destinatario">Endereço de entrega:</label>
+        <div class="delivery-field"><div class="field-input-wrap"><textarea id="destinatario" maxlength="240" placeholder="Rua, número&#10;Bairro - Cidade / UF&#10;CEP (se informado)"></textarea><span class="field-attention" id="avisoCampo-destinatario" hidden><button type="button" class="field-warning-button" id="botaoAviso-destinatario" aria-label="Atenção: Endereço de entrega" aria-describedby="dicaCampo-destinatario" aria-expanded="false"><svg class="field-warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.3 3.8 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4.5m0 3h.01"/></svg></button><span class="field-warning-tooltip" id="dicaCampo-destinatario" role="tooltip" hidden><span id="textoAviso-destinatario"></span></span></span></div><label class="delivery-choice"><input id="usarEnderecoDestinatario" type="checkbox" disabled> Usar o endereço cadastrado do destinatário</label><p id="ajudaEnderecoDestinatario" class="hint">Disponível ao conferir uma nota com endereço cadastrado no XML.</p></div>
       </div>
       <div class="field">
         <label for="volumes">Qtd. de Volumes:</label>
-        <input type="number" id="volumes" min="1" max="999" value="1">
+        <div class="field-input-wrap" data-campo="volumes"><input type="number" id="volumes" min="1" max="999" value="1"><span class="field-attention" id="avisoCampo-volumes" hidden><button type="button" class="field-warning-button" id="botaoAviso-volumes" aria-label="Atenção: Qtd. de Volumes" aria-describedby="dicaCampo-volumes" aria-expanded="false"><svg class="field-warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.3 3.8 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4.5m0 3h.01"/></svg></button><span class="field-warning-tooltip" id="dicaCampo-volumes" role="tooltip" hidden><span id="textoAviso-volumes"></span></span></span></div>
       </div>
       <div class="field">
         <label for="descricao">Descrição dos Itens:</label>
-        <textarea id="descricao" maxlength="180" placeholder="Opcional"></textarea>
+        <div class="field-input-wrap" data-campo="descricao"><textarea id="descricao" maxlength="180" placeholder="Opcional"></textarea><span class="field-attention" id="avisoCampo-descricao" hidden><button type="button" class="field-warning-button" id="botaoAviso-descricao" aria-label="Atenção: Descrição dos Itens" aria-describedby="dicaCampo-descricao" aria-expanded="false"><svg class="field-warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.3 3.8 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4.5m0 3h.01"/></svg></button><span class="field-warning-tooltip" id="dicaCampo-descricao" role="tooltip" hidden><span id="textoAviso-descricao"></span></span></span></div>
       </div>
 
+      <label id="confirmacaoXML" class="check-label review-confirmation" hidden><input type="checkbox" id="confirmarRevisao"> Conferi os dados do XML</label>
       <button class="btn-primary" id="btnAdicionar" type="button">
-        <span data-icon="plus"></span>Adicionar Nota
+        <span data-icon="plus"></span>Adicionar nota ao lote
       </button>
-      <p class="hint">Cada volume gera uma etiqueta. No A4, notas diferentes são encaixadas na mesma folha até completar 10.</p>
+      <p class="hint">Cada volume gera uma etiqueta. Após adicionar, siga para a etapa 3 ou escolha outra nota na etapa 1.</p></section>
 
-      <h2>NOTAS ADICIONADAS (<span id="countNotas">0</span>)</h2>
-      <div id="listaNotas"></div>
-      <div class="summary" id="summary">Total de etiquetas: 0<br>Folhas necessárias (A4): 0</div>
-      <p class="hint layout-warning" id="avisoLayout" role="status" hidden></p>
-
-      <div class="actions">
-        <button class="btn-success" id="btnImprimir" type="button"><span data-icon="printer"></span>Imprimir Etiquetas</button>
-        <button class="btn-gray" id="btnLimpar" type="button"><span data-icon="trash"></span>Limpar Tudo</button>
-      </div>
     </aside>
 
-    <main class="preview-wrap">
+    <main class="preview-wrap"><section id="etapaImpressao" class="batch-panel" aria-label="Lote de impressão"><div class="step-heading"><span class="step-number">Etapa 3</span><div><div class="step-title-help"><h2>Lote de Impressão</h2><span class="context-help"><button class="context-help-button" type="button" aria-label="Ajuda: Lote de Impressão" aria-describedby="ajudaLoteImpressao" aria-expanded="false">?</button><span id="ajudaLoteImpressao" class="context-help-tooltip" role="tooltip">Confira as notas do lote, escolha o tamanho e revise a prévia antes de imprimir.</span></span></div></div></div>      <div class="batch-overview"><div class="batch-overview-heading"><h3>Notas prontas para impressão <span class="count-badge" id="countNotas">0</span></h3></div>
+      <div id="listaNotas"></div>
+      <div class="summary" id="summary">Total de etiquetas: 0<br>Folhas necessárias (A4): 0</div></div>
+      <p class="hint layout-warning" id="avisoLayout" role="status" hidden></p>
+
+      <details class="batch-help"><summary>Como atualizar uma nota do lote?</summary><p>O lote guarda os dados conferidos quando a nota foi adicionada. Uma nova busca ou atualização do aplicativo não altera essas etiquetas. Para atualizar, remova a nota do lote, busque ou importe novamente, confira e adicione outra vez.</p></details>
+      <div class="actions">
+        <button class="btn-success" id="btnImprimir" type="button"><span data-icon="printer"></span>Imprimir Etiquetas</button>
+        <button class="btn-gray" id="btnLimpar" type="button"><span data-icon="trash"></span>Limpar lote</button>
+      </div>
+</section><div class="preview-heading"><h3>Prévia de impressão</h3></div>
       <div class="preview-toolbar">
-        <span class="toolbar-pill"><span data-icon="printer"></span>Pré-visualização</span>
-        <select id="modoImpressao" class="toolbar-select" title="Formato de impressão">
-          <option value="a4">A4 - 10 etiquetas por folha</option>
-          <option value="bobina">Bobina térmica - 10x5cm</option>
-          <option value="bobina85">Bobina térmica - 8,5x3,5cm</option>
-        </select>
-        <span class="toolbar-pill" id="modeloAtual">Etiqueta: 10x5cm</span>
+<select id="modoImpressao" hidden aria-hidden="true" tabindex="-1"><option value="a4">A4</option><option value="a3">A3</option><option value="a2">A2</option><option value="a5">A5</option><option value="carta">Carta</option><option value="oficio">Ofício (Legal)</option><option value="bobina80">80 × 35 mm</option><option value="bobina85">85 × 35 mm</option><option value="bobina">100 × 50 mm</option><option value="bobina100x75">100 × 75 mm</option><option value="bobina100x100">100 × 100 mm</option><option value="bobina100x150">100 × 150 mm</option></select><div class="format-groups" aria-label="Tamanho de impressão"><details class="format-group" open><summary>Papel <span class="format-current"></span></summary><div class="format-choices" role="group" aria-label="Papel"><button type="button" data-formato="a4" aria-pressed="true">A4</button><button type="button" data-formato="a3" aria-pressed="false">A3</button><button type="button" data-formato="a2" aria-pressed="false">A2</button><button type="button" data-formato="a5" aria-pressed="false">A5</button><button type="button" data-formato="carta" aria-pressed="false">Carta</button><button type="button" data-formato="oficio" aria-pressed="false">Ofício (Legal)</button></div></details><details class="format-group"><summary>Bobina de etiquetas <span class="format-current"></span></summary><div class="format-choices" role="group" aria-label="Bobina de etiquetas"><button type="button" data-formato="bobina80" aria-pressed="false">80 × 35 mm</button><button type="button" data-formato="bobina85" aria-pressed="false">85 × 35 mm</button><button type="button" data-formato="bobina" aria-pressed="false">100 × 50 mm</button><button type="button" data-formato="bobina100x75" aria-pressed="false">100 × 75 mm</button><button type="button" data-formato="bobina100x100" aria-pressed="false">100 × 100 mm</button><button type="button" data-formato="bobina100x150" aria-pressed="false">100 × 150 mm</button></div></details></div>
+<div id="controleDisposicao" class="paper-layout-control"><label for="disposicaoPapel">Disposição</label><select id="disposicaoPapel"><option value="atual">10 por folha · 100 × 50 mm (atual)</option><option value="10">10 por folha · 2 × 5</option><option value="4">4 por folha · 2 × 2</option><option value="3">3 por folha · 3 faixas</option><option value="2">2 por folha · 2 faixas</option><option value="1">1 por folha · paisagem</option></select><span id="descricaoDisposicao" class="hint" role="status"></span></div>
         <div class="print-options" role="group" aria-label="Campos exibidos na etiqueta">
-          <label><input type="checkbox" id="exibirData"> Exibir data na etiqueta</label>
-          <label><input type="checkbox" id="exibirDescricao" checked> Exibir descrição dos itens</label>
+          <label><input type="checkbox" id="exibirEnderecoRemetente" checked> Exibir endereço do remetente</label><label><input type="checkbox" id="exibirData"> Data</label>
+          <label><input type="checkbox" id="exibirDescricao" checked> Descrição dos itens</label><div id="organizacaoFolha" class="layout-icon-toggle" role="group" aria-label="Organização das etiquetas na folha"><button type="button" data-organizacao="grade" aria-label="Grade" aria-pressed="true" title="Grade — etiquetas em colunas"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button><button type="button" data-organizacao="lista" aria-label="Lista" aria-pressed="false" title="Lista — uma coluna; quantidade ajustada ao espaço do papel"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="17" width="18" height="4" rx="1"/></svg></button></div>
         </div>
       </div>
       <div id="preview"><div class="empty">Adicione uma nota para visualizar as etiquetas.</div></div>
     </main>
 
-    <aside class="panel companies-panel">
-      <h2>EMPRESAS CADASTRADAS</h2>
+    <dialog id="configuracoesEmpresa" aria-labelledby="tituloConfiguracoes"><div class="settings-heading"><div><p class="eyebrow">CONFIGURAÇÕES</p><h2 id="tituloConfiguracoes">Empresas e identidade visual</h2></div><button id="btnFecharConfiguracoes" class="btn-gray btn-small" type="button">Fechar</button></div><aside class="panel companies-panel">
+      <h2>Escolher empresa</h2>
       <div id="listaEmpresas" class="company-list"></div>
       <button class="btn-primary btn-small" id="btnNovaEmpresa" type="button" style="margin-top:10px;"><span data-icon="plus"></span>Nova Empresa</button>
 
       <div class="form-divider"></div>
 
-      <h2>CONFIGURAR EMPRESA</h2>
+      <h2>Dados da empresa</h2>
       <p class="subtitle">O modelo fica salvo neste navegador/dispositivo e pode ser alternado quando precisar.</p>
 
-      <label class="upload-box" id="uploadBox" for="logoEmpresa">
+      <p id="areaLogoInfo" class="hint"></p><label class="upload-box" id="uploadBox" for="logoEmpresa">
         <span id="logoPreviewIcon" data-icon="building" class="icon-lg"></span>
         <span id="logoPreviewText">Clique para enviar a logo<br>PNG, JPG ou JPEG até 2MB</span>
         <img id="logoPreview" alt="Prévia da logo" style="display:none;">
@@ -129,7 +136,7 @@
       <input class="hidden-input" type="file" id="logoEmpresa" accept="image/png,image/jpeg,image/jpg">
 
       <div class="field compact" style="margin-top:12px;">
-        <label for="nomeEmpresa">Nome da Empresa</label>
+        <label for="tamanhoLogo">Tamanho da logo <output id="valorTamanhoLogo">100%</output></label><input id="tamanhoLogo" type="range" min="25" max="300" step="5" value="100"><p class="hint">Reduza ou amplie a logo. A ampliação para automaticamente no limite da área reservada em cada formato, sem cortar nem distorcer a imagem. Salve o modelo para aplicar às etiquetas.</p><button type="button" id="btnRestaurarLogo" class="btn-gray btn-small">Restaurar tamanho</button></div><div class="field compact"><label for="nomeEmpresa">Nome da Empresa</label>
         <input id="nomeEmpresa" maxlength="60" placeholder="Nome da Empresa">
       </div>
       <div class="field compact">
@@ -163,7 +170,8 @@
         <button class="btn-primary" id="btnSalvarEmpresa" type="button"><span data-icon="save"></span>Salvar Modelo</button>
         <button class="btn-danger" id="btnExcluirEmpresa" type="button"><span data-icon="trash"></span>Excluir Modelo</button>
       </div>
-    </aside>
+    </aside></dialog>
   </div>
+<footer class="app-footer" aria-label="Créditos e suporte"><div class="creator-credit"><a class="creator-avatar" href="https://github.com/gabs0078" target="_blank" rel="noopener noreferrer" aria-label="Perfil de Gabriel no GitHub"><span aria-hidden="true">G</span><img id="avatarCriador" src="https://github.com/gabs0078.png?size=96" alt="" width="48" height="48" loading="lazy" referrerpolicy="no-referrer"></a><div><span class="credit-caption">Desenvolvimento</span><p>Criado por <strong>Gabriel</strong><a class="creator-handle" href="https://github.com/gabs0078" target="_blank" rel="noopener noreferrer">@gabs0078</a></p></div></div><div class="support-placeholder"><span class="support-caption">Contato e comunidade</span><div class="support-actions" role="group" aria-label="Contato, comunidade e ajuda"><a href="https://github.com/gabs0078" target="_blank" rel="noopener noreferrer" title="Abrir perfil no GitHub"><span class="github-mark" aria-hidden="true"><img class="github-mark-dark" src="assets/icons/github-invertocat-white.svg" alt="" width="16" height="16"><img class="github-mark-light" src="assets/icons/github-invertocat-black.svg" alt="" width="16" height="16"></span>GitHub</a><a href="mailto:gabriel.gnt@outlook.com" title="Enviar e-mail para Gabriel"><span aria-hidden="true">✉</span>Contato</a><button type="button" disabled title="Ajuda — em breve"><span aria-hidden="true">?</span>Ajuda <small>Em breve</small></button><a href="mailto:gabriel.gnt@outlook.com?subject=Feedback%20-%20Etiquetas%20de%20envio" title="Enviar sugestões ou relatar um problema"><span aria-hidden="true">◇</span>Feedback</a></div></div></footer>
 </body>
 </html>

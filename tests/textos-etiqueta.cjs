@@ -9,9 +9,11 @@ module.exports = async function testarTextosEtiquetas(browser, url, saida) {
     assert.equal(await pagina.locator('#exibirData').isChecked(), false);
     assert.equal(await pagina.locator('#exibirDescricao').isChecked(), true);
     await pagina.locator('#exibirData').check();
+    await pagina.locator('#btnConfiguracoes').click();
     await pagina.locator('#nomeEmpresa').fill('EMPRESA FICTICIA DE MATERIAIS PARA CONSTRUCAO LTDA');
     await pagina.locator('#enderecoEmpresa').fill('RUA DE DEMONSTRACAO, 1396, LOJA 1 E 2');
     await pagina.locator('#btnSalvarEmpresa').click();
+    await pagina.locator('#btnFecharConfiguracoes').click();
     const descricao = ('CAIXA SUBTERRANEA EM PP PARA HIDROMETRO 3/4 DE PASSEIO GRANDE; HIDROMETRO UNIJATO RESIDENCIAL AGUA FRIA CORPO METALICO; TUBETE BRANCO PARA INSTALACAO HIDRAULICA; ').repeat(2).slice(0, 180);
     await pagina.locator('#nf').fill('5371');
     await pagina.locator('#destinatario').fill('CLIENTE FICTICIO DE CONSTRUCOES CIVIS LTDA\nRUA DE TESTE PARA EXPEDICAO, 365\nBAIRRO DE EXEMPLO - Curitiba / PR\nCEP: 82515-385');
@@ -22,7 +24,7 @@ module.exports = async function testarTextosEtiquetas(browser, url, saida) {
       return [...etiqueta.querySelectorAll('.content-main,.content-grid,.right-box,.desc')].every(el => el.scrollHeight <= el.clientHeight + 1 && el.scrollWidth <= el.clientWidth + 1 && el.getBoundingClientRect().bottom <= limite + 1);
     });
     for (const modo of ['a4', 'bobina']) {
-      await pagina.locator('#modoImpressao').selectOption(modo);
+      await pagina.locator('[data-formato="' + modo + '"]').evaluate(e => { e.closest('details').open = true; }); await pagina.locator('[data-formato="' + modo + '"]').click();
       assert.equal(await pagina.locator('.desc-text').textContent(), descricao.trim());
       const dimensoes = await pagina.locator('.label').first().evaluate(e => [...e.querySelectorAll('.content-main,.content-grid,.right-box,.desc')].map(el => ({classe: el.className, altura: [el.clientHeight, el.scrollHeight], largura: [el.clientWidth, el.scrollWidth], fonte: getComputedStyle(el).fontSize})));
       assert.equal(await pagina.locator('#avisoLayout').isVisible(), false, JSON.stringify(dimensoes));

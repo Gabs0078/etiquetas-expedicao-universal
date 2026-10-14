@@ -86,7 +86,7 @@ async function testar() {
     await pagina.waitForFunction(() => document.querySelector('#statusImportacao').textContent.includes('duplicada'));
     assert.equal(await pagina.locator('[data-revisar]').count(), 0);
     for (const modo of ['a4', 'bobina']) {
-      await pagina.locator('#modoImpressao').selectOption(modo);
+      await pagina.locator('[data-formato="' + modo + '"]').evaluate(e => { e.closest('details').open = true; }); await pagina.locator('[data-formato="' + modo + '"]').click();
       await pagina.emulateMedia({ media: 'print' });
       const dimensoes = await pagina.locator('.label').first().boundingBox();
       assert.ok(Math.abs(dimensoes.width - 100 * 96 / 25.4) < 1);

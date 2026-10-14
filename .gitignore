@@ -69,3 +69,11 @@ integracao/config.local.json
 *.xml
 !tests/fixtures/*.xml
 test-results/
+
+# Pacotes e dados locais de integração
+desktop/runtime/
+_site/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.zip

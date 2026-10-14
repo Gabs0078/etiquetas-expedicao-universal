@@ -1,24 +1,24 @@
 {
-  "name": "Expedição - Etiquetas",
-  "short_name": "Etiquetas",
-  "description": "Gerador simples de etiquetas de expedição 10x5cm para A4 ou bobina térmica.",
+  "name": "TagEX — Etiquetas para expedição",
+  "short_name": "TagEX",
+  "description": "Prepare etiquetas de expedição a partir de notas fiscais, XMLs e preenchimento manual, para papel ou bobina.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f5f7fa",
-  "theme_color": "#0b78f0",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
   "icons": [
     {
-      "src": "assets/icons/app-icon-192.png",
+      "src": "assets/icons/app-icon-192.png?v=63",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "assets/icons/app-icon-512.png",
+      "src": "assets/icons/app-icon-512.png?v=63",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "assets/icons/app-icon.svg",
+      "src": "assets/icons/app-icon.svg?v=63",
       "sizes": "any",
       "type": "image/svg+xml"
     }

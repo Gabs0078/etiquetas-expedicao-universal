@@ -27,6 +27,7 @@ window.Fontes = {
     return {
       conectar: () => requisitar('/api/fontes'),
       buscar: filtros => requisitar('/api/notas', filtros),
+      progresso: fonte => requisitar('/api/indice', {fonte}),
       obter: async (id, fonte) => ({ ...(await requisitar(`/api/notas/${encodeURIComponent(id)}`, { fonte })).nota, origem: 'integracao' })
     };
   }

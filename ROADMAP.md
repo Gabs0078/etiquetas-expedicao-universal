@@ -13,12 +13,22 @@
 - [x] Testes do leitor, serviço, navegador e regras de impressão.
 - [x] Remover orientações de IA da árvore pública proposta.
 
+## v0.3.0 — TagEX e integração desktop
+
+- [x] Identidade TagEX, temas Claro/Escuro e fluxo em três etapas.
+- [x] Assistente de pastas com diagnóstico e início opcional no Windows.
+- [x] Índice SQLite persistente com atualização incremental em segundo plano.
+- [x] Endereço de entrega nas informações complementares, com CEP opcional.
+- [x] Formatos de papel, etiquetas maiores, modo paisagem e Grade/Lista.
+- [x] Logo redimensionável e campos opcionais em todos os formatos.
+- [x] Alertas curtos junto aos campos apenas para possíveis problemas.
+- [x] Testes antes da publicação dos arquivos estáticos no Pages.
+
 ## Próximas etapas — conforme necessidades das empresas
 
 - [ ] Homologar com XMLs representativos dos ERPs e impressoras reais.
 - [ ] Conciliar eventos de cancelamento e definir regras para notas sem protocolo.
 - [ ] Acrescentar conector de API de ERP quando houver contrato e acesso documentados.
-- [ ] Índice persistente e atualização incremental para históricos extensos de XMLs.
 - [ ] Importação de pasta escolhida no navegador, com fallback por upload.
 - [ ] Exportação e restauração de lotes e configurações do navegador.
 - [ ] Centralizar serviço em intranet com HTTPS, usuários e isolamento por empresa.

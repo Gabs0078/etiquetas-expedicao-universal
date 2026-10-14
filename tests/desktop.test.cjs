@@ -17,8 +17,14 @@ test('sessao desktop exige ingresso unico e protege rotas locais', async t => {
   assert.equal((await fetch(`${base}/api/sessao`, { method: 'POST' })).status, 401);
   assert.equal((await fetch(`${base}/api/sessao`, { method: 'POST', headers: { ...headers, Origin: 'https://outro.example' } })).status, 403);
   const { caminho } = await (await fetch(`${base}/api/sessao`, { method: 'POST', headers })).json();
+  const segunda = await (await fetch(base + '/api/sessao', { method: 'POST', headers })).json();
   const abertura = await fetch(base + caminho, { redirect: 'manual' });
-  assert.equal(abertura.status, 303);
+  assert.equal(abertura.status, 200);
+  assert.match(abertura.headers.get('content-type'), /text\/html/);
+  const html = await abertura.text();
+  assert.match(html, /history\.replaceState/);
+  assert.match(html, /id="btnImprimir"/);
+  assert.equal(abertura.headers.get('location'), null);
   const cookie = abertura.headers.get('set-cookie');
   assert.match(cookie, /HttpOnly/);
   assert.match(cookie, /SameSite=Strict/);
@@ -26,6 +32,7 @@ test('sessao desktop exige ingresso unico e protege rotas locais', async t => {
   assert.equal((await fetch(`${base}/api/fontes`)).status, 401);
   const fontes = await (await fetch(`${base}/api/fontes`, { headers: { Cookie: cookie.split(';')[0] } })).json();
   assert.equal(fontes.desktop, true);
+  assert.equal((await fetch(base + segunda.caminho, { redirect: 'manual' })).status, 200);
   assert.equal((await fetch(`${base}/api/fontes`, { headers: { Cookie: cookie.split(';')[0], Origin: 'https://outro.example' } })).status, 403);
   assert.equal((await fetch(`${base}/api/sessao`, { method: 'POST', headers: { Cookie: cookie.split(';')[0] } })).status, 401);
 });

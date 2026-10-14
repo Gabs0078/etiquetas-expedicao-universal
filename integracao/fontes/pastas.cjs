@@ -9,6 +9,7 @@ const { lerXML, LIMITE_XML } = require('../../assets/js/nfe.js');
    Caminhos nunca são recebidos pela API; links simbólicos não são seguidos. */
 function criarFontePastas(config) {
   if (!Array.isArray(config.pastas) || !config.pastas.length || config.pastas.some(p => typeof p !== 'string' || !path.isAbsolute(p))) throw new Error(`Fonte ${config.id}: configure pastas absolutas.`);
+  const limiteEntradas = Math.min(10000, Math.max(1, Number(config.limiteEntradas) || 10000));
   const cnpj = String(config.cnpjEmitente || '').replace(/\D/g, '');
   if (cnpj && !/^\d{14}$/.test(cnpj)) throw new Error(`Fonte ${config.id}: CNPJ inválido.`);
   let registros = new Map();
@@ -43,11 +44,11 @@ function criarFontePastas(config) {
       let raiz;
       try { raiz = await fs.realpath(pasta); } catch { erro('Pasta configurada', 'Pasta indisponível. Verifique acesso no servidor.'); continue; }
       async function visitar(diretorio, profundidade = 0) {
-        if (profundidade > 20 || visitados >= 10000) { limitado = true; return; }
+        if (profundidade > 20 || visitados >= limiteEntradas) { limitado = true; return; }
         let entradas;
         try { entradas = await fs.readdir(diretorio, { withFileTypes: true }); } catch { erro(path.basename(diretorio), 'Sem acesso à pasta.'); return; }
         for (const entrada of entradas) {
-          if (++visitados > 10000) { limitado = true; break; }
+          if (++visitados > limiteEntradas) { limitado = true; break; }
           const arquivo = path.join(diretorio, entrada.name);
           if (entrada.isSymbolicLink()) continue;
           if (entrada.isDirectory() && config.recursivo !== false) {

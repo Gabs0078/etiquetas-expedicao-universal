@@ -1,4 +1,4 @@
-param([int]$Porta = 8788, [string]$DiretorioDados = '', [switch]$Verificar)
+﻿param([int]$Porta = 8788, [string]$DiretorioDados = '', [switch]$Verificar)
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -25,94 +25,7 @@ if (!(Test-Path -LiteralPath $node)) {
 function Avisar([string]$texto) {
     [System.Windows.Forms.MessageBox]::Show($texto, 'Etiquetas de Expedicao', 'OK', 'Information') | Out-Null
 }
-function EscolherPasta {
-    $janela = [System.Windows.Forms.Form]::new()
-    $janela.Text = 'Pastas dos XMLs'
-    $janela.ClientSize = [System.Drawing.Size]::new(700, 350)
-    $janela.StartPosition = 'CenterScreen'
-    $janela.FormBorderStyle = 'FixedDialog'
-    $janela.MaximizeBox = $false
-    $janela.MinimizeBox = $false
-    $janela.TopMost = $true
-    $script:janelaPasta = $janela
-    $janela.add_Shown({ $janela.Activate(); $campo.Focus() })
-    $rotulo = [System.Windows.Forms.Label]::new()
-    $rotulo.Text = 'Caminho da pasta (local ou compartilhada)'
-    $rotulo.SetBounds(16, 16, 545, 22)
-    $campo = [System.Windows.Forms.TextBox]::new()
-    $campo.SetBounds(16, 42, 440, 24)
-    $lista = [System.Windows.Forms.ListBox]::new()
-    $lista.SetBounds(16, 110, 668, 175)
-    $lista.HorizontalScrollbar = $true
-    if (Test-Path -LiteralPath $config) {
-        try {
-            $salvas = Get-Content -LiteralPath $config -Raw | ConvertFrom-Json
-            foreach ($fonteSalva in $salvas.fontes) {
-                foreach ($pastaSalva in $fonteSalva.pastas) {
-                    if (!$lista.Items.Contains($pastaSalva)) { $lista.Items.Add([string]$pastaSalva) | Out-Null }
-                }
-            }
-        } catch { }
-    }
-    $exemplo = [System.Windows.Forms.Label]::new()
-    $exemplo.Text = 'Exemplo: \\SRV-001\Adiogo\NotasXML_EMP1'
-    $exemplo.SetBounds(16, 76, 545, 22)
-    $procurar = [System.Windows.Forms.Button]::new()
-    $procurar.Text = 'Procurar...'
-    $procurar.SetBounds(464, 40, 105, 28)
-    $procurar.add_Click({
-        $seletor = [System.Windows.Forms.FolderBrowserDialog]::new()
-        $seletor.ShowNewFolderButton = $false
-        $seletor.SelectedPath = $campo.Text
-        try { if ($seletor.ShowDialog($janela) -eq 'OK') { $campo.Text = $seletor.SelectedPath } }
-        finally { $seletor.Dispose() }
-    })
-    $adicionar = [System.Windows.Forms.Button]::new()
-    $adicionar.Text = 'Adicionar'
-    $adicionar.SetBounds(577, 40, 107, 28)
-    $adicionarPasta = {
-        $pastaSelecionada = $campo.Text.Trim()
-        try {
-            if (![System.IO.Path]::IsPathRooted($pastaSelecionada) -or !(Test-Path -LiteralPath $pastaSelecionada -PathType Container)) { throw 'Pasta invalida.' }
-            Get-ChildItem -LiteralPath $pastaSelecionada -ErrorAction Stop | Select-Object -First 1 | Out-Null
-            $pastaSelecionada = [System.IO.Path]::GetFullPath($pastaSelecionada)
-            if (!$lista.Items.Contains($pastaSelecionada)) { $lista.Items.Add($pastaSelecionada) | Out-Null }
-            $campo.Clear()
-        } catch { Avisar 'Nao foi possivel acessar a pasta. Confira o caminho, a conexao e as permissoes.' }
-    }
-    $adicionar.add_Click($adicionarPasta)
-    $remover = [System.Windows.Forms.Button]::new()
-    $remover.Text = 'Remover selecionada'
-    $remover.SetBounds(16, 305, 165, 30)
-    $remover.add_Click({ if ($lista.SelectedIndex -ge 0) { $lista.Items.RemoveAt($lista.SelectedIndex) } })
-    $salvar = [System.Windows.Forms.Button]::new()
-    $salvar.Text = 'Salvar pastas'
-    $salvar.SetBounds(459, 305, 110, 30)
-    $salvar.add_Click({
-        if ($campo.Text.Trim()) { & $adicionarPasta; if ($campo.Text.Trim()) { return } }
-        if (!$lista.Items.Count) { Avisar 'Adicione pelo menos uma pasta antes de salvar.'; return }
-        $janela.Tag = [string[]]@($lista.Items)
-        $janela.DialogResult = [System.Windows.Forms.DialogResult]::OK
-    })
-    $cancelar = [System.Windows.Forms.Button]::new()
-    $cancelar.Text = 'Cancelar'
-    $cancelar.SetBounds(577, 305, 107, 30)
-    $cancelar.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
-    $janela.AcceptButton = $adicionar
-    $janela.CancelButton = $cancelar
-    $janela.Controls.AddRange(@($rotulo, $campo, $exemplo, $procurar, $adicionar, $lista, $remover, $salvar, $cancelar))
-    try {
-        if ($janela.ShowDialog() -ne 'OK') { return $false }
-        $pastasSelecionadas = [string[]]$janela.Tag
-        $novo = @{ fontes = @(@{ id = 'expedicao'; nome = "Pastas de XML ($($pastasSelecionadas.Count))"; tipo = 'pastas'; pastas = @($pastasSelecionadas); recursivo = $true }) }
-        New-Item -ItemType Directory -Path $dados -Force | Out-Null
-        $temporario = Join-Path $dados 'config.tmp'
-        [System.IO.File]::WriteAllText($temporario, ($novo | ConvertTo-Json -Depth 5), [System.Text.UTF8Encoding]::new($false))
-        Move-Item -LiteralPath $temporario -Destination $config -Force
-        Avisar 'Pastas salvas. A configuracao sera mantida nas proximas aberturas.'
-        return $true
-    } finally { $script:janelaPasta = $null; $janela.Dispose() }
-}
+. (Join-Path $PSScriptRoot 'assistente.ps1')
 function PararServico {
     if ($script:processo) {
         if (!$script:processo.HasExited) { $script:processo.Kill(); $script:processo.WaitForExit() }
@@ -132,7 +45,7 @@ function IniciarServico {
     }
     $info = [System.Diagnostics.ProcessStartInfo]::new()
     $info.FileName = $node
-    $info.Arguments = '"' + (Join-Path $raiz 'integracao\servidor.cjs') + '"'
+    $info.Arguments = '--max-old-space-size=96 "' + (Join-Path $raiz 'integracao\servidor.cjs') + '"'
     $info.WorkingDirectory = $raiz
     $info.UseShellExecute = $false
     $info.CreateNoWindow = $true
@@ -158,8 +71,14 @@ $timer = $null
 try {
     if (!$Verificar) { New-Item -ItemType Directory -Path $dados -Force | Out-Null }
     $timer = [System.Windows.Forms.Timer]::new()
-    $timer.Interval = 500
+    $timer.Interval = 1500
     $timer.add_Tick({
+        if ($script:processo -and !$script:janelaPasta -and !$script:processo.HasExited) {
+            try {
+                $controle = Invoke-RestMethod -Uri "$script:base/api/controle" -Headers @{ Authorization = "Bearer $script:token" } -TimeoutSec 1
+                if ($controle.abrirAssistente) { if (EscolherPasta) { AplicarIntegracao } }
+            } catch { }
+        }
         if ($evento.WaitOne(0)) {
             try {
                 if ($script:janelaPasta) { $script:janelaPasta.Activate(); $script:janelaPasta.BringToFront() }
@@ -168,7 +87,7 @@ try {
         }
     })
     $timer.Start()
-    if (!(Test-Path -LiteralPath $node)) { throw 'Node.js nao encontrado. Este prototipo requer Node.js 22 ou superior.' }
+    if (!(Test-Path -LiteralPath $node)) { throw 'Node.js nao encontrado. Este aplicativo requer Node.js 24 ou superior.' }
     if ($Verificar) {
         IniciarServico
         $sessao = Invoke-RestMethod -Uri "$script:base/api/sessao" -Method Post -Headers @{ Authorization = "Bearer $script:token" } -TimeoutSec 10
@@ -178,8 +97,8 @@ try {
         Write-Output 'Iniciador: servico e sessao automatica verificados.'
         return
     }
-    if (!(Test-Path -LiteralPath $config)) { EscolherPasta | Out-Null }
-    IniciarServico
+    if (!(Test-Path -LiteralPath $config)) { if (EscolherPasta) { AplicarIntegracao -SemAbrir } }
+    if (!$script:processo -or $script:processo.HasExited) { IniciarServico }
     $icone = [System.Windows.Forms.NotifyIcon]::new()
     $icone.Icon = [System.Drawing.SystemIcons]::Application
     $icone.Text = 'Etiquetas de Expedicao'
@@ -187,7 +106,7 @@ try {
     $abrir = $menu.Items.Add('Abrir etiquetas')
     $abrir.add_Click({ try { AbrirAplicativo } catch { Avisar $_.Exception.Message } })
     $pastas = $menu.Items.Add('Configurar pastas dos XMLs')
-    $pastas.add_Click({ try { if (EscolherPasta) { PararServico; IniciarServico; AbrirAplicativo } } catch { Avisar $_.Exception.Message } })
+    $pastas.add_Click({ try { if (EscolherPasta) { AplicarIntegracao } } catch { Avisar $_.Exception.Message } })
     $sair = $menu.Items.Add('Encerrar')
     $sair.add_Click({ [System.Windows.Forms.Application]::ExitThread() })
     $icone.ContextMenuStrip = $menu

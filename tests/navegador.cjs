@@ -18,10 +18,33 @@ async function testar() {
   const erros = [];
   try {
     browser = await chromium.launch({ ...(process.env.BROWSER_CHANNEL ? { channel: process.env.BROWSER_CHANNEL } : {}) });
+    await require('./avisos-campos-navegador.cjs')(browser, 'http://127.0.0.1:' + servidor.address().port);
+    await require('./pages-navegador.cjs')(browser);
+    await require('./busca-indice-navegador.cjs')(browser);
+    await require('./creditos-navegador.cjs')(browser);
     const pagina = await browser.newPage({ viewport: { width: 1600, height: 1000 } });
     pagina.on('pageerror', e => erros.push(e.message));
     pagina.on('dialog', dialog => dialog.accept());
     await pagina.goto(`http://127.0.0.1:${servidor.address().port}`);
+    await pagina.emulateMedia({ colorScheme: 'light' });
+    await pagina.evaluate(() => localStorage.setItem('expedicao_aparencia_v1', 'system'));
+    await pagina.reload();
+    assert.equal(await pagina.locator('html').getAttribute('data-theme'), 'light');
+    await pagina.emulateMedia({ colorScheme: 'dark' });
+    assert.equal(await pagina.locator('html').getAttribute('data-theme'), 'light');
+    await pagina.locator('#temaAparencia').click();
+    await pagina.reload();
+    assert.equal(await pagina.locator('#temaAparencia').getAttribute('aria-checked'), 'true');
+    assert.equal(await pagina.locator('html').getAttribute('data-theme'), 'dark');
+    await pagina.locator('#temaAparencia').press('Space');
+    await pagina.reload();
+    assert.equal(await pagina.locator('html').getAttribute('data-theme'), 'light');
+    await pagina.locator('#temaAparencia').press('Enter');
+    await pagina.reload();
+    assert.equal(await pagina.locator('html').getAttribute('data-theme'), 'dark');
+    assert.equal(await pagina.locator('#usarEnderecoDestinatario').isDisabled(), true);
+    assert.equal(await pagina.locator('#btnImprimir').isDisabled(), true);
+    assert.equal(await pagina.locator('#btnImprimir').evaluate(e => getComputedStyle(e).backgroundColor), 'rgb(21, 128, 61)');
     await pagina.locator('#nf').fill('MANUAL-1');
     await pagina.locator('#destinatario').fill('Destinatário manual\nRua Exemplo, 10');
     await pagina.locator('#volumes').fill('2.5');
@@ -30,11 +53,49 @@ async function testar() {
     await pagina.locator('#volumes').fill('2');
     await pagina.locator('#btnAdicionar').click();
     assert.equal(await pagina.locator('#preview .label').count(), 2);
-    const upload = [{ name: 'nota.xml', mimeType: 'text/xml', buffer: Buffer.from(xmlNota()) }, { name: 'errado.xml', mimeType: 'text/xml', buffer: Buffer.from('<invalido>') }];
+    assert.equal(await pagina.locator('#btnImprimir').isDisabled(), false);
+    for (const formato of ['a4', 'bobina', 'bobina80', 'bobina85']) {
+      await pagina.locator('[data-formato="' + formato + '"]').evaluate(e => { e.closest('details').open = true; }); await pagina.locator('[data-formato="' + formato + '"]').click();
+      const antes = await pagina.locator('.company strong').first().evaluate(e => getComputedStyle(e).fontSize);
+      await pagina.locator('#exibirEnderecoRemetente').uncheck();
+        assert.equal(await pagina.locator('.label').first().locator('.company-line').count(), 1);
+      assert.equal(await pagina.locator('.company strong').first().evaluate(e => getComputedStyle(e).fontSize), antes);
+      await pagina.locator('#exibirEnderecoRemetente').check();
+      assert.equal(await pagina.locator('.label').first().locator('.company-line').count(), 4);
+    }
+    await pagina.locator('#exibirEnderecoRemetente').uncheck();
+    await pagina.reload();
+    assert.equal(await pagina.locator('#exibirEnderecoRemetente').isChecked(), false);
+    assert.equal(await pagina.locator('.label').first().locator('.company-line').count(), 1);
+    await pagina.locator('#exibirEnderecoRemetente').check();
+    await pagina.locator('[data-formato="' + 'a4' + '"]').evaluate(e => { e.closest('details').open = true; }); await pagina.locator('[data-formato="' + 'a4' + '"]').click();
+    const upload = [{ name: 'nota.xml', mimeType: 'text/xml', buffer: Buffer.from(xmlNota().replace('</infNFe>', '<infAdic><infCpl>ENTREGA R. DA ENTREGA DE TESTE, S/N - GALPAO DE TESTE; CIDADE EXEMPLO / PR; Vendedor: Exemplo</infCpl></infAdic></infNFe>')) }, { name: 'errado.xml', mimeType: 'text/xml', buffer: Buffer.from('<invalido>') }];
     await pagina.locator('#xmlArquivos').setInputFiles(upload);
     await pagina.locator('[data-revisar]').waitFor();
     assert.match(await pagina.locator('#errosImportacao').textContent(), /malformado/);
     await pagina.locator('[data-revisar]').click();
+    assert.match(await pagina.locator('#destinatario').inputValue(), /GALPAO DE TESTE\nCIDADE EXEMPLO \/ PR/);
+    assert.doesNotMatch(await pagina.locator('#destinatario').inputValue(), /Rua Destino|CEP|Vendedor/);
+    assert.equal(await pagina.locator('#botaoAviso-destinatario').isVisible(), false);
+    const entregaOriginal = await pagina.locator('#destinatario').inputValue();
+    assert.equal(await pagina.locator('#usarEnderecoDestinatario').isChecked(), false);
+    await pagina.locator('#usarEnderecoDestinatario').check();
+    assert.match(await pagina.locator('#destinatario').inputValue(), /Rua Destino, 20/);
+    await pagina.locator('#usarEnderecoDestinatario').uncheck();
+    assert.equal(await pagina.locator('#destinatario').inputValue(), entregaOriginal);
+    await pagina.locator('#destinatario').fill('Endereço editado manualmente');
+    pagina.removeAllListeners('dialog');
+    pagina.once('dialog', dialog => dialog.dismiss());
+    await pagina.locator('#usarEnderecoDestinatario').click();
+    assert.equal(await pagina.locator('#destinatario').inputValue(), 'Endereço editado manualmente');
+    assert.equal(await pagina.locator('#usarEnderecoDestinatario').isChecked(), false);
+    pagina.on('dialog', dialog => dialog.accept());
+    await pagina.locator('#usarEnderecoDestinatario').check();
+    assert.match(await pagina.locator('#destinatario').inputValue(), /Rua Destino/);
+    await pagina.locator('#usarEnderecoDestinatario').uncheck();
+    assert.equal(await pagina.locator('#destinatario').inputValue(), entregaOriginal);
+    assert.equal(await pagina.locator('.batch-help').getAttribute('open'), null);
+    assert.equal(await pagina.locator('#confirmarRevisao').isChecked(), false);
     assert.equal(await pagina.locator('#volumes').inputValue(), '5');
     await pagina.locator('#btnAdicionar').click();
     assert.equal(await pagina.locator('#countNotas').textContent(), '1');
@@ -45,12 +106,14 @@ async function testar() {
     await pagina.locator('#xmlArquivos').setInputFiles(upload.slice(0, 1));
     await pagina.waitForFunction(() => document.querySelector('#statusImportacao').textContent.includes('duplicada'));
     assert.equal(await pagina.locator('#filaImportacao .import-card').count(), 0);
+    await pagina.locator('#btnConfiguracoes').click();
     await pagina.locator('#btnNovaEmpresa').click();
     await pagina.locator('#nomeEmpresa').fill('Outra empresa');
     await pagina.locator('#cnpjEmpresa').fill('11.111.111/0001-11');
     await pagina.locator('#btnSalvarEmpresa').click();
     assert.match(await pagina.locator('#preview .label').nth(2).textContent(), /Empresa Fictícia/);
     assert.doesNotMatch(await pagina.locator('#preview .label').first().textContent(), /Outra empresa/);
+    await pagina.locator('#btnFecharConfiguracoes').click();
     await pagina.reload();
     assert.equal(await pagina.locator('#preview .label').count(), 7);
     await pagina.evaluate(() => navigator.serviceWorker.ready);
@@ -78,12 +141,13 @@ async function testar() {
     await pagina.locator('#btnAdicionar').click();
     assert.equal(await pagina.locator('#countNotas').textContent(), '2');
     await pagina.locator('#volumes').fill('4');
+    await pagina.locator('#confirmarRevisao').check();
     await pagina.locator('#btnAdicionar').click();
     assert.equal(await pagina.locator('#preview .label').count(), 11);
     assert.equal(await pagina.locator('.sheet').count(), 2);
     const saida = process.env.QA_OUTPUT;
     if (saida) { await fs.mkdir(saida, { recursive: true }); await pagina.pdf({ path: path.join(saida, 'a4.pdf'), preferCSSPageSize: true }); }
-    await pagina.locator('#modoImpressao').selectOption('bobina');
+    await pagina.locator('[data-formato="' + 'bobina' + '"]').evaluate(e => { e.closest('details').open = true; }); await pagina.locator('[data-formato="' + 'bobina' + '"]').click();
     assert.equal(await pagina.locator('.bobina-page').count(), 11);
     const dimensoes = await pagina.locator('.bobina-page').first().boundingBox();
     assert.ok(Math.abs(dimensoes.width - 100 * 96 / 25.4) < 1);
@@ -101,7 +165,7 @@ async function testar() {
     await arquivo.locator('[data-revisar]').click();
     assert.equal(await arquivo.locator('#nf').inputValue(), '123');
     const cachesPermitidos = await pagina.evaluate(async () => {
-      const cache = await caches.open('etiquetas-v15-bobina-print');
+      const cache = await caches.open('etiquetas-v63-pages');
       return (await cache.keys()).every(r => !new URL(r.url).pathname.startsWith('/api/'));
     });
     assert.equal(cachesPermitidos, true);
@@ -163,6 +227,7 @@ async function testar() {
     await arquivo.evaluate(() => {
       Storage.prototype.setItem = () => { throw new DOMException('Sem espaco', 'QuotaExceededError'); };
     });
+    await arquivo.locator('#btnConfiguracoes').click();
     await arquivo.locator('#nomeEmpresa').fill('Empresa apenas na sessao');
     await arquivo.locator('#btnSalvarEmpresa').click();
     assert.match(await arquivo.locator('.toast.error').first().textContent(), /Não foi possível salvar/);
@@ -171,6 +236,10 @@ async function testar() {
     await require('./desktop-navegador.cjs')(browser, pasta);
     await require('./logo-cnpj.cjs')(browser, `http://127.0.0.1:${servidor.address().port}`);
     await require('./bobina85.cjs')(browser, `http://127.0.0.1:${servidor.address().port}`);
+    await require('./disposicoes-papel.cjs')(browser, `http://127.0.0.1:${servidor.address().port}`);
+    await require('./papel-padrao-navegador.cjs')(browser, `http://127.0.0.1:${servidor.address().port}`);
+    await require('./grade-lista-navegador.cjs')(browser, `http://127.0.0.1:${servidor.address().port}`);
+    await require('./topo-tagex-navegador.cjs')(browser, `http://127.0.0.1:${servidor.address().port}`);
     console.log('Navegador: manual, upload, revisão, duplicidade, remetentes, persistência, integração, troca de fonte/filtros durante busca, volumes ausentes, file://, mobile e impressão verificados.');
   } finally {
     if (browser) await browser.close();

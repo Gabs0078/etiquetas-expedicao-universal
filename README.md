@@ -1,6 +1,6 @@
-# Expedição — Etiquetas
+# TagEX — Etiquetas para expedição
 
-Etiquetas de expedição **10 × 5 cm**, com volumes numerados automaticamente, para folha A4 ou bobina térmica. Digite os dados, importe XMLs de NF-e ou conecte o serviço opcional de busca em pastas da empresa.
+Etiquetas de expedição com volumes numerados automaticamente, para folhas de papel ou bobina térmica. O aplicativo oferece formatos A4, A3, A2, A5, Carta e Ofício, disposições maiores por folha, organização Grade/Lista e bobinas de 80 × 35 até 100 × 150 mm. Digite os dados, importe XMLs de NF-e ou conecte o serviço opcional de busca em pastas da empresa.
 
 ## Três formas de trabalhar
 
@@ -12,21 +12,25 @@ Etiquetas de expedição **10 × 5 cm**, com volumes numerados automaticamente, 
 
 O aplicativo mantém HTML, CSS e JavaScript sem framework e sem build. **Manual e upload não precisam de Node.js, dependências ou servidor.** O serviço e seus testes têm dependências próprias, utilizadas apenas quando esses recursos são necessários.
 
+## Versão online
+
+Abra o [TagEX no GitHub Pages](https://gabs0078.github.io/etiquetas-expedicao-universal/). Preenchimento manual, importação de XML, prévia e impressão funcionam no navegador. A busca em pastas usa o aplicativo local; o Pages não executa Node.js nem acessa compartilhamentos da empresa. Cadastros e lotes da versão online são separados dos dados salvos no endereço local.
+
+A publicação na branch main passa pelos testes antes de atualizar o site. Apenas os arquivos estáticos necessários são publicados. Veja [publicação e manutenção do Pages](docs/publicacao-pages.md).
+
 ## Começar pelo modo simples
 
-O [protótipo Windows](desktop/README.md) inicia a integração, permite selecionar
-a pasta por uma janela e abre o navegador com conexão automática. Ainda requer
-Node.js e dependências instaladas; o instalador será uma etapa posterior.
+O [aplicativo Windows](desktop/README.md) inclui assistente para configurar e testar as pastas, sessão local automática e inicialização opcional no login. Veja o [guia do usuário](docs/guia-usuario.md) e a [documentação de instalação e manutenção](docs/arquitetura-integracao.md). O pacote distribuível deve incluir runtime e dependências; esta versão ainda não possui instalador assinado.
 
 1. Baixe o projeto e abra `index.html` em um navegador moderno.
 2. Cadastre a empresa e sua logo para as notas digitadas manualmente.
-3. Preencha o formulário ou clique em **Upload de XML**.
-4. No upload, clique em **Revisar**, confira os campos e marque a confirmação. Clique em **Adicionar nota revisada**.
+3. Preencha o formulário ou clique em **Importar XML**.
+4. No upload, clique em **Revisar**, confira os campos e marque a confirmação. Clique em **Adicionar nota ao lote**.
 5. Escolha A4 ou bobina e imprima. Use escala 100%, sem cabeçalho/rodapé e sem margens do navegador.
 
 No topo da pré-visualização, **Exibir data na etiqueta** e **Exibir descrição dos itens** controlam esses campos em todas as etiquetas do lote. A data começa desativada e a descrição ativada; a escolha fica salva neste navegador. Desmarcar não apaga os dados da nota. A data registrada pode continuar sendo revisada no formulário mesmo quando não aparece na impressão.
 
-A descrição ocupa a largura inteira abaixo do endereço e da identificação da NF/volume. O app ajusta o texto entre 8 e 9 px e verifica o espaço disponível. Se uma descrição ou endereço ainda exceder a etiqueta, a interface avisa e o botão de impressão solicita revisão; é possível ocultar a descrição ou resumir os dados antes de adicionar a nota. O resumo de produtos do XML continua limitado a 180 caracteres, com aviso na revisão.
+A descrição ocupa a largura inteira abaixo do endereço e da identificação da NF/volume. O app adapta o texto ao tamanho da etiqueta e verifica o espaço disponível. Se uma descrição ou endereço ainda exceder a etiqueta, a interface avisa e o botão de impressão solicita revisão; é possível ocultar a descrição ou resumir os dados antes de adicionar a nota. O resumo de produtos do XML continua limitado a 180 caracteres, com aviso na revisão.
 
 A escolha da impressora pertence ao diálogo do navegador. Se o navegador integrado não permitir trocar o destino, abra o aplicativo no Chrome ou Edge local para imprimir. Os dados salvos pertencem a cada navegador: importe as notas nesse navegador antes de imprimir. Em bobina, selecione também o papel 100 × 50 mm no driver.
 
@@ -51,7 +55,7 @@ Limites: 2 MB por XML, 100 arquivos por seleção, 100 notas em revisão, 100 no
 
 O navegador usa arquivos selecionados pelo usuário; ele não pode procurar livremente em `C:\\` ou em um servidor de rede. Para leitura automática, o serviço opcional acessa **somente as pastas configuradas** e entrega os dados ao aplicativo local.
 
-1. Instale Node.js 22 ou superior na máquina que consegue acessar os XMLs.
+1. Instale Node.js 24 ou superior na máquina que consegue acessar os XMLs.
 2. Na pasta do projeto, instale as dependências:
 
    ```sh
@@ -87,7 +91,7 @@ A conta que executa o serviço precisa ter permissão de leitura no compartilham
 
 O serviço escuta apenas em `127.0.0.1`; ele pode ler arquivos de um servidor remoto acessível, mas não fica exposto à rede. Para vários postos, instale o serviço em cada posto com acesso ao compartilhamento. Acesso central por navegador em outras máquinas exige uma implantação futura com HTTPS, autenticação de usuários e autorização por empresa; alterar apenas o endereço de escuta não implementa essa solução.
 
-A busca verifica novamente as pastas, reutilizando a listagem por até 10 segundos. A nota é relida ao ser trazida para revisão. Cada pasta configurada tem seu próprio limite de 10.000 entradas e 20 níveis de subpastas; atingir esse limite não impede a leitura das pastas seguintes. A resposta mostra até 100 notas e 50 erros. Se atingir o limite de leitura de uma pasta, reduza ou separe seu histórico; filtros de busca não ampliam esse limite. Pastas indisponíveis e arquivos inválidos são apresentados como avisos.
+No aplicativo desktop, a pesquisa usa um índice SQLite local persistente, atualizado ao abrir e a cada 60 segundos com arquivos novos/alterados. A interface mostra progresso e permite pesquisar no índice salvo durante a atualização. O serviço genérico sem o iniciador desktop mantém a listagem direta reutilizada por até 10 segundos. A nota é relida ao ser trazida para revisão. Cada pasta configurada tem seu próprio limite de 10.000 entradas e 20 níveis de subpastas; atingir esse limite não impede a leitura das pastas seguintes. A resposta mostra até 100 notas e 50 erros. Se atingir o limite de leitura de uma pasta, reduza ou separe seu histórico; filtros de busca não ampliam esse limite. Pastas indisponíveis e arquivos inválidos são apresentados como avisos.
 
 Variáveis opcionais: `PORT` muda a porta; `ETIQUETAS_CONFIG` indica outro arquivo de configuração; `ETIQUETAS_TOKEN` define um código com pelo menos 32 caracteres. Sem código fixo, cada reinício gera um novo. O código fica apenas na memória da página, sem persistência no navegador.
 
@@ -101,7 +105,7 @@ Nesta entrega, **upload e pastas estão implementados**. API de ERP, SFTP, banco
 
 Empresas e notas adicionadas ficam no `localStorage` deste navegador/dispositivo. A fila de revisão e os resultados de busca são temporários. Os XMLs brutos não são persistidos. Se o armazenamento falhar, o app avisa que as notas permanecerão apenas na sessão.
 
-Upload e digitação processam dados no navegador. Na integração, o serviço local lê os arquivos e envia os campos normalizados à página local. Não há envio para serviços externos. Em HTTP local ou HTTPS, o PWA guarda somente arquivos estáticos para uso offline; APIs, XMLs e códigos de acesso ficam fora do cache. Busca em servidor precisa estar online com o serviço disponível.
+Upload e digitação processam dados no navegador. Na integração, o serviço local lê os arquivos e envia os campos normalizados à página local. Os dados fiscais não são enviados ao GitHub ou a um servidor externo; o avatar do criador é carregado do GitHub. Em HTTP local ou HTTPS, o PWA guarda somente arquivos estáticos para uso offline; APIs, XMLs e códigos de acesso ficam fora do cache. O serviço local precisa estar disponível para pesquisar; o desktop pode consultar o índice salvo mesmo com pastas temporariamente indisponíveis, com aviso. Importar para conferência exige conseguir reler o XML original.
 
 Não inclua XMLs reais, logos de clientes, configurações empresariais ou credenciais no repositório. Os testes usam somente dados fictícios.
 
@@ -133,8 +137,12 @@ sw.js                         Cache estático do PWA
 
 ## Status e créditos
 
-Versão **0.2.0**: base funcional com testes automatizados, preparada para homologação com XMLs e impressoras de cada empresa. Não representa certificação fiscal ou homologação universal dos ERPs. Veja o [roadmap](ROADMAP.md).
+Versão **0.3.0**: base funcional com testes automatizados, preparada para homologação com XMLs e impressoras de cada empresa. Não representa certificação fiscal ou homologação universal dos ERPs. Veja o [roadmap](ROADMAP.md).
 
 Desenvolvido por [Gabriel Godoy](https://github.com/Gabs0078), a partir da rotina de expedição. Colaboração no front-end: [Renan Ropelato](https://github.com/rRopelato).
 
 Licença MIT — [LICENSE](LICENSE).
+
+## Validação do assistente
+
+Veja o [registro do piloto e pendências de homologação](docs/validacao-assistente.md).

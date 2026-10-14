@@ -19,6 +19,34 @@
       texto(no, 'CEP') ? `CEP: ${texto(no, 'CEP').replace(/^(\d{5})(\d{3})$/, '$1-$2')}` : ''
     ].filter(Boolean).join('\n');
   }
+  function entregaComplementar(informacoes) {
+    const marcadores = [...informacoes.matchAll(/(?:^|[;\r\n])\s*(?:ENDERE[ÇC]O\s+DE\s+ENTREGA|LOCAL\s+DE\s+ENTREGA|ENTREGA)\b\s*[:=-]?\s*/gi)];
+    if (!marcadores.length) return { encontrado: false };
+    if (marcadores.length !== 1) return { encontrado: true };
+    const inicio = marcadores[0].index + marcadores[0][0].length;
+    const blocos = informacoes.slice(inicio).split(/[;\r\n]+/).map(v => v.trim()).filter(Boolean);
+    const partes = [];
+    for (const [indice, bloco] of blocos.slice(0, 4).entries()) {
+      if (/^(?:VENDEDOR|PEDIDO|NOTA\s+FISCAL|OBSERVA[ÇC][ÕO]ES|CONTATO|TELEFONE|FONE)\s*[:=-]/i.test(bloco)) break;
+      partes.push(bloco);
+      if (/\b[A-ZÀ-Ÿ][A-ZÀ-Ÿ\s.'-]*\s*\/\s*(?:AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)(?:\s*[-,]?\s*CEP\s*:?\s*\d{5}-?\d{3})?\s*$/i.test(bloco)) {
+        // CEP opcional: apenas o explicitamente escrito neste trecho de entrega.
+        const proximo = blocos[indice + 1] || '';
+        if (/^CEP\s*:?\s*\d{5}-?\d{3}\s*$/i.test(proximo)) partes.push(proximo);
+        const valor = partes.join('\n').replace(/CEP\s*:?\s*(\d{5})-?(\d{3})/gi, 'CEP: $1-$2');
+        if (/^(?:R(?:UA|ODOVIA)?\.?|AV(?:ENIDA)?\.?|TRAVESSA|TV\.?|ESTRADA|ALAMEDA|AL\.?|ROD\.?|PRA[ÇC]A)\s+/i.test(partes[0]) && valor.length <= 400) return { encontrado: true, endereco: valor };
+        break;
+      }
+    }
+    // Preservar endereço explícito sem UF, sem completar pelo cadastro fiscal.
+    const primeiro = blocos[0] || '';
+    if (/^(?:R(?:UA|ODOVIA)?\.?|AV(?:ENIDA)?\.?|TRAVESSA|TV\.?|ESTRADA|ALAMEDA|AL\.?|ROD\.?|PRA[ÇC]A)\s+/i.test(primeiro) &&
+        /,\s*(?:\d+\w*|S\s*\/?\s*N)\b/i.test(primeiro) && /[-–]\s*[A-ZÀ-Ÿ][A-ZÀ-Ÿ\s.'-]*$/i.test(primeiro) && primeiro.length <= 400) {
+      const cep = /^CEP\s*:?\s*\d{5}-?\d{3}\s*$/i.test(blocos[1] || '') ? '\n' + blocos[1] : '';
+      return { encontrado: true, endereco: (primeiro + cep).replace(/CEP\s*:?\s*(\d{5})-?(\d{3})/gi, 'CEP: $1-$2') };
+    }
+    return { encontrado: true };
+  }
   function lerXML(xml, Parser = globalThis.DOMParser) {
     if (typeof xml !== 'string' || new TextEncoder().encode(xml).length > LIMITE_XML) throw new Error('XML excede o limite de 2 MB.');
     if (/<!\s*(DOCTYPE|ENTITY)\b/i.test(xml)) throw new Error('XML com DTD ou entidades externas não é permitido.');
@@ -58,9 +86,24 @@
     const dest = filho(inf, 'dest');
     const entrega = filho(inf, 'entrega');
     const end = entrega || filho(dest, 'enderDest');
-    if (entrega) avisos.push('Usado o local de entrega informado na NF-e. Confira o endereço.');
-    const destinatario = [texto(entrega, 'xNome') || texto(dest, 'xNome'), endereco(end)].filter(Boolean).join('\n');
-    if (!texto(end, 'xLgr') || !texto(end, 'xMun') || !texto(end, 'UF')) avisos.push('Endereço incompleto: preencha antes de adicionar.');
+    const informacoesComplementares = texto(filho(inf, 'infAdic'), 'infCpl');
+    const complementar = entregaComplementar(informacoesComplementares);
+    const enderecoFiscal = endereco(filho(dest, 'enderDest'));
+    let origemEndereco = entrega ? 'entrega' : 'destinatario';
+    let enderecoEscolhido = endereco(end);
+    if (entrega) {
+      avisos.push('Usado o local de entrega informado no campo próprio da NF-e. Confira o endereço.');
+      if (complementar.encontrado) avisos.push('Também há uma indicação de ENTREGA nas informações complementares. Confira se corresponde ao campo próprio: ' + informacoesComplementares.slice(0, 700));
+    } else if (complementar.endereco) {
+      enderecoEscolhido = complementar.endereco;
+      origemEndereco = 'informacoes-complementares';
+      avisos.push('Endereço de ENTREGA identificado nas informações complementares e usado na etiqueta. Confira antes de imprimir: ' + complementar.endereco);
+      avisos.push('Endereço cadastrado do destinatário, para comparação: ' + enderecoFiscal);
+    } else if (complementar.encontrado) {
+      avisos.push('Há uma indicação de ENTREGA nas informações complementares, mas o endereço não foi identificado com segurança. Corrija o endereço abaixo antes de confirmar: ' + informacoesComplementares.slice(0, 700));
+    }
+    const destinatario = [texto(entrega, 'xNome') || texto(dest, 'xNome'), enderecoEscolhido].filter(Boolean).join('\n');
+    if (origemEndereco !== 'informacoes-complementares' && (!texto(end, 'xLgr') || !texto(end, 'xMun') || !texto(end, 'UF'))) avisos.push('Endereço incompleto: preencha antes de adicionar.');
     if (destinatario.length > 240) avisos.push('Endereço longo: confira o espaço disponível na etiqueta.');
     const grupos = filhos(filho(inf, 'transp'), 'vol');
     const quantidades = grupos.map(vol => Number(texto(vol, 'qVol') || NaN));
@@ -74,7 +117,7 @@
     if (descricaoCompleta.length > 180) avisos.push('Descrição resumida a 180 caracteres. Revise os itens.');
     const data = (texto(ide, 'dhEmi') || texto(ide, 'dEmi')).slice(0, 10);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(data) || Number.isNaN(Date.parse(`${data}T00:00:00Z`)) || new Date(`${data}T00:00:00Z`).toISOString().slice(0, 10) !== data) throw new Error('Data de emissão inválida.');
-    return { chave, nf, serie, data, destinatario, volumes, descricao: descricaoCompleta.slice(0, 180), emitente, avisos, autorizada: Boolean(protocolo) };
+    return { chave, nf, serie, data, destinatario, destinatarioCadastrado: [texto(dest, 'xNome'), enderecoFiscal].filter(Boolean).join('\n'), origemEndereco, enderecoFiscal, volumes, descricao: descricaoCompleta.slice(0, 180), emitente, avisos, autorizada: Boolean(protocolo) };
   }
   return { lerXML, LIMITE_XML, digitos };
 });
