@@ -3,8 +3,8 @@
    Ao alterar qualquer arquivo da lista, incremente CACHE_VERSION
    para que os usuários recebam a versão nova. */
 
-const CACHE_VERSION = 'etiquetas-v64-compartilhamento';
-const ASSET_VERSION = '64';
+const CACHE_VERSION = 'etiquetas-v65-edicao';
+const ASSET_VERSION = '65';
 
 const ARQUIVOS = [
   './',

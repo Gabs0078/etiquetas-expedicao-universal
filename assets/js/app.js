@@ -62,6 +62,7 @@ const state = {
   empresaEditandoId: null,
   logoEditando: '',
   notaImportada: null,
+  notaEditando: null,
   opcoesImpressao: { exibirData: false, exibirDescricao: true, exibirEnderecoRemetente: true },
 };
 
@@ -73,6 +74,7 @@ const icons = {
 
   plus: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
   printer: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M7 8V3h10v5"/><path d="M6 17H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><path d="M7 14h10v7H7z"/><path d="M17 12h.01"/></svg>',
+  pencil: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5 4 4M4 20l5-1L20 8a2.8 2.8 0 0 0-4-4L5 15Z"/></svg>',
   trash: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 15h10l1-15"/><path d="M10 11v6M14 11v6"/></svg>',
   building: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M8 9h.01M12 9h.01M16 9h.01M8 13h.01M12 13h.01M16 13h.01"/></svg>',
   save: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5 3h12l2 2v16H5z"/><path d="M8 3v6h8V3"/><path d="M8 21v-7h8v7"/></svg>'
@@ -268,6 +270,39 @@ function logoHTML(empresa, classe = 'label') {
   `;
 }
 
+function camposEdicaoAlterados() {
+  const nota = state.notaEditando;
+  return Boolean(nota && ['data', 'nf', 'destinatario', 'volumes', 'descricao'].some(id => String(els[id].value) !== String(nota[id] ?? '')));
+}
+
+function encerrarEdicao() {
+  state.notaEditando = null;
+  $('edicaoNota').hidden = true;
+  els.nf.readOnly = false;
+  els.nf.removeAttribute('title');
+  els.nf.removeAttribute('aria-describedby');
+}
+
+function editarNota(index) {
+  const nota = state.notas[index];
+  if (!nota) return;
+  if (state.notaEditando === nota) { els.destinatario.focus(); return; }
+  if ((state.notaEditando ? camposEdicaoAlterados() : els.nf.value || els.destinatario.value) && !confirm('Substituir os campos atuais para editar esta nota? Alterações não salvas serão descartadas.')) return;
+  encerrarEdicao();
+  finalizarRevisao();
+  state.notaEditando = nota;
+  for (const id of ['data', 'nf', 'destinatario', 'volumes', 'descricao']) els[id].value = nota[id] ?? '';
+  $('edicaoNota').hidden = false;
+  $('tituloEdicaoNota').textContent = 'Editando NF ' + nota.nf;
+  els.nf.readOnly = Boolean(nota.chave);
+  if (nota.chave) els.nf.title = 'Número vinculado ao XML original.';
+  els.btnAdicionar.innerHTML = '<span data-icon="save"></span>Salvar alterações';
+  atualizarAvisosCampos();
+  renderizar();
+  $('etapaConferencia').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  els.destinatario.focus({ preventScroll: true });
+}
+
 function adicionarNota() {
   const data = els.data.value;
   const nf = els.nf.value.trim();
@@ -279,12 +314,24 @@ function adicionarNota() {
   if (!data || !nf || !destinatario || !Number.isInteger(volumes) || volumes < 1 || volumes > 999) {
     const primeiro = ['data', 'nf', 'destinatario', 'volumes'].find(id => $(id).getAttribute('aria-invalid') === 'true');
     if (primeiro) $(primeiro).focus();
-    showToast('Confira o campo indicado antes de adicionar.', 'error');
+    showToast('Confira o campo indicado antes de ' + (state.notaEditando ? 'salvar.' : 'adicionar.'), 'error');
     return;
   }
 
-  if (state.notas.length >= 100 || state.notas.reduce((total, n) => total + n.volumes, 0) + volumes > 3000) {
+  const editando = state.notaEditando;
+  const indiceEdicao = editando ? state.notas.indexOf(editando) : -1;
+  if (editando && indiceEdicao < 0) { limparCamposNota(true); renderizar(); showToast('A nota foi removida do lote.', 'error'); return; }
+  const outrasNotas = state.notas.filter(n => n !== editando);
+  if (outrasNotas.length >= 100 || outrasNotas.reduce((total, n) => total + n.volumes, 0) + volumes > 3000) {
     showToast('Limite do lote: 100 notas ou 3.000 etiquetas. Imprima e inicie outro lote.', 'error'); return;
+  }
+  if (editando) {
+    if (editando.chave && nf !== editando.nf) { showToast('O número deve corresponder ao XML original.', 'error'); return; }
+    state.notas[indiceEdicao] = { ...editando, data, nf, destinatario, volumes, descricao };
+    limparCamposNota(false);
+    renderizar();
+    showToast('Nota atualizada no lote.', 'success');
+    return;
   }
   const importada = state.notaImportada;
   if (importada && !$('confirmarRevisao').checked) { $('confirmarRevisao').focus(); showToast('Marque “Conferi os dados do XML” para adicionar.', 'error'); return; }
@@ -298,6 +345,7 @@ function adicionarNota() {
 }
 
 function limparCamposNota(limparData) {
+  encerrarEdicao();
   finalizarRevisao(state.notaImportada?.chave && !limparData ? state.notaImportada.chave : null);
   if (limparData) els.data.value = dataHojeInput();
   els.nf.value = '';
@@ -309,6 +357,7 @@ function limparCamposNota(limparData) {
 }
 
 function removerNota(index) {
+  if (state.notas[index] === state.notaEditando) limparCamposNota(true);
   state.notas.splice(index, 1);
   renderizar();
 }
@@ -384,7 +433,8 @@ function modoImpressaoAtual() {
 function renderNotas() {
 
   const etiquetas = gerarEtiquetas();
-  els.btnImprimir.disabled = etiquetas.length === 0;
+  els.btnImprimir.disabled = etiquetas.length === 0 || Boolean(state.notaEditando);
+  els.btnImprimir.title = state.notaEditando ? 'Salve ou cancele a edição antes de imprimir.' : '';
   const folhas = formatoAtual().tipo === 'papel' ? quebrarEmFolhas(etiquetas) : [];
   const modo = modoImpressaoAtual();
   els.preview.classList.toggle('bobina-compacta', ['bobina80', 'bobina80legivel', 'bobina85'].includes(modo));
@@ -397,13 +447,16 @@ function renderNotas() {
     : `Total de etiquetas: ${etiquetas.length}<br>Páginas na bobina: ${etiquetas.length}`;
 
   els.listaNotas.innerHTML = state.notas.map((nota, i) => `
-    <div class="note-card">
+    <div class="note-card${state.notaEditando === nota ? ' is-editing' : ''}">
       <div>
         <strong>NF: ${escaparHTML(nota.nf)}</strong><span class="badge">${nota.volumes} etiquetas</span>
         <p><b>Data:</b> ${escaparHTML(formatarDataInput(nota.data))} &nbsp;|&nbsp; <b>Volumes:</b> ${nota.volumes}</p>
         <p class="note-company"><b>Empresa:</b> ${escaparHTML(nota.empresa?.nome || empresaAtiva().nome)}</p>
       </div>
-      <button class="btn-danger btn-icon" type="button" data-remover-nota="${i}" title="Remover nota">${icons.trash}</button>
+      <div class="note-actions">
+        <button class="btn-gray btn-icon" type="button" data-editar-nota="${i}" title="Editar nota" aria-label="Editar nota NF ${escaparHTML(nota.nf)}" aria-pressed="${state.notaEditando === nota}">${icons.pencil}</button>
+        <button class="btn-danger btn-icon" type="button" data-remover-nota="${i}" title="Remover nota" aria-label="Remover nota NF ${escaparHTML(nota.nf)}">${icons.trash}</button>
+      </div>
     </div>
   `).join('');
 
@@ -415,6 +468,9 @@ function renderNotas() {
     els.preview.innerHTML = `<section class="roll-preview">${etiquetas.map(e => `<div class="bobina-page">${criarEtiqueta(e)}</div>`).join('')}</section>`;
   }
 
+  document.querySelectorAll('[data-editar-nota]').forEach(btn => {
+    btn.addEventListener('click', () => editarNota(Number(btn.dataset.editarNota)));
+  });
   document.querySelectorAll('[data-remover-nota]').forEach(btn => {
     btn.addEventListener('click', () => removerNota(Number(btn.dataset.removerNota)));
   });
@@ -757,6 +813,7 @@ document.addEventListener('DOMContentLoaded', () => {
   configurarUploadLogo();
 
   els.btnAdicionar.addEventListener('click', adicionarNota);
+  $('btnCancelarEdicao').addEventListener('click', () => { limparCamposNota(true); renderizar(); });
   els.btnImprimir.addEventListener('click', () => {
     if (!ajustarTextosEtiquetas()) { showToast('Revise os textos indicados antes de imprimir: eles excedem o tamanho selecionado.', 'error', 6000); return; }
     atualizarRegraPagina();

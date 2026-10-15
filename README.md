@@ -34,6 +34,8 @@ A descrição ocupa a largura inteira abaixo do endereço e da identificação d
 
 A escolha da impressora pertence ao diálogo do navegador. Se o navegador integrado não permitir trocar o destino, abra o aplicativo no Chrome ou Edge local para imprimir. Os dados salvos pertencem a cada navegador: importe as notas nesse navegador antes de imprimir. Em bobina, selecione também o papel 100 × 50 mm no driver.
 
+Para editar uma nota do lote, use o lápis ao lado da lixeira. Altere os campos na etapa 2 e clique em **Salvar alterações**; **Cancelar edição** mantém a nota como estava. O total de etiquetas e a prévia são atualizados ao salvar. Em notas importadas, o número permanece vinculado ao XML original. Para reler um XML atualizado, remova a nota e importe novamente.
+
 Cada nota adicionada mantém uma cópia do remetente. Trocar a empresa selecionada afeta as próximas notas manuais. XMLs usam o emitente da NF-e; uma logo cadastrada é aproveitada somente se o CNPJ corresponder. O cadastro de empresas não é alterado pela importação.
 
 ## O que o XML preenche

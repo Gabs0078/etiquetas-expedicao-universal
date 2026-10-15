@@ -1102,3 +1102,12 @@ button:focus-visible, summary:focus-visible { outline: 3px solid var(--primary);
 
 .field-warning-icon { display:block; width:16px; height:16px; flex:none; overflow:visible; }
 .field-warning-button:focus-visible { outline:1px solid var(--primary); outline-offset:2px; border-radius:4px; box-shadow:none; }
+
+/* Ações do lote e edição no formulário de conferência. */
+.note-actions { display:flex; align-items:flex-start; gap:6px; }
+.note-actions .btn-icon { flex:none; }
+.batch-overview #listaNotas .note-card.is-editing { box-shadow:inset 3px 0 var(--primary); padding-left:10px; }
+.note-edit-status { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:0 0 14px; padding:10px; border:1px solid var(--primary); border-radius:8px; font-size:13px; }
+.note-edit-status[hidden] { display:none; }
+.note-edit-status span { font-weight:600; overflow-wrap:anywhere; min-width:0; }
+#nf[readonly] { color:var(--text-secondary); }

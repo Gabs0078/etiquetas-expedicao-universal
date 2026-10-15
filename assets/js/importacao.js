@@ -122,6 +122,8 @@ function renderFilaImportacao() {
 }
 function revisarImportada(nota) {
   if ((els.nf.value || els.destinatario.value) && !confirm('Substituir os campos atuais pelos dados desta nota para revisão?')) return;
+  const estavaEditando = Boolean(state.notaEditando);
+  encerrarEdicao();
   state.notaImportada = nota;
   els.data.value = nota.data;
   els.nf.value = nota.nf;
@@ -137,6 +139,7 @@ function revisarImportada(nota) {
   $('confirmacaoXML').hidden = false;
   atualizarAvisosCampos();
   els.btnAdicionar.textContent = 'Adicionar nota ao lote';
+  if (estavaEditando) { renderNotas(); atualizarEscalaPrevia(); }
   $('revisaoXML').scrollIntoView({ behavior: 'smooth', block: 'center' });
   const primeiro = ['data', 'nf', 'destinatario', 'volumes'].find(id => $(id).getAttribute('aria-invalid') === 'true');
   $(primeiro || 'destinatario').focus();
@@ -323,7 +326,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   selecionarEntrada('manual');
   $('btnUploadXML').addEventListener('click', () => { selecionarEntrada('xml'); $('xmlArquivos').click(); });
-  $('btnManual').addEventListener('click', () => { selecionarEntrada('manual'); limparCamposNota(true); });
+  $('btnManual').addEventListener('click', () => {
+    if (camposEdicaoAlterados() && !confirm('Descartar as alterações desta nota e preencher outra?')) return;
+    const estavaEditando = Boolean(state.notaEditando);
+    selecionarEntrada('manual'); limparCamposNota(true);
+    if (estavaEditando) renderizar();
+  });
   $('btnAssistenteIntegracao').addEventListener('click', async () => {
     try {
       const resposta = await fetch('/api/assistente', { method: 'POST', credentials: 'same-origin', headers: importacao.token ? { Authorization: 'Bearer ' + importacao.token } : {}, signal: AbortSignal.timeout(5000) });

@@ -31,6 +31,7 @@ module.exports=async function(browser){
   assert.equal(await fs.readdir(stage).then(a=>a.includes('integracao')),false);
   await p.locator('#nf').fill('PUBLICO');await p.locator('#destinatario').fill('Cliente Exemplo\nRua Teste, 1');await p.locator('#volumes').fill('2');await p.locator('#btnAdicionar').click();assert.equal(await p.locator('#preview .label').count(),2);
   await p.locator('#xmlArquivos').setInputFiles({name:'ficticia.xml',mimeType:'text/xml',buffer:Buffer.from(xmlNota())});await p.locator('[data-revisar]').click();await p.locator('#confirmarRevisao').check();await p.locator('#btnAdicionar').click();assert.equal(await p.locator('#countNotas').textContent(),'2');
+  await p.locator('[data-editar-nota="0"]').click();await p.locator('#volumes').fill('3');await p.locator('#btnAdicionar').click();assert.equal(await p.locator('#countNotas').textContent(),'2');assert.equal(await p.locator('#preview .label').count(),8);
   await p.evaluate(()=>navigator.serviceWorker.ready);
   await p.reload();assert.equal(await p.locator('#countNotas').textContent(),'2');
   await c.setOffline(true);await p.reload();assert.equal(await p.locator('#countNotas').textContent(),'2');await c.setOffline(false);

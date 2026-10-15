@@ -39,7 +39,7 @@ Atualização de 09/10/2026: também é reconhecida a entrega escrita como logra
 ## Orientação na revisão e na impressão
 A revisão mostra avisos junto aos campos que precisam de atenção. Confira o endereço e os volumes antes de adicionar a nota.
 
-Antes do botão verde Imprimir, o resumo mostra quantidade de etiquetas, formato selecionado e campos opcionais ocultados. O botão fica desativado quando o lote está vazio. A opção Como atualizar uma nota do lote explica como remover e importar novamente; uma nova busca ou versão do aplicativo não modifica notas já adicionadas.
+O resumo do lote mostra o total de etiquetas e de folhas. Para corrigir uma nota, clique no lápis ao lado da lixeira, altere os campos na etapa 2 e escolha Salvar alterações. Cancelar edição descarta os ajustes sem alterar a nota. O remetente é preservado; em notas importadas, o número permanece vinculado ao XML original. Para carregar um XML atualizado, remova a nota e importe novamente. O botão verde Imprimir fica desativado quando o lote está vazio ou existe uma edição em andamento.
 
 A integração diferencia conexão com o serviço local de acesso às pastas. Ao conectar, uma busca ainda é necessária para verificar as pastas. Resultados com falha de acesso exibem essa condição, e a última busca concluída aparece separadamente. Quando desconectada, é possível continuar preenchendo manualmente ou importando XML.
 ## Escolher o endereço de entrega

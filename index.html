@@ -24,15 +24,15 @@
   <meta name="twitter:image" content="https://gabs0078.github.io/etiquetas-expedicao-universal/assets/brand/tagex-compartilhamento-v1.png">
   <meta name="twitter:image:alt" content="TagEX — Etiquetas para expedição. Preencher, conferir e imprimir.">
   <link rel="canonical" href="https://gabs0078.github.io/etiquetas-expedicao-universal/">
-  <link rel="icon" type="image/svg+xml" href="assets/icons/app-icon.svg?v=64">
-  <link rel="apple-touch-icon" href="assets/icons/app-icon-192.png?v=64">
-  <link rel="manifest" href="manifest.webmanifest?v=64">
-  <script src="assets/js/app.js?v=64"></script>
-  <link rel="stylesheet" href="assets/css/styles.css?v=64">
-  <script defer src="assets/js/nfe.js?v=64"></script>
-  <script defer src="assets/js/fontes.js?v=64"></script>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/app-icon.svg?v=65">
+  <link rel="apple-touch-icon" href="assets/icons/app-icon-192.png?v=65">
+  <link rel="manifest" href="manifest.webmanifest?v=65">
+  <script src="assets/js/app.js?v=65"></script>
+  <link rel="stylesheet" href="assets/css/styles.css?v=65">
+  <script defer src="assets/js/nfe.js?v=65"></script>
+  <script defer src="assets/js/fontes.js?v=65"></script>
 
-  <script defer src="assets/js/importacao.js?v=64"></script>
+  <script defer src="assets/js/importacao.js?v=65"></script>
 </head>
 <body>
 <div class="brand-shell">
@@ -85,6 +85,7 @@
         </details>
       </section>
       <section id="etapaConferencia" class="conference-section" aria-label="Conferência da nota"><div class="step-heading"><span class="step-number">Etapa 2</span><div><h2>Conferir e adicionar ao lote</h2><p>Revise os dados abaixo. Depois, adicione a nota ao lote que será impresso.</p></div></div>
+      <div id="edicaoNota" class="note-edit-status" hidden><span id="tituloEdicaoNota" role="status"></span><button id="btnCancelarEdicao" class="review-manual" type="button">Cancelar edição</button></div>
       <section id="revisaoXML" class="xml-source" hidden><span id="origemRevisao"></span><button id="btnCancelarRevisao" class="review-manual" type="button">Voltar ao manual</button></section>
       <div class="field">
         <label for="data">Data:</label>
@@ -120,7 +121,7 @@
       <div class="summary" id="summary">Total de etiquetas: 0<br>Folhas necessárias (A4): 0</div></div>
       <p class="hint layout-warning" id="avisoLayout" role="status" hidden></p>
 
-      <details class="batch-help"><summary>Como atualizar uma nota do lote?</summary><p>O lote guarda os dados conferidos quando a nota foi adicionada. Uma nova busca ou atualização do aplicativo não altera essas etiquetas. Para atualizar, remova a nota do lote, busque ou importe novamente, confira e adicione outra vez.</p></details>
+      <details class="batch-help"><summary>Como atualizar uma nota do lote?</summary><p>Clique no lápis ao lado da nota, ajuste os campos e selecione “Salvar alterações”. Para sair sem mudar o lote, use “Cancelar edição”. Para carregar uma versão mais recente do XML, remova a nota e importe novamente.</p></details>
       <div class="actions">
         <button class="btn-success" id="btnImprimir" type="button"><span data-icon="printer"></span>Imprimir Etiquetas</button>
         <button class="btn-gray" id="btnLimpar" type="button"><span data-icon="trash"></span>Limpar lote</button>
