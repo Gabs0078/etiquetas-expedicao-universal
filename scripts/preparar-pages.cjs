@@ -2,7 +2,7 @@
 const fs=require('node:fs/promises');
 const path=require('node:path');
 const arquivos=[
- 'index.html','sw.js','manifest.webmanifest',
+ 'index.html','sw.js','manifest.webmanifest','assets/brand/tagex-compartilhamento-v1.png',
  'assets/css/styles.css','assets/js/app.js','assets/js/nfe.js','assets/js/fontes.js','assets/js/importacao.js',
  'assets/icons/app-icon.svg','assets/icons/app-icon-192.png','assets/icons/app-icon-512.png',
  'assets/icons/github-invertocat-black.svg','assets/icons/github-invertocat-white.svg'

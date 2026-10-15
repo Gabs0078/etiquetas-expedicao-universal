@@ -7,7 +7,7 @@ const { randomBytes, timingSafeEqual } = require('node:crypto');
 const { criarFontePastas } = require('./fontes/pastas.cjs');
 const FABRICAS = { pastas: criarFontePastas };
 const RAIZ_APP = path.resolve(__dirname, '..');
-const ESTATICOS = ['index.html', 'sw.js', 'manifest.webmanifest', 'assets/css/styles.css', 'assets/js/app.js', 'assets/js/nfe.js', 'assets/js/importacao.js', 'assets/js/fontes.js', 'assets/icons/github-invertocat-black.svg', 'assets/icons/github-invertocat-white.svg', 'assets/icons/app-icon.svg', 'assets/icons/app-icon-192.png', 'assets/icons/app-icon-512.png'];
+const ESTATICOS = ['assets/brand/tagex-compartilhamento-v1.png', 'index.html', 'sw.js', 'manifest.webmanifest', 'assets/css/styles.css', 'assets/js/app.js', 'assets/js/nfe.js', 'assets/js/importacao.js', 'assets/js/fontes.js', 'assets/icons/github-invertocat-black.svg', 'assets/icons/github-invertocat-white.svg', 'assets/icons/app-icon.svg', 'assets/icons/app-icon-192.png', 'assets/icons/app-icon-512.png'];
 const TIPOS = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.webmanifest': 'application/manifest+json', '.svg': 'image/svg+xml', '.png': 'image/png' };
 function correspondeBusca(nota, busca) {
   if (!busca) return true;

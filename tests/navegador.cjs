@@ -165,7 +165,7 @@ async function testar() {
     await arquivo.locator('[data-revisar]').click();
     assert.equal(await arquivo.locator('#nf').inputValue(), '123');
     const cachesPermitidos = await pagina.evaluate(async () => {
-      const cache = await caches.open('etiquetas-v63-pages');
+      const cache = await caches.open('etiquetas-v64-compartilhamento');
       return (await cache.keys()).every(r => !new URL(r.url).pathname.startsWith('/api/'));
     });
     assert.equal(cachesPermitidos, true);

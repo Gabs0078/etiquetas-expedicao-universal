@@ -13,7 +13,21 @@ module.exports=async function(browser){
  const c=await browser.newContext(),p=await c.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
  try{
   const base='http://127.0.0.1:'+server.address().port+'/etiquetas-expedicao-universal/';
+
+  const crawlerContext=await browser.newContext({javaScriptEnabled:false});
+  try{
+   const crawler=await crawlerContext.newPage();await crawler.goto(base);
+   assert.equal(await crawler.locator('meta[property="og:title"]').getAttribute('content'),'TagEX — Etiquetas para expedição');
+   assert.match(await crawler.locator('meta[property="og:description"]').getAttribute('content'),/Importe XML/);
+   const imageURL=new URL(await crawler.locator('meta[property="og:image"]').getAttribute('content'));
+   assert.equal(imageURL.origin,'https://gabs0078.github.io');
+   const image=await crawlerContext.request.get(new URL(imageURL.pathname,base).href);assert.equal(image.status(),200);assert(image.headers()['content-type'].includes('image/png'));
+   const png=await image.body();assert.equal(png.readUInt32BE(16),1200);assert.equal(png.readUInt32BE(20),630);
+   assert.equal(await crawler.locator('meta[property="og:image:width"]').getAttribute('content'),'1200');
+   assert.equal(await crawler.locator('meta[property="og:image:height"]').getAttribute('content'),'630');
+  }finally{await crawlerContext.close()}
   await p.goto(base);assert.match(await p.title(),/TagEX/);
+
   assert.equal(await fs.readdir(stage).then(a=>a.includes('integracao')),false);
   await p.locator('#nf').fill('PUBLICO');await p.locator('#destinatario').fill('Cliente Exemplo\nRua Teste, 1');await p.locator('#volumes').fill('2');await p.locator('#btnAdicionar').click();assert.equal(await p.locator('#preview .label').count(),2);
   await p.locator('#xmlArquivos').setInputFiles({name:'ficticia.xml',mimeType:'text/xml',buffer:Buffer.from(xmlNota())});await p.locator('[data-revisar]').click();await p.locator('#confirmarRevisao').check();await p.locator('#btnAdicionar').click();assert.equal(await p.locator('#countNotas').textContent(),'2');

@@ -17,3 +17,8 @@ O Pages funciona em uma subpasta; links de assets e registro do service worker s
 
 ## Versão Windows
 desktop/empacotar.ps1 gera o pacote com runtime Node.js 24 e dependência XML. O runtime e os dados privados são ignorados pelo Git. O ZIP deve ser distribuído separado do site; o clone do repositório não inclui o runtime.
+
+## Prévia ao compartilhar o link
+O HTML entrega título, descrição e imagem Open Graph mesmo sem JavaScript. A imagem PNG de 1200 × 630 fica em assets/brand/tagex-compartilhamento-v1.png e faz parte da publicação estática. Não contém dados fiscais ou de empresas usuárias.
+
+Para regerar a arte a partir da identidade visual existente, execute node scripts/gerar-compartilhamento.cjs com Playwright instalado (BROWSER_CHANNEL=msedge no Windows). Ao trocar a imagem, use outro nome/versionamento e atualize os metadados e a lista de publicação. O resultado visual final também depende do aplicativo em que o link é compartilhado; prévias antigas podem continuar armazenadas por ele.
