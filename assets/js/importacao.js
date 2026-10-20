@@ -248,14 +248,13 @@ async function conectarIntegracao(token, silencioso = false) {
     if (dados.desktop) {
       $('acessoIntegracao').hidden = true;
       $('btnIntegracao').textContent = 'Buscar nas pastas';
-      selecionarEntrada('pasta');
-      $('painelIntegracao').open = true;
+      if (dados.fontes.length) { selecionarEntrada('pasta'); $('painelIntegracao').open = true; }
     }
     atualizarIndicadorIntegracao('amarelo', dados.fontes.length ? 'Serviço conectado. Verificando o acesso às pastas.' : 'Nenhuma pasta configurada. Use Configurar integração para escolher as pastas de XML.');
     if (importacao.servico) iniciarMonitorIndice();
     $('statusIntegracao').textContent = '';
   } catch (e) {
-    atualizarIndicadorIntegracao('vermelho', 'Serviço local desconectado. Abra o atalho Etiquetas para conectar. Importar XML e preencher manualmente continuam disponíveis.');
+    atualizarIndicadorIntegracao('vermelho', 'Serviço local desconectado. Abra o atalho TagEX para conectar. Importar XML e preencher manualmente continuam disponíveis.');
     $('statusIntegracao').textContent = '';
   }
 }

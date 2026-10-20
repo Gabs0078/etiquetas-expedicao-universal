@@ -1111,3 +1111,8 @@ button:focus-visible, summary:focus-visible { outline: 3px solid var(--primary);
 .note-edit-status[hidden] { display:none; }
 .note-edit-status span { font-weight:600; overflow-wrap:anywhere; min-width:0; }
 #nf[readonly] { color:var(--text-secondary); }
+
+.header-local { color:var(--text-secondary); font-size:12px; text-decoration:none; padding:9px 10px; border:1px solid var(--border-soft); border-radius:8px; background:var(--surface); }
+.header-local:hover { border-color:var(--primary); color:var(--text); }
+.header-local:focus-visible { outline:3px solid var(--primary); outline-offset:3px; }
+@media screen and (max-width:480px) { .brand-shell .header-actions { justify-content:flex-start; } .header-local { margin-right:auto; } }

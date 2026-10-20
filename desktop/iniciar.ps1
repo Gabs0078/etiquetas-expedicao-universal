@@ -23,9 +23,10 @@ if (!(Test-Path -LiteralPath $node)) {
     if ($comando) { $node = $comando.Source } else { $node = Join-Path $env:ProgramFiles 'nodejs\node.exe' }
 }
 function Avisar([string]$texto) {
-    [System.Windows.Forms.MessageBox]::Show($texto, 'Etiquetas de Expedicao', 'OK', 'Information') | Out-Null
+    [System.Windows.Forms.MessageBox]::Show($texto, 'TagEX', 'OK', 'Information') | Out-Null
 }
 . (Join-Path $PSScriptRoot 'assistente.ps1')
+. (Join-Path $PSScriptRoot 'boas-vindas.ps1')
 function PararServico {
     if ($script:processo) {
         if (!$script:processo.HasExited) { $script:processo.Kill(); $script:processo.WaitForExit() }
@@ -97,13 +98,18 @@ try {
         Write-Output 'Iniciador: servico e sessao automatica verificados.'
         return
     }
-    if (!(Test-Path -LiteralPath $config)) { if (EscolherPasta) { AplicarIntegracao -SemAbrir } }
+    if (!(Test-Path -LiteralPath $config)) {
+        $escolha = MostrarPrimeiroUso
+        if (!$escolha) { return }
+        if ($escolha -eq 'pastas') { if (EscolherPasta) { AplicarIntegracao -SemAbrir } else { return } }
+        else { SalvarModoSimples $config }
+    }
     if (!$script:processo -or $script:processo.HasExited) { IniciarServico }
     $icone = [System.Windows.Forms.NotifyIcon]::new()
     $icone.Icon = [System.Drawing.SystemIcons]::Application
-    $icone.Text = 'Etiquetas de Expedicao'
+    $icone.Text = 'TagEX - Etiquetas para expedição'
     $menu = [System.Windows.Forms.ContextMenuStrip]::new()
-    $abrir = $menu.Items.Add('Abrir etiquetas')
+    $abrir = $menu.Items.Add('Abrir TagEX')
     $abrir.add_Click({ try { AbrirAplicativo } catch { Avisar $_.Exception.Message } })
     $pastas = $menu.Items.Add('Configurar pastas dos XMLs')
     $pastas.add_Click({ try { if (EscolherPasta) { AplicarIntegracao } } catch { Avisar $_.Exception.Message } })

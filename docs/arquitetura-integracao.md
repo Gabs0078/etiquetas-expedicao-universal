@@ -22,7 +22,7 @@ Execute node --test tests/*.test.cjs e BROWSER_CHANNEL=msedge node tests/navegad
 Homologue manualmente a janela nativa: selecionar pasta local e UNC, Voltar, cancelar durante o teste, pasta vazia, falta de acesso, salvar mantendo avisos, renovar sessão e repetir com usuário padrão. Teste também login sem rede e ativação/desativação da inicialização automática. Testes automatizados não substituem essa homologação nem comprovam impressão física.
 
 ## Distribuição
-Use desktop/empacotar.ps1 para criar um ZIP com aplicação, runtime e parser. O pacote precisa ser testado em uma conta padrão com Node global ausente. Não há instalador assinado ou atualizador nesta versão. Se políticas corporativas bloquearem PowerShell/Windows Script Host, o administrador precisa avaliar uma alternativa de distribuição; não reduzir proteções do sistema.
+Use desktop/empacotar.ps1 para criar um ZIP com aplicação, runtime e parser. O pacote precisa ser testado em uma conta padrão com Node global ausente. A versão 0.4.0 inclui instalador por usuário, atalhos e desinstalação. Ainda não há assinatura digital nem atualização automática. Veja docs/instalacao-windows.md. Se políticas corporativas bloquearem PowerShell/Windows Script Host, o administrador precisa avaliar uma alternativa de distribuição; não reduzir proteções do sistema.
 
 ## Índice de pesquisa do desktop
 O runtime Node.js 24 inclui node:sqlite; não é necessário instalar um banco separadamente. O serviço desktop guarda um SQLite por configuração/parser em %LOCALAPPDATA%/EtiquetasExpedicao/indice. O índice contém dados resumidos da pesquisa, caminhos e assinaturas de tamanho/data de alteração; não contém cópias dos XMLs. Fica fora do repositório e do ZIP.

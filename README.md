@@ -20,7 +20,19 @@ A publicação na branch main passa pelos testes antes de atualizar o site. Apen
 
 ## Começar pelo modo simples
 
-O [aplicativo Windows](desktop/README.md) inclui assistente para configurar e testar as pastas, sessão local automática e inicialização opcional no login. Veja o [guia do usuário](docs/guia-usuario.md) e a [documentação de instalação e manutenção](docs/arquitetura-integracao.md). O pacote distribuível deve incluir runtime e dependências; esta versão ainda não possui instalador assinado.
+### Windows: instalar uma vez, usar offline
+
+**[Baixar TagEX para Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.4.0/TagEX-Windows-0.4.0.zip)** · versão 0.4.0, Windows 10/11 x64.
+
+1. Extraia todo o ZIP.
+2. Abra **Instalar TagEX.exe** e clique em **Instalar**. Não precisa instalar Node.js, usar comandos ou ser administrador.
+3. Abra o atalho **TagEX** e escolha **Importar XMLs ou preencher manualmente**, ou configure as pastas pelo assistente.
+
+O pacote inclui os componentes e um guia offline. A busca em pastas compartilhadas exige rede/VPN da empresa; manual, XMLs do disco e impressão funcionam sem internet. Site e aplicativo local mantêm dados separados.
+
+Veja o **[passo a passo de instalação, atualização e uso offline](docs/instalacao-windows.md)**, também disponível [no site](https://gabs0078.github.io/etiquetas-expedicao-universal/instalar.html). O pacote ainda não tem assinatura digital nem atualização automática.
+
+### Sem instalar / para desenvolvedores
 
 1. Baixe o projeto e abra `index.html` em um navegador moderno.
 2. Cadastre a empresa e sua logo para as notas digitadas manualmente.

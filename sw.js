@@ -3,12 +3,13 @@
    Ao alterar qualquer arquivo da lista, incremente CACHE_VERSION
    para que os usuários recebam a versão nova. */
 
-const CACHE_VERSION = 'etiquetas-v65-edicao';
-const ASSET_VERSION = '65';
+const CACHE_VERSION = 'etiquetas-v66-local';
+const ASSET_VERSION = '66';
 
 const ARQUIVOS = [
   './',
   './index.html',
+  './instalar.html',
   './manifest.webmanifest',
   './assets/css/styles.css',
   './assets/js/app.js',

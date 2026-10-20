@@ -18,6 +18,8 @@ async function testar() {
   const erros = [];
   try {
     browser = await chromium.launch({ ...(process.env.BROWSER_CHANNEL ? { channel: process.env.BROWSER_CHANNEL } : {}) });
+    await require('./primeiro-uso-navegador.cjs')(browser);
+    await require('./guia-local-navegador.cjs')(browser, 'http://127.0.0.1:' + servidor.address().port);
     await require('./edicao-lote-navegador.cjs')(browser, 'http://127.0.0.1:' + servidor.address().port);
     await require('./avisos-campos-navegador.cjs')(browser, 'http://127.0.0.1:' + servidor.address().port);
     await require('./pages-navegador.cjs')(browser);
@@ -166,7 +168,7 @@ async function testar() {
     await arquivo.locator('[data-revisar]').click();
     assert.equal(await arquivo.locator('#nf').inputValue(), '123');
     const cachesPermitidos = await pagina.evaluate(async () => {
-      const cache = await caches.open('etiquetas-v65-edicao');
+      const cache = await caches.open('etiquetas-v66-local');
       return (await cache.keys()).every(r => !new URL(r.url).pathname.startsWith('/api/'));
     });
     assert.equal(cachesPermitidos, true);

@@ -16,7 +16,7 @@ scripts/preparar-pages.cjs copia uma lista explícita de HTML, CSS, JavaScript, 
 O Pages funciona em uma subpasta; links de assets e registro do service worker são relativos. A pesquisa em pastas exige abrir o aplicativo pelo serviço local, não pela URL pública. Os cadastros e lotes ficam no navegador e no endereço em que foram criados; não são transferidos automaticamente entre localhost e o Pages.
 
 ## Versão Windows
-desktop/empacotar.ps1 gera o pacote com runtime Node.js 24 e dependência XML. O runtime e os dados privados são ignorados pelo Git. O ZIP deve ser distribuído separado do site; o clone do repositório não inclui o runtime.
+O workflow constrói e testa o pacote Windows, publica uma Release da versão do package.json quando ela ainda não existe e só então atualiza o Pages. Releases existentes são preservadas. O guia instalar.html aponta para o ZIP versionado. Runtime e dados privados são ignorados pelo Git; o clone do código não é o pacote de instalação. Veja [construção e validação do pacote](pacote-windows.md).
 
 ## Prévia ao compartilhar o link
 O HTML entrega título, descrição e imagem Open Graph mesmo sem JavaScript. A imagem PNG de 1200 × 630 fica em assets/brand/tagex-compartilhamento-v1.png e faz parte da publicação estática. Não contém dados fiscais ou de empresas usuárias.

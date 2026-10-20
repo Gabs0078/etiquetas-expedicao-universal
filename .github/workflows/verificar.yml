@@ -24,9 +24,66 @@ jobs:
       - run: pnpm test
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:browser
+  windows:
+    needs: testes
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '11.25.0'
+      - run: pnpm install --frozen-lockfile
+      - name: Preparar runtime oficial e pacote completo
+        shell: powershell
+        run: |
+          & .\desktop\preparar-runtime.ps1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $versao = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          & .\desktop\empacotar.ps1 -Destino (Join-Path $env:GITHUB_WORKSPACE "TagEX-Windows-$versao.zip")
+      - name: Testar instalação offline e demais recursos Windows
+        shell: pwsh
+        run: |
+          $versao = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $env:TAGEX_PACOTE_TESTE = Join-Path $env:GITHUB_WORKSPACE "TagEX-Windows-$versao.zip"
+          pnpm test
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TagEX-Windows
+          path: |
+            TagEX-Windows-*.zip
+            TagEX-Windows-*.zip.sha256
+  release:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: windows
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: TagEX-Windows
+          path: pacote
+      - name: Publicar versão Windows sem sobrescrever Releases existentes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(node -p "require('./package.json').version")
+          if gh release view "v$version" >/dev/null 2>&1; then
+            echo "A versão v$version já foi publicada; pacote preservado."
+          else
+            gh release create "v$version" pacote/* --target "$GITHUB_SHA" --title "TagEX $version" --notes-file "docs/versao-$version.md"
+          fi
   pages:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: testes
+    needs: release
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

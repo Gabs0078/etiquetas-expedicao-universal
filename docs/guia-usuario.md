@@ -1,7 +1,7 @@
 # Guia do usuário
 
 ## Abrir e configurar
-Abra o atalho Etiquetas de Expedição ou desktop/Abrir Etiquetas.vbs. Na primeira abertura, o assistente orienta quatro etapas: entender a busca, adicionar pastas, conferir o teste e salvar. Selecione pastas locais ou cole um endereço de rede. Subpastas são consultadas. O teste usa uma amostra de até 100 entradas por pasta, tem prazo máximo de 30 segundos e pode ser cancelado. A busca diária consulta um limite maior.
+Veja o [guia de instalação Windows e uso offline](instalacao-windows.md). Abra o atalho TagEX. Na primeira abertura, escolha importar XMLs/preencher manualmente ou configurar as pastas da empresa. A configuração é opcional e pode ser aberta depois em Configurar integração. O assistente orienta quatro etapas: entender a busca, adicionar pastas, conferir o teste e salvar. Selecione pastas locais ou cole um endereço de rede. Subpastas são consultadas. O teste usa uma amostra de até 100 entradas por pasta, tem prazo máximo de 30 segundos e pode ser cancelado. A busca diária consulta um limite maior.
 
 Pasta vazia pode ser configurada: o aplicativo aguardará novos XMLs. Avisos de arquivos não impedem continuar: pastas acessíveis são mantidas, mesmo vazias ou sem XMLs válidos na amostra. A caixa Guardar também as pastas sem acesso só aparece quando uma pasta não pode ser acessada. É opcional: marcada, salva essas pastas para tentar depois; desmarcada, salva apenas as acessíveis. A última etapa resume as pastas que serão salvas. Cancelar mantém a configuração anterior. A opção Iniciar a integração junto com o Windows é por usuário e pode ser desmarcada em uma nova configuração.
 

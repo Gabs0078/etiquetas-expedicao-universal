@@ -24,6 +24,16 @@
 - [x] Alertas curtos junto aos campos apenas para possíveis problemas.
 - [x] Testes antes da publicação dos arquivos estáticos no Pages.
 
+## v0.4.0 — instalação local e uso offline
+
+- [x] Instalador por usuário, atalhos e remoção com dados preservados.
+- [x] Pacote com runtime e leitor XML, sem instalação de dependências pelo usuário.
+- [x] Primeiro uso sem obrigar configuração de pastas.
+- [x] Guia no site, no GitHub e dentro do pacote.
+- [x] Testes do pacote Windows e publicação de Release antes do Pages.
+- [ ] Assinatura digital e homologação das políticas corporativas.
+- [ ] Atualização automática.
+
 ## Próximas etapas — conforme necessidades das empresas
 
 - [ ] Homologar com XMLs representativos dos ERPs e impressoras reais.
