@@ -12,6 +12,9 @@ importers:
         specifier: 0.9.12
         version: 0.9.12
     devDependencies:
+      acorn:
+        specifier: 8.19.0
+        version: 8.19.0
       playwright:
         specifier: 1.63.0
         version: 1.63.0
@@ -21,6 +24,11 @@ packages:
   '@xmldom/xmldom@0.9.12':
     resolution: {integrity: sha512-5AXjrcMClTryPe9LgZrygpB1lj7s0S9E0+W+AHaVKAVyHanafK86iPSvG5xHVSp/jC+VH1UXu0TAEmY279xH7A==}
     engines: {node: '>=14.6'}
+
+  acorn@8.19.0:
+    resolution: {integrity: sha512-oJlA3XiRm7Cyk6qFD2Jn8ak9B7jSy0qy00ADO3+8dpT0LSjFihQYv4C02LFCSYJV3Q37xYwwRy5m+IpIiUzqWw==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
 
   playwright-core@1.63.0:
     resolution: {integrity: sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==}
@@ -35,6 +43,8 @@ packages:
 snapshots:
 
   '@xmldom/xmldom@0.9.12': {}
+
+  acorn@8.19.0: {}
 
   playwright-core@1.63.0: {}
 

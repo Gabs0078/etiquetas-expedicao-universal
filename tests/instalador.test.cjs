@@ -15,7 +15,7 @@ New-Item -ItemType Directory -Path $dados | Out-Null
 $env:PATH=$env:SystemRoot+'\System32;'+$env:SystemRoot+';'+$env:SystemRoot+'\System32\WindowsPowerShell\v1.0'
 . (Join-Path $origem 'desktop\instalacao.ps1')
 $v=InstalarPacoteTagEX $origem $destino
-if($v -ne '0.4.0'){throw 'Versão incorreta'}
+if($v -ne '0.5.0'){throw 'Versão incorreta'}
 if(!(Test-Path -LiteralPath (Join-Path $destino 'Abrir TagEX.exe'))){throw 'Executável não instalado'}
 if(Test-Path -LiteralPath (Join-Path $destino 'integracao\config.local.json')){throw 'Configuração privada no pacote'}
 if(Test-Path -LiteralPath (Join-Path $destino 'node_modules\playwright')){throw 'Dependência de teste distribuída'}

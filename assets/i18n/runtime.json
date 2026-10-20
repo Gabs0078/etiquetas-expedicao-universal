@@ -1,0 +1,836 @@
+[
+  [
+    "Não foi possível salvar: armazenamento do navegador cheio. Use uma logo menor ou exclua uma empresa.",
+    "Browser storage is full. Use a smaller logo or delete a company.",
+    "El almacenamiento está lleno. Use un logo más pequeño o elimine una empresa.",
+    "浏览器存储空间已满。请使用较小的标志或删除企业资料。"
+  ],
+  [
+    "As notas estão apenas nesta sessão: não foi possível salvar no navegador.",
+    "Invoices could not be saved and will last only for this session.",
+    "No se pudieron guardar las facturas; solo estarán en esta sesión.",
+    "无法保存发票，仅在本次会话中保留。"
+  ],
+  [
+    "As opções de impressão valem apenas nesta sessão: não foi possível salvar no navegador.",
+    "Print settings could not be saved and apply only to this session.",
+    "No se pudieron guardar las opciones; solo se aplican a esta sesión.",
+    "无法保存打印设置，仅在本次会话中生效。"
+  ],
+  [
+    "Substituir os campos atuais para editar esta nota? Alterações não salvas serão descartadas.",
+    "Replace the current fields to edit this invoice? Unsaved changes will be lost.",
+    "¿Sustituir los campos para editar esta factura? Se perderán los cambios sin guardar.",
+    "是否替换当前字段以编辑此发票？未保存的更改将丢失。"
+  ],
+  [
+    "Editando NF ",
+    "Editing NF ",
+    "Editando NF ",
+    "正在编辑 NF "
+  ],
+  [
+    "Número vinculado ao XML original.",
+    "Number linked to the original XML.",
+    "Número vinculado al XML original.",
+    "编号与原始 XML 关联。"
+  ],
+  [
+    "Salvar alterações",
+    "Save changes",
+    "Guardar cambios",
+    "保存更改"
+  ],
+  [
+    "Confira o campo indicado antes de salvar.",
+    "Review the highlighted field before saving.",
+    "Revise el campo indicado antes de guardar.",
+    "保存前请检查标记的字段。"
+  ],
+  [
+    "Confira o campo indicado antes de adicionar.",
+    "Review the highlighted field before adding.",
+    "Revise el campo indicado antes de añadir.",
+    "添加前请检查标记的字段。"
+  ],
+  [
+    "A nota foi removida do lote.",
+    "Invoice removed from the batch.",
+    "Factura eliminada del lote.",
+    "发票已从批次移除。"
+  ],
+  [
+    "Limite do lote: 100 notas ou 3.000 etiquetas. Imprima e inicie outro lote.",
+    "Batch limit: 100 invoices or 3,000 labels. Print and start a new batch.",
+    "Límite: 100 facturas o 3.000 etiquetas. Imprima e inicie otro lote.",
+    "每批最多 100 张发票或 3,000 张标签。请打印后新建批次。"
+  ],
+  [
+    "O número deve corresponder ao XML original.",
+    "The number must match the original XML.",
+    "El número debe coincidir con el XML original.",
+    "编号必须与原始 XML 一致。"
+  ],
+  [
+    "Nota atualizada no lote.",
+    "Invoice updated in the batch.",
+    "Factura actualizada en el lote.",
+    "批次中的发票已更新。"
+  ],
+  [
+    "Marque “Conferi os dados do XML” para adicionar.",
+    "Select “I reviewed the XML details” before adding.",
+    "Marque «He revisado los datos del XML» antes de añadir.",
+    "添加前请选择“我已核对 XML 信息”。"
+  ],
+  [
+    "O número deve corresponder ao XML. Volte ao manual para digitar outra nota.",
+    "The number must match the XML. Use manual entry for a different invoice.",
+    "El número debe coincidir con el XML. Use entrada manual para otra factura.",
+    "编号必须与 XML 一致。其他发票请使用手动填写。"
+  ],
+  [
+    "Esta chave de NF-e já está no lote.",
+    "This NF-e access key is already in the batch.",
+    "Esta clave de NF-e ya está en el lote.",
+    "此 NF-e 访问密钥已在批次中。"
+  ],
+  [
+    "Deseja limpar todas as notas?",
+    "Clear all invoices?",
+    "¿Vaciar todas las facturas?",
+    "是否清空所有发票？"
+  ],
+  [
+    "Salve ou cancele a edição antes de imprimir.",
+    "Save or cancel editing before printing.",
+    "Guarde o cancele la edición antes de imprimir.",
+    "打印前请保存或取消编辑。"
+  ],
+  [
+    "Total de etiquetas: {0}",
+    "Total labels: {0}",
+    "Total de etiquetas: {0}",
+    "标签总数：{0}"
+  ],
+  [
+    "Folhas necessárias ({0}): {1}",
+    "Sheets needed ({0}): {1}",
+    "Hojas necesarias ({0}): {1}",
+    "所需纸张（{0}）：{1}"
+  ],
+  [
+    "Páginas na bobina: {0}",
+    "Roll pages: {0}",
+    "Páginas en el rollo: {0}",
+    "标签卷页数：{0}"
+  ],
+  [
+    "{0} etiquetas",
+    "{0} labels",
+    "{0} etiquetas",
+    "{0} 张标签"
+  ],
+  [
+    "Volumes:",
+    "Packages:",
+    "Bultos:",
+    "包裹数："
+  ],
+  [
+    "Empresa:",
+    "Company:",
+    "Empresa:",
+    "企业："
+  ],
+  [
+    "Editar nota",
+    "Edit invoice",
+    "Editar factura",
+    "编辑发票"
+  ],
+  [
+    "Editar nota NF {0}",
+    "Edit invoice NF {0}",
+    "Editar factura NF {0}",
+    "编辑发票 NF {0}"
+  ],
+  [
+    "Remover nota",
+    "Remove invoice",
+    "Eliminar factura",
+    "移除发票"
+  ],
+  [
+    "Remover nota NF {0}",
+    "Remove invoice NF {0}",
+    "Eliminar factura NF {0}",
+    "移除发票 NF {0}"
+  ],
+  [
+    "Adicione uma nota para visualizar as etiquetas.",
+    "Add an invoice to preview the labels.",
+    "Añada una factura para ver las etiquetas.",
+    "请添加发票以预览标签。"
+  ],
+  [
+    "Texto não cabe na etiqueta da(s) NF(s) {0}. Resuma a descrição ou revise as quebras do endereço antes de imprimir.",
+    "Text does not fit invoice(s) {0}. Shorten the description or review address line breaks before printing.",
+    "El texto no cabe en las facturas {0}. Resuma la descripción o revise los saltos de línea antes de imprimir.",
+    "发票 {0} 的文字超出标签范围。打印前请缩短说明或调整地址换行。"
+  ],
+  [
+    "Empresa sem nome",
+    "Unnamed company",
+    "Empresa sin nombre",
+    "未命名企业"
+  ],
+  [
+    "Sem CNPJ",
+    "No CNPJ",
+    "Sin CNPJ",
+    "无 CNPJ"
+  ],
+  [
+    "Sem endereço",
+    "No address",
+    "Sin dirección",
+    "无地址"
+  ],
+  [
+    "Preencha pelo menos Nome da Empresa e CNPJ.",
+    "Enter at least the company name and CNPJ.",
+    "Introduzca al menos el nombre de la empresa y el CNPJ.",
+    "请至少填写企业名称和 CNPJ。"
+  ],
+  [
+    "Modelo de empresa salvo com sucesso!",
+    "Company profile saved.",
+    "Perfil de empresa guardado.",
+    "企业资料已保存。"
+  ],
+  [
+    "Selecione uma empresa cadastrada para excluir.",
+    "Select a saved company to delete.",
+    "Seleccione una empresa guardada para eliminar.",
+    "请选择要删除的企业资料。"
+  ],
+  [
+    "É necessário manter pelo menos uma empresa cadastrada.",
+    "Keep at least one company profile.",
+    "Debe conservar al menos una empresa.",
+    "必须保留至少一份企业资料。"
+  ],
+  [
+    "Deseja excluir este modelo de empresa?",
+    "Delete this company profile?",
+    "¿Eliminar este perfil de empresa?",
+    "是否删除此企业资料？"
+  ],
+  [
+    "Ativa",
+    "Active",
+    "Activa",
+    "当前"
+  ],
+  [
+    "Usar",
+    "Use",
+    "Usar",
+    "使用"
+  ],
+  [
+    "Área da logo: ",
+    "Logo area: ",
+    "Área del logo: ",
+    "标志区域："
+  ],
+  [
+    "Use uma imagem PNG, JPG ou JPEG.",
+    "Use a PNG, JPG or JPEG image.",
+    "Use una imagen PNG, JPG o JPEG.",
+    "请使用 PNG、JPG 或 JPEG 图片。"
+  ],
+  [
+    "A logo precisa ter no máximo 2MB para salvar no navegador.",
+    "The logo must be 2 MB or smaller to save in the browser.",
+    "El logo debe ocupar como máximo 2 MB.",
+    "保存到浏览器的标志大小不能超过 2 MB。"
+  ],
+  [
+    " por folha · Lista",
+    " per sheet · List",
+    " por hoja · Lista",
+    " 张/页 · 列表"
+  ],
+  [
+    " por folha · 100 × 50 mm (atual)",
+    " per sheet · 100 × 50 mm (default)",
+    " por hoja · 100 × 50 mm (actual)",
+    " 张/页 · 100 × 50 mm（默认）"
+  ],
+  [
+    "10 por folha · 10 linhas",
+    "10 per sheet · 10 rows",
+    "10 por hoja · 10 filas",
+    "每页 10 张 · 10 行"
+  ],
+  [
+    " (não cabe neste papel)",
+    " (does not fit this paper)",
+    " (no cabe en este papel)",
+    "（此纸张无法容纳）"
+  ],
+  [
+    "4 por folha · 4 linhas",
+    "4 per sheet · 4 rows",
+    "4 por hoja · 4 filas",
+    "每页 4 张 · 4 行"
+  ],
+  [
+    " mm por etiqueta",
+    " mm per label",
+    " mm por etiqueta",
+    " mm/标签"
+  ],
+  [
+    "Revise os textos indicados antes de imprimir: eles excedem o tamanho selecionado.",
+    "Review the highlighted text: it exceeds the selected label size.",
+    "Revise el texto indicado: supera el tamaño de etiqueta seleccionado.",
+    "请检查标记的文字，其内容超出所选标签尺寸。"
+  ],
+  [
+    "Estado da integração: ",
+    "Integration status: ",
+    "Estado de integración: ",
+    "集成状态："
+  ],
+  [
+    "Atualizando o índice das pastas em segundo plano. Isso não refaz a pesquisa nem altera os resultados. A busca no índice salvo continua disponível.",
+    "Updating the folder index in the background. Search results stay unchanged; the saved index remains available.",
+    "Actualizando el índice en segundo plano. No cambia los resultados; el índice guardado sigue disponible.",
+    "正在后台更新文件夹索引。搜索结果保持不变，仍可使用已保存的索引。"
+  ],
+  [
+    "Serviço conectado. Preparando as pastas para a primeira busca.",
+    "Connected. Preparing folders for the first search.",
+    "Conectado. Preparando carpetas para la primera búsqueda.",
+    "已连接，正在为首次搜索准备文件夹。"
+  ],
+  [
+    "Não foi possível atualizar todas as pastas. A busca usa o índice salvo; confira o acesso ao servidor.",
+    "Some folders could not be updated. Search uses the saved index; check server access.",
+    "No se actualizaron todas las carpetas. Se usa el índice guardado; compruebe el acceso al servidor.",
+    "部分文件夹无法更新。搜索将使用已保存的索引，请检查服务器连接。"
+  ],
+  [
+    "Não foi possível preparar as pastas. Confira o acesso ao servidor; o aplicativo tentará novamente.",
+    "Folders could not be prepared. Check server access; the app will retry.",
+    "No se pudieron preparar las carpetas. Compruebe el acceso al servidor; se reintentará.",
+    "无法准备文件夹。请检查服务器连接，应用将重试。"
+  ],
+  [
+    "Serviço conectado e pastas verificadas. A busca está pronta.",
+    "Connected. Folders checked and search ready.",
+    "Conectado. Carpetas verificadas y búsqueda lista.",
+    "已连接，文件夹检查完成，可以搜索。"
+  ],
+  [
+    " A varredura atingiu o limite de arquivos.",
+    " The scan reached its file limit.",
+    " El análisis alcanzó el límite de archivos.",
+    " 扫描已达到文件数量上限。"
+  ],
+  [
+    "Atualizando busca",
+    "Updating search",
+    "Actualizando búsqueda",
+    "正在更新搜索"
+  ],
+  [
+    "Preparando busca",
+    "Preparing search",
+    "Preparando búsqueda",
+    "正在准备搜索"
+  ],
+  [
+    "{0}: {1} de {2} arquivos verificados.",
+    "{0}: {1} of {2} files checked.",
+    "{0}: {1} de {2} archivos verificados.",
+    "{0}：已检查 {1}/{2} 个文件。"
+  ],
+  [
+    "{0}: levantando os arquivos das pastas.",
+    "{0}: listing folder contents.",
+    "{0}: listando los archivos de las carpetas.",
+    "{0}：正在列出文件夹中的文件。"
+  ],
+  [
+    "Pesquisando notas...",
+    "Searching invoices...",
+    "Buscando facturas...",
+    "正在搜索发票…"
+  ],
+  [
+    "Não foi possível preparar a busca. O aplicativo tentará novamente; importação de XML e preenchimento manual continuam disponíveis.",
+    "Search could not be prepared. The app will retry; XML import and manual entry are available.",
+    "No se pudo preparar la búsqueda. Se reintentará; puede importar XML o completar manualmente.",
+    "无法准备搜索。应用将重试，仍可导入 XML 或手动填写。"
+  ],
+  [
+    "Última verificação das pastas: ",
+    "Last folder check: ",
+    "Última verificación de carpetas: ",
+    "最近一次文件夹检查："
+  ],
+  [
+    ". Índice salvo disponível; uma ou mais pastas não puderam ser atualizadas.",
+    ". Saved index available; some folders could not be updated.",
+    ". Índice guardado disponible; algunas carpetas no se actualizaron.",
+    "。已保存的索引可用，部分文件夹无法更新。"
+  ],
+  [
+    "Serviço local sem resposta. Abra o atalho Etiquetas para reconectar. Importar XML e preencher manualmente continuam disponíveis.",
+    "Local service is not responding. Open TagEX to reconnect. XML import and manual entry are available.",
+    "El servicio local no responde. Abra TagEX para reconectar. Puede importar XML o completar manualmente.",
+    "本地服务无响应。请打开 TagEX 重新连接，仍可导入 XML 或手动填写。"
+  ],
+  [
+    "Substituir o endereço que você editou pelo endereço selecionado?",
+    "Replace your edited address with the selected address?",
+    "¿Sustituir la dirección editada por la seleccionada?",
+    "是否用所选地址替换您编辑的地址？"
+  ],
+  [
+    "{0} nota(s) aguardando revisão; {1} duplicada(s) ignorada(s).{2}",
+    "Awaiting review: {0}; duplicates skipped: {1}.{2}",
+    "Pendientes de revisión: {0}; duplicadas omitidas: {1}.{2}",
+    "待核对：{0}；已跳过重复项：{1}。{2}"
+  ],
+  [
+    " Fila cheia (100); revise ou descarte antes de importar mais.",
+    " Review queue full (100); review or discard before importing more.",
+    " Cola llena (100); revise o descarte antes de importar más.",
+    " 队列已满（100）。继续导入前请核对或丢弃部分发票。"
+  ],
+  [
+    "Volumes precisam ser informados",
+    "Enter the package count",
+    "Indique la cantidad de bultos",
+    "请填写包裹数量"
+  ],
+  [
+    "{0} volumes",
+    "{0} packages",
+    "{0} bultos",
+    "{0} 个包裹"
+  ],
+  [
+    "{0} aviso(s)",
+    "{0} warning(s)",
+    "{0} aviso(s)",
+    "{0} 条提示"
+  ],
+  [
+    "Revisar",
+    "Review",
+    "Revisar",
+    "核对"
+  ],
+  [
+    "Descartar",
+    "Discard",
+    "Descartar",
+    "丢弃"
+  ],
+  [
+    "{0} nota(s) aguardando revisão.",
+    "Awaiting review: {0}.",
+    "Pendientes de revisión: {0}.",
+    "待核对：{0}。"
+  ],
+  [
+    "Substituir os campos atuais pelos dados desta nota para revisão?",
+    "Replace the current fields with this invoice for review?",
+    "¿Sustituir los campos actuales por esta factura para revisarla?",
+    "是否用此发票的信息替换当前字段并进行核对？"
+  ],
+  [
+    " · Série ",
+    " · Series ",
+    " · Serie ",
+    " · 系列 "
+  ],
+  [
+    "Nota adicionada ao lote. {0} nota(s) aguardando revisão.",
+    "Invoice added. Awaiting review: {0}.",
+    "Factura añadida. Pendientes de revisión: {0}.",
+    "发票已添加。待核对：{0}。"
+  ],
+  [
+    "Atenção: ",
+    "Attention: ",
+    "Atención: ",
+    "注意："
+  ],
+  [
+    "Informe a data da expedição.",
+    "Enter the shipping date.",
+    "Introduzca la fecha de envío.",
+    "请填写发货日期。"
+  ],
+  [
+    "Informe o número da nota.",
+    "Enter the invoice number.",
+    "Introduzca el número de factura.",
+    "请填写发票编号。"
+  ],
+  [
+    "Número diferente do XML. Use NF {0} ou volte ao manual.",
+    "Number differs from the XML. Use NF {0} or manual entry.",
+    "El número difiere del XML. Use NF {0} o entrada manual.",
+    "编号与 XML 不同。请使用 NF {0} 或手动填写。"
+  ],
+  [
+    "Não foi possível confirmar a autorização desta nota pelo XML. Confira no sistema da empresa.",
+    "Authorization could not be confirmed from the XML. Check your business system.",
+    "No se pudo confirmar la autorización en el XML. Consulte el sistema de la empresa.",
+    "无法通过 XML 确认此发票的授权状态，请在企业系统中核实。"
+  ],
+  [
+    "Não foi possível identificar o endereço de entrega. Corrija o campo ou use o endereço do destinatário, se for o mesmo.",
+    "Delivery address could not be identified. Correct it or use the recipient address if appropriate.",
+    "No se identificó la dirección de entrega. Corríjala o use la del destinatario si corresponde.",
+    "无法识别送货地址。请更正，或在适用时使用收件人地址。"
+  ],
+  [
+    "A nota informa entrega em dois lugares. Confira qual endereço deve ser usado.",
+    "Two delivery locations were found. Check which address to use.",
+    "Se encontraron dos lugares de entrega. Compruebe qué dirección usar.",
+    "发现两个送货地点，请确认应使用的地址。"
+  ],
+  [
+    "O endereço pode estar incompleto. Confira a rua, a cidade e o estado.",
+    "The address may be incomplete. Check street, city and state.",
+    "La dirección puede estar incompleta. Compruebe calle, ciudad y estado.",
+    "地址可能不完整，请检查街道、城市和州。"
+  ],
+  [
+    "O endereço é muito longo. Resuma e confira se cabe na prévia.",
+    "The address is too long. Shorten it and check the preview.",
+    "La dirección es muy larga. Resúmala y compruebe la vista previa.",
+    "地址过长，请缩短并检查预览。"
+  ],
+  [
+    "Informe o endereço de entrega.",
+    "Enter the delivery address.",
+    "Introduzca la dirección de entrega.",
+    "请填写送货地址。"
+  ],
+  [
+    "Quantidade não encontrada no XML. Informe o total de volumes da entrega.",
+    "No package count found in the XML. Enter the total for this delivery.",
+    "No se encontró la cantidad en el XML. Indique el total de bultos.",
+    "XML 中未找到包裹数量，请填写本次送货的包裹总数。"
+  ],
+  [
+    "Informe um número inteiro de 1 a 999 volumes.",
+    "Enter a whole package count from 1 to 999.",
+    "Introduzca un número entero de bultos entre 1 y 999.",
+    "请输入 1 到 999 之间的整数包裹数量。"
+  ],
+  [
+    "A descrição foi encurtada. Confira se os itens necessários estão no texto.",
+    "The description was shortened. Check that all required items are included.",
+    "Se acortó la descripción. Compruebe que incluye los artículos necesarios.",
+    "说明已被缩短，请检查必要的物品信息是否完整。"
+  ],
+  [
+    "Conectando ao serviço local...",
+    "Connecting to local service...",
+    "Conectando al servicio local...",
+    "正在连接本地服务…"
+  ],
+  [
+    "Serviço conectado. Verificando o acesso às pastas.",
+    "Connected. Checking folder access.",
+    "Conectado. Verificando acceso a carpetas.",
+    "已连接，正在检查文件夹访问权限。"
+  ],
+  [
+    "Nenhuma pasta configurada. Use Configurar integração para escolher as pastas de XML.",
+    "No folders configured. Use Set up folder integration to choose XML folders.",
+    "No hay carpetas configuradas. Use Configurar integración para elegirlas.",
+    "尚未配置文件夹，请通过“设置文件夹集成”选择 XML 文件夹。"
+  ],
+  [
+    "Serviço local desconectado. Abra o atalho TagEX para conectar. Importar XML e preencher manualmente continuam disponíveis.",
+    "Local service disconnected. Open TagEX to connect. XML import and manual entry are available.",
+    "Servicio local desconectado. Abra TagEX para conectar. Puede importar XML o completar manualmente.",
+    "本地服务已断开。请打开 TagEX 进行连接，仍可导入 XML 或手动填写。"
+  ],
+  [
+    "A busca será feita quando a preparação terminar.",
+    "Search will run when preparation finishes.",
+    "La búsqueda se ejecutará al terminar la preparación.",
+    "准备完成后将执行搜索。"
+  ],
+  [
+    "{0} resultado(s). Atualizado às {1}.{2}",
+    "Results: {0}. Updated at {1}.{2}",
+    "Resultados: {0}. Actualizado a las {1}.{2}",
+    "结果：{0}。更新时间：{1}。{2}"
+  ],
+  [
+    " Limite de leitura atingido; reduza as pastas ou refine a busca (até 100 resultados).",
+    " Scan limit reached; reduce folders or refine the search (up to 100 results).",
+    " Límite alcanzado; reduzca carpetas o refine la búsqueda (hasta 100 resultados).",
+    " 已达到扫描上限，请减少文件夹或细化搜索（最多 100 条结果）。"
+  ],
+  [
+    "Serviço conectado, mas uma ou mais pastas estão sem acesso. Confira a conexão ao servidor.",
+    "Connected, but some folders are inaccessible. Check the server connection.",
+    "Conectado, pero algunas carpetas no son accesibles. Compruebe la conexión al servidor.",
+    "服务已连接，但部分文件夹无法访问。请检查服务器连接。"
+  ],
+  [
+    "Serviço conectado e busca concluída nas pastas.",
+    "Connected. Folder search complete.",
+    "Conectado. Búsqueda en carpetas completada.",
+    "已连接，文件夹搜索已完成。"
+  ],
+  [
+    "Última busca concluída: ",
+    "Last completed search: ",
+    "Última búsqueda completada: ",
+    "最近完成的搜索："
+  ],
+  [
+    "A busca falhou. Confira o serviço local e o acesso às pastas.",
+    "Search failed. Check the local service and folder access.",
+    "La búsqueda falló. Compruebe el servicio local y el acceso a las carpetas.",
+    "搜索失败，请检查本地服务和文件夹访问权限。"
+  ],
+  [
+    "Busca não concluída. ",
+    "Search incomplete. ",
+    "Búsqueda incompleta. ",
+    "搜索未完成。"
+  ],
+  [
+    "Lendo XMLs…",
+    "Reading XMLs…",
+    "Leyendo XML…",
+    "正在读取 XML…"
+  ],
+  [
+    "Descartar as alterações desta nota e preencher outra?",
+    "Discard these changes and enter another invoice?",
+    "¿Descartar los cambios y completar otra factura?",
+    "是否放弃当前更改并填写其他发票？"
+  ],
+  [
+    "Abra novamente pelo ícone do aplicativo para configurar.",
+    "Reopen from the app icon to set up integration.",
+    "Vuelva a abrir desde el icono para configurar.",
+    "请通过应用图标重新打开后进行设置。"
+  ],
+  [
+    "Solicitação enviada. O assistente será aberto pelo aplicativo ao lado do relógio.",
+    "Request sent. The tray app will open the setup wizard.",
+    "Solicitud enviada. La aplicación junto al reloj abrirá el asistente.",
+    "请求已发送。系统托盘中的应用将打开设置向导。"
+  ],
+  [
+    "Não foi possível abrir o assistente. Use o ícone Etiquetas ao lado do relógio ou abra o atalho do aplicativo.",
+    "Could not open the wizard. Use the TagEX tray icon or app shortcut.",
+    "No se pudo abrir el asistente. Use el icono de TagEX junto al reloj o su acceso directo.",
+    "无法打开向导。请使用系统托盘中的 TagEX 图标或应用快捷方式。"
+  ],
+  [
+    "Seleção ou filtros alterados. Use a lupa ou Enter para pesquisar.",
+    "Selection or filters changed. Click search or press Enter.",
+    "Selección o filtros modificados. Pulse la lupa o Intro.",
+    "选择项或筛选条件已更改，请点击搜索或按 Enter。"
+  ],
+  [
+    "Selecione arquivos .xml.",
+    "Select .xml files.",
+    "Seleccione archivos .xml.",
+    "请选择 .xml 文件。"
+  ],
+  [
+    "XML excede 2 MB.",
+    "XML exceeds 2 MB.",
+    "El XML supera los 2 MB.",
+    "XML 文件超过 2 MB。"
+  ],
+  [
+    "Limite de 100 arquivos por seleção; envie o restante em outro lote.",
+    "Select up to 100 files; import the rest in another batch.",
+    "Seleccione hasta 100 archivos; importe el resto en otro lote.",
+    "每次最多选择 100 个文件，其余请在另一批次中导入。"
+  ],
+  [
+    "Abra o app pelo serviço local para usar a integração.",
+    "Open the app through the local service to use integration.",
+    "Abra la aplicación desde el servicio local para usar la integración.",
+    "请通过本地服务打开应用以使用集成。"
+  ],
+  [
+    "Integração indisponível neste endereço. Abra o app pelo serviço local.",
+    "Integration is unavailable here. Open the app through the local service.",
+    "Integración no disponible aquí. Abra la aplicación desde el servicio local.",
+    "此地址无法使用集成，请通过本地服务打开应用。"
+  ],
+  [
+    "Falha na integração.",
+    "Integration failed.",
+    "Error de integración.",
+    "集成失败。"
+  ],
+  [
+    "Pastas acessíveis: {0} de {1}",
+    "Accessible folders: {0} of {1}",
+    "Carpetas accesibles: {0} de {1}",
+    "可访问文件夹：{0} / {1}"
+  ],
+  [
+    "{0} pasta(s) guardada(s) para tentar novamente depois.",
+    "Folders kept to retry later: {0}.",
+    "Carpetas guardadas para reintentar: {0}.",
+    "保留以便稍后重试的文件夹：{0}。"
+  ],
+  [
+    "Alguns arquivos ou subpastas não foram aproveitados no teste. As notas válidas continuam disponíveis.",
+    "Some files or subfolders could not be used in the test. Valid invoices remain available.",
+    "Algunos archivos o subcarpetas no pudieron usarse en la prueba. Las facturas válidas siguen disponibles.",
+    "测试中部分文件或子文件夹未能使用。有效发票仍可使用。"
+  ],
+  [
+    "Escolha uma pasta, não um arquivo.",
+    "Choose a folder rather than a file.",
+    "Seleccione una carpeta, no un archivo.",
+    "请选择文件夹，而非文件。"
+  ],
+  [
+    "Teste parcial: há subpastas indisponíveis ou a amostra não encontrou notas válidas.",
+    "Partial test: some subfolders are unavailable or the sample found no valid invoices.",
+    "Prueba parcial: hay subcarpetas inaccesibles o la muestra no encontró facturas válidas.",
+    "测试未完成全部检查：部分子文件夹无法访问，或样本中未找到有效发票。"
+  ],
+  [
+    "Notas válidas encontradas na amostra.",
+    "Valid invoices found in the sample.",
+    "Se encontraron facturas válidas en la muestra.",
+    "在样本中找到有效发票。"
+  ],
+  [
+    "Arquivos encontrados, mas nenhum XML válido de NF-e.",
+    "Files found, but no valid NF-e XMLs.",
+    "Hay archivos, pero ningún XML de NF-e válido.",
+    "找到了文件，但没有有效的 NF-e XML。"
+  ],
+  [
+    "Pasta acessível. Aguardando XMLs de NF-e.",
+    "Folder accessible. Waiting for NF-e XMLs.",
+    "Carpeta accesible. Esperando XML de NF-e.",
+    "文件夹可访问，等待 NF-e XML。"
+  ],
+  [
+    "Sua conta do Windows não tem acesso à pasta.",
+    "Your Windows account cannot access this folder.",
+    "Su cuenta de Windows no tiene acceso a esta carpeta.",
+    "您的 Windows 账户无权访问此文件夹。"
+  ],
+  [
+    "Pasta não encontrada. Confira o endereço e a conexão ao servidor.",
+    "Folder not found. Check the path and server connection.",
+    "Carpeta no encontrada. Compruebe la ruta y la conexión al servidor.",
+    "未找到文件夹，请检查路径和服务器连接。"
+  ],
+  [
+    "Não foi possível acessar a pasta. Confira rede e permissões.",
+    "Cannot access the folder. Check network access and permissions.",
+    "No se puede acceder a la carpeta. Compruebe la red y los permisos.",
+    "无法访问文件夹，请检查网络和权限。"
+  ],
+  [
+    "XML excede o limite de 2 MB.",
+    "XML exceeds the 2 MB limit.",
+    "El XML supera el límite de 2 MB.",
+    "XML 超过 2 MB 限制。"
+  ],
+  [
+    "XML com DTD ou entidades externas não é permitido.",
+    "XML with DTD or external entities is not allowed.",
+    "No se admite XML con DTD o entidades externas.",
+    "不允许包含 DTD 或外部实体的 XML。"
+  ],
+  [
+    "XML malformado.",
+    "Malformed XML.",
+    "XML mal formado.",
+    "XML 格式不正确。"
+  ],
+  [
+    "Envie uma NF-e completa (NFe ou nfeProc), não um evento ou resumo.",
+    "Provide a complete NF-e (NFe or nfeProc), not an event or summary.",
+    "Proporcione una NF-e completa (NFe o nfeProc), no un evento o resumen.",
+    "请提供完整 NF-e（NFe 或 nfeProc），而非事件或摘要。"
+  ],
+  [
+    "Estrutura ou namespace da NF-e inválido.",
+    "Invalid NF-e structure or namespace.",
+    "Estructura o espacio de nombres de NF-e no válido.",
+    "NF-e 结构或命名空间无效。"
+  ],
+  [
+    "Esta versão importa NF-e modelo 55. NFC-e, NFS-e e CT-e exigem outros leitores.",
+    "This version imports Brazilian NF-e model 55. NFC-e, NFS-e and CT-e require different readers.",
+    "Esta versión importa NF-e brasileña modelo 55. NFC-e, NFS-e y CT-e requieren otros lectores.",
+    "本版本导入巴西 NF-e（型号 55）。NFC-e、NFS-e 和 CT-e 需要其他读取器。"
+  ],
+  [
+    "Apenas notas de saída podem ser importadas para expedição.",
+    "Only outgoing invoices can be imported for shipping.",
+    "Solo se pueden importar facturas de salida para expedición.",
+    "仅可导入用于发货的销项发票。"
+  ],
+  [
+    "Nota de homologação não pode gerar etiquetas de expedição.",
+    "Test-environment invoices cannot generate shipping labels.",
+    "Las facturas del entorno de pruebas no pueden generar etiquetas de envío.",
+    "测试环境的发票不能用于生成发货标签。"
+  ],
+  [
+    "Chave de acesso ausente ou inválida.",
+    "Missing or invalid access key.",
+    "Clave de acceso ausente o no válida.",
+    "访问密钥缺失或无效。"
+  ],
+  [
+    "Protocolo não corresponde à NF-e.",
+    "Authorization protocol does not match the NF-e.",
+    "El protocolo de autorización no corresponde a la NF-e.",
+    "授权协议与 NF-e 不匹配。"
+  ],
+  [
+    "Número, série ou emitente incompleto.",
+    "Incomplete invoice number, series or issuer.",
+    "Número, serie o emisor incompleto.",
+    "发票号、系列或开票方信息不完整。"
+  ],
+  [
+    "Chave de acesso diverge dos dados da nota.",
+    "Access key does not match the invoice data.",
+    "La clave de acceso no coincide con los datos de la factura.",
+    "访问密钥与发票数据不符。"
+  ],
+  [
+    "Data de emissão inválida.",
+    "Invalid issue date.",
+    "Fecha de emisión no válida.",
+    "开票日期无效。"
+  ]
+]

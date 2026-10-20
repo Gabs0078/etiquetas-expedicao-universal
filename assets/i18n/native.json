@@ -1,0 +1,458 @@
+[
+  [
+    "Instalar TagEX",
+    "Install TagEX",
+    "Instalar TagEX",
+    "安装 TagEX"
+  ],
+  [
+    "TagEX no seu computador",
+    "TagEX on your computer",
+    "TagEX en su equipo",
+    "在您的电脑上使用 TagEX"
+  ],
+  [
+    "Instalar",
+    "Install",
+    "Instalar",
+    "安装"
+  ],
+  [
+    "Cancelar",
+    "Cancel",
+    "Cancelar",
+    "取消"
+  ],
+  [
+    "Voltar",
+    "Back",
+    "Atrás",
+    "返回"
+  ],
+  [
+    "Adicionar",
+    "Add",
+    "Añadir",
+    "添加"
+  ],
+  [
+    "Abrir TagEX",
+    "Open TagEX",
+    "Abrir TagEX",
+    "打开 TagEX"
+  ],
+  [
+    "Encerrar",
+    "Quit",
+    "Salir",
+    "退出"
+  ],
+  [
+    "Instala somente para sua conta do Windows. Inclui os componentes necessários: não é preciso instalar Node.js nem usar comandos.",
+    "Installs for your Windows account only. All required components are included: no Node.js installation or commands needed.",
+    "Se instala solo para su cuenta de Windows. Incluye los componentes necesarios: no necesita instalar Node.js ni usar comandos.",
+    "仅为当前 Windows 账户安装。已包含所需组件，无需另行安装 Node.js 或输入命令。"
+  ],
+  [
+    "Local de instalação: {0}",
+    "Install location: {0}",
+    "Ubicación de instalación: {0}",
+    "安装位置：{0}"
+  ],
+  [
+    "Criar atalho na área de trabalho",
+    "Create a desktop shortcut",
+    "Crear acceso directo en el escritorio",
+    "创建桌面快捷方式"
+  ],
+  [
+    "Depois de instalar, escolha entre importar XMLs, preencher manualmente ou configurar pastas. O uso local não precisa de internet.",
+    "After installation, import XMLs, enter details manually or set up folders. Local use does not require internet.",
+    "Tras instalar, importe XML, complete los datos manualmente o configure carpetas. El uso local no necesita internet.",
+    "安装后可导入 XML、手动填写或配置文件夹。本地使用无需互联网。"
+  ],
+  [
+    "Conferindo e copiando o aplicativo. Aguarde...",
+    "Checking and copying the app. Please wait...",
+    "Verificando y copiando la aplicación. Espere...",
+    "正在检查并复制应用，请稍候…"
+  ],
+  [
+    "TagEX {0} instalado. Seus dados e pastas configuradas foram preservados.",
+    "TagEX {0} installed. Your data and folder settings were preserved.",
+    "TagEX {0} instalado. Se conservaron sus datos y carpetas.",
+    "TagEX {0} 已安装，您的数据和文件夹设置已保留。"
+  ],
+  [
+    "Instalado. Não foi possível criar todos os atalhos; use Abrir TagEX abaixo ou na pasta indicada.",
+    "Installed. Some shortcuts could not be created; use Open TagEX below or in the install folder.",
+    "Instalado. No se crearon todos los accesos directos; use Abrir TagEX o la carpeta de instalación.",
+    "安装完成。部分快捷方式无法创建，请点击下方“打开 TagEX”或从安装文件夹启动。"
+  ],
+  [
+    "Bem-vindo ao TagEX",
+    "Welcome to TagEX",
+    "Bienvenido a TagEX",
+    "欢迎使用 TagEX"
+  ],
+  [
+    "Como você quer começar?",
+    "How would you like to start?",
+    "¿Cómo desea comenzar?",
+    "您想如何开始？"
+  ],
+  [
+    "O TagEX já está pronto para usar neste computador. Você pode configurar as pastas da empresa depois.",
+    "TagEX is ready on this computer. You can set up company folders later.",
+    "TagEX está listo en este equipo. Puede configurar las carpetas de la empresa después.",
+    "TagEX 已准备就绪，您可以稍后设置企业文件夹。"
+  ],
+  [
+    "Importar XMLs ou preencher manualmente",
+    "Import XMLs or enter details manually",
+    "Importar XML o completar manualmente",
+    "导入 XML 或手动填写"
+  ],
+  [
+    "Funciona sem internet. Use XMLs salvos no computador ou digite as informações.",
+    "Works without internet. Use XMLs saved on this computer or enter the details.",
+    "Funciona sin internet. Use XML guardados en el equipo o introduzca los datos.",
+    "无需互联网。可使用电脑中保存的 XML 或手动输入信息。"
+  ],
+  [
+    "Configurar busca nas pastas da empresa",
+    "Set up company folder search",
+    "Configurar búsqueda en carpetas de empresa",
+    "设置企业文件夹搜索"
+  ],
+  [
+    "O assistente ajuda a selecionar e testar as pastas. Pastas compartilhadas exigem acesso à rede ou VPN da empresa.",
+    "The wizard helps select and test folders. Shared folders require access to your company network or VPN.",
+    "El asistente ayuda a seleccionar y probar carpetas. Las compartidas requieren acceso a la red o VPN de la empresa.",
+    "向导将帮助您选择并测试文件夹。共享文件夹需要企业网络或 VPN 访问权限。"
+  ],
+  [
+    "Assistente de integração — Etiquetas",
+    "TagEX folder setup wizard",
+    "Asistente de carpetas de TagEX",
+    "TagEX 文件夹设置向导"
+  ],
+  [
+    "1 de 4 — Entender a busca de notas",
+    "1 of 4 — How invoice search works",
+    "1 de 4 — Cómo funciona la búsqueda",
+    "第 1 步，共 4 步 — 了解发票搜索"
+  ],
+  [
+    "2 de 4 — Adicionar pastas de XMLs",
+    "2 of 4 — Add XML folders",
+    "2 de 4 — Añadir carpetas XML",
+    "第 2 步，共 4 步 — 添加 XML 文件夹"
+  ],
+  [
+    "3 de 4 — Conferir o teste das pastas",
+    "3 of 4 — Review folder checks",
+    "3 de 4 — Revisar prueba de carpetas",
+    "第 3 步，共 4 步 — 核对文件夹检查结果"
+  ],
+  [
+    "4 de 4 — Salvar e começar a usar",
+    "4 of 4 — Save and get started",
+    "4 de 4 — Guardar y comenzar",
+    "第 4 步，共 4 步 — 保存并开始使用"
+  ],
+  [
+    "A integração permite encontrar notas fiscais sem importar um XML de cada vez.",
+    "Find invoices without importing each XML separately.",
+    "Busque facturas sin importar cada XML por separado.",
+    "无需逐个导入 XML 即可查找发票。"
+  ],
+  [
+    "Selecione uma pasta ou cole o endereço completo e clique em Adicionar. As subpastas também serão consultadas.",
+    "Select a folder or paste its full path and click Add. Subfolders are included.",
+    "Seleccione una carpeta o pegue su ruta completa y pulse Añadir. Se incluyen subcarpetas.",
+    "选择文件夹或粘贴完整路径，然后点击“添加”。搜索将包含子文件夹。"
+  ],
+  [
+    "O teste apenas lê uma amostra dos arquivos; não altera nem move seus XMLs. Confira o resultado abaixo.",
+    "The check reads a sample only; it does not change or move your XMLs. Review the results below.",
+    "La prueba solo lee una muestra; no modifica ni mueve los XML. Revise el resultado.",
+    "检查仅读取部分文件，不会修改或移动 XML。请核对以下结果。"
+  ],
+  [
+    "Confira o que será salvo. Depois, use Buscar nota no aplicativo para localizar suas notas fiscais.",
+    "Review what will be saved. Then use Find invoice in the app.",
+    "Revise lo que se guardará. Después use Buscar factura en la aplicación.",
+    "核对要保存的内容，然后在应用中使用“查找发票”。"
+  ],
+  [
+    "Selecionar pasta",
+    "Select folder",
+    "Seleccionar carpeta",
+    "选择文件夹"
+  ],
+  [
+    "Remover selecionada",
+    "Remove selected",
+    "Eliminar seleccionada",
+    "移除所选项"
+  ],
+  [
+    "Escolher pastas",
+    "Choose folders",
+    "Elegir carpetas",
+    "选择文件夹"
+  ],
+  [
+    "Testar pastas",
+    "Check folders",
+    "Probar carpetas",
+    "检查文件夹"
+  ],
+  [
+    "Revisar configuração",
+    "Review settings",
+    "Revisar configuración",
+    "核对设置"
+  ],
+  [
+    "Salvar e abrir etiquetas",
+    "Save and open labels",
+    "Guardar y abrir etiquetas",
+    "保存并打开标签"
+  ],
+  [
+    "Iniciar automaticamente quando eu entrar no Windows",
+    "Start automatically when I sign in to Windows",
+    "Iniciar automáticamente al entrar en Windows",
+    "登录 Windows 时自动启动"
+  ],
+  [
+    "Guardar também as pastas sem acesso para tentar novamente depois",
+    "Also keep inaccessible folders to retry later",
+    "Guardar también las carpetas inaccesibles para reintentar después",
+    "同时保留无法访问的文件夹，以便稍后重试"
+  ],
+  [
+    "Recomendado para buscar notas sem precisar abrir o atalho antes.",
+    "Useful if you want folder search ready after signing in.",
+    "Útil para tener la búsqueda disponible al iniciar sesión.",
+    "适合需要在登录后立即使用文件夹搜索的情况。"
+  ],
+  [
+    "Verificando acesso e procurando notas...",
+    "Checking access and looking for invoices...",
+    "Verificando acceso y buscando facturas...",
+    "正在检查访问权限并查找发票…"
+  ],
+  [
+    "Teste não concluído. Volte à etapa 2 para tentar novamente.",
+    "Check incomplete. Return to step 2 and retry.",
+    "Prueba incompleta. Vuelva al paso 2 e inténtelo de nuevo.",
+    "检查未完成，请返回第 2 步重试。"
+  ],
+  [
+    "Escolha uma pasta ou cole um endereço completo.",
+    "Select a folder or paste a full path.",
+    "Seleccione una carpeta o pegue una ruta completa.",
+    "请选择文件夹或粘贴完整路径。"
+  ],
+  [
+    "Adicione ao menos uma pasta.",
+    "Add at least one folder.",
+    "Añada al menos una carpeta.",
+    "请至少添加一个文件夹。"
+  ],
+  [
+    "Teste das pastas em andamento. Você pode cancelar.",
+    "Folder checks in progress. You can cancel.",
+    "Prueba de carpetas en curso. Puede cancelar.",
+    "正在检查文件夹，您可以取消。"
+  ],
+  [
+    "Volte e tente testar novamente.",
+    "Go back and run the check again.",
+    "Vuelva y ejecute la prueba de nuevo.",
+    "请返回并重新检查。"
+  ],
+  [
+    "Não foi possível testar. Confira o runtime e as dependências do aplicativo.",
+    "The check failed. Verify the app runtime and dependencies.",
+    "La prueba falló. Compruebe el runtime y las dependencias.",
+    "检查失败，请核实应用运行环境及依赖组件。"
+  ],
+  [
+    "O teste demorou mais de 30 segundos. Confira a rede ou teste menos pastas por vez.",
+    "The check took over 30 seconds. Check the network or try fewer folders.",
+    "La prueba superó 30 segundos. Compruebe la red o pruebe menos carpetas.",
+    "检查超过 30 秒，请检查网络或减少每次检查的文件夹数量。"
+  ],
+  [
+    "Runtime e dependências disponíveis. As permissões das pastas serão verificadas na etapa 3.",
+    "Runtime and dependencies ready. Folder access is checked in step 3.",
+    "Runtime y dependencias listos. El acceso se comprobará en el paso 3.",
+    "运行环境和依赖组件已就绪，第 3 步将检查文件夹访问权限。"
+  ],
+  [
+    "Dependências ausentes. Reinstale o pacote do aplicativo.",
+    "Missing dependencies. Reinstall the app package.",
+    "Faltan dependencias. Reinstale el paquete.",
+    "缺少依赖组件，请重新安装应用包。"
+  ],
+  [
+    "O pacote precisa incluir Node.js 24 ou superior.",
+    "The package must include Node.js 24 or newer.",
+    "El paquete debe incluir Node.js 24 o superior.",
+    "安装包必须包含 Node.js 24 或更高版本。"
+  ],
+  [
+    "Configurar pastas dos XMLs",
+    "Set up XML folders",
+    "Configurar carpetas XML",
+    "设置 XML 文件夹"
+  ],
+  [
+    "TagEX - Etiquetas para expedição",
+    "TagEX - Shipping labels",
+    "TagEX - Etiquetas de envío",
+    "TagEX - 发货标签"
+  ],
+  [
+    "Pastas acessíveis: ",
+    "Accessible folders: ",
+    "Carpetas accesibles: ",
+    "可访问的文件夹："
+  ],
+  [
+    "Notas válidas na amostra: ",
+    "Valid invoices in sample: ",
+    "Facturas válidas en la muestra: ",
+    "样本中的有效发票："
+  ],
+  [
+    "Ocorrências no teste (arquivos ou subpastas): ",
+    "Check notices (files or subfolders): ",
+    "Avisos de prueba (archivos o subcarpetas): ",
+    "检查提示（文件或子文件夹）："
+  ],
+  [
+    "Amostra de até 100 entradas. A busca diária poderá encontrar outras notas.",
+    "Sample limited to 100 entries. Regular searches may find more invoices.",
+    "Muestra de hasta 100 entradas. La búsqueda diaria puede encontrar más facturas.",
+    "最多抽样 100 项，日常搜索可能找到更多发票。"
+  ],
+  [
+    "Alguns arquivos ou subpastas não foram aproveitados. Isso não impede salvar as pastas acessíveis.",
+    "Some files or subfolders were skipped. Accessible folders can still be saved.",
+    "Se omitieron algunos archivos o subcarpetas. Puede guardar las carpetas accesibles.",
+    "已跳过部分文件或子文件夹，但仍可保存可访问的文件夹。"
+  ],
+  [
+    "Sem acesso agora: ",
+    "Currently inaccessible: ",
+    "Sin acceso ahora: ",
+    "目前无法访问："
+  ],
+  [
+    " pasta(s). Desmarcada a opção abaixo, elas não serão salvas.",
+    " folder(s). They will not be saved unless you select the option below.",
+    " carpeta(s). No se guardarán si no marca la opción siguiente.",
+    " 个文件夹。只有选择下方选项后才会保存。"
+  ],
+  [
+    "Nenhuma pasta está acessível. Volte para corrigir os endereços ou marque Guardar também as pastas sem acesso para configurar e tentar depois.",
+    "No folders are accessible. Correct their paths or select the option to keep inaccessible folders and retry later.",
+    "No hay carpetas accesibles. Corrija las rutas o marque guardar carpetas inaccesibles para reintentar después.",
+    "没有可访问的文件夹。请更正路径，或选择保留无法访问的文件夹以便稍后重试。"
+  ],
+  [
+    "Configuração salva. As pastas ainda estão sem acesso; confira a conexão ao servidor antes de buscar notas.",
+    "Settings saved. Folders are still inaccessible; check the server connection before searching.",
+    "Configuración guardada. Las carpetas siguen inaccesibles; compruebe la conexión antes de buscar.",
+    "设置已保存，但文件夹仍无法访问。搜索前请检查服务器连接。"
+  ],
+  [
+    "Não foi possível concluir a verificação. A configuração anterior foi recuperada quando disponível. Você pode tentar novamente pelo ícone do aplicativo.",
+    "Verification failed. Previous settings were restored where available. Retry from the app tray icon.",
+    "La verificación falló. Se restauró la configuración anterior cuando fue posible. Reintente desde el icono.",
+    "验证失败，已在可用时恢复原设置。请通过应用托盘图标重试。"
+  ],
+  [
+    "Feche o TagEX pelo ícone ao lado do relógio > Encerrar. Depois clique em Instalar novamente.",
+    "Quit TagEX from its system tray icon, then click Install again.",
+    "Cierre TagEX desde el icono junto al reloj y pulse Instalar de nuevo.",
+    "请通过系统托盘图标退出 TagEX，然后再次点击“安装”。"
+  ],
+  [
+    "Desinstalar TagEX",
+    "Uninstall TagEX",
+    "Desinstalar TagEX",
+    "卸载 TagEX"
+  ],
+  [
+    "Remover o aplicativo TagEX? As pastas de XMLs, configurações e dados do navegador serão mantidos.",
+    "Uninstall TagEX? XML folders, settings and browser data will be kept.",
+    "¿Desinstalar TagEX? Se conservarán XML, configuración y datos del navegador.",
+    "是否卸载 TagEX？XML 文件夹、设置和浏览器数据将被保留。"
+  ],
+  [
+    "Aplicativo removido. Seus dados foram mantidos.",
+    "App removed. Your data was kept.",
+    "Aplicación eliminada. Sus datos se conservaron.",
+    "应用已移除，您的数据已保留。"
+  ],
+  [
+    "Arquivo incompleto ou alterado: ",
+    "Incomplete or modified file: ",
+    "Archivo incompleto o modificado: ",
+    "文件不完整或已被修改："
+  ],
+  [
+    "Falta um arquivo do pacote: ",
+    "Missing package file: ",
+    "Falta un archivo del paquete: ",
+    "安装包缺少文件："
+  ],
+  [
+    "Pacote do TagEX inválido ou incompleto. Extraia o ZIP novamente.",
+    "Invalid or incomplete TagEX package. Extract the ZIP again.",
+    "Paquete inválido o incompleto. Extraiga el ZIP de nuevo.",
+    "TagEX 安装包无效或不完整，请重新解压 ZIP。"
+  ],
+  [
+    "A pasta de destino já existe e não foi criada por este instalador. Ela foi preservada.",
+    "The destination already exists and was not created by this installer. It was preserved.",
+    "El destino ya existe y no fue creado por este instalador. Se conservó.",
+    "目标文件夹已存在，且并非由此安装程序创建，因此未作修改。"
+  ],
+  [
+    "Use o instalador extraído em outra pasta.",
+    "Run the extracted installer from a different folder.",
+    "Ejecute el instalador extraído desde otra carpeta.",
+    "请从其他文件夹运行已解压的安装程序。"
+  ],
+  [
+    "O runtime incluído não iniciou. Este pacote requer Windows 10/11 de 64 bits.",
+    "The included runtime could not start. This package requires 64-bit Windows 10/11.",
+    "No inició el runtime incluido. El paquete requiere Windows 10/11 de 64 bits.",
+    "附带运行环境无法启动，此安装包要求 64 位 Windows 10/11。"
+  ],
+  [
+    "Como funciona\r\n\r\n1. Você informa onde a empresa salva os XMLs.\r\n2. O assistente verifica se essas pastas podem ser lidas.\r\n3. Você salva e passa a buscar as notas no aplicativo.\r\n\r\nOs arquivos originais permanecem nas pastas. Sua conta do Windows precisa ter acesso a elas.",
+    "How it works\r\n\r\n1. Choose where your company saves XMLs.\r\n2. The wizard checks access to those folders.\r\n3. Save and search for invoices in the app.\r\n\r\nOriginal files stay in their folders. Your Windows account needs read access.",
+    "Cómo funciona\r\n\r\n1. Indique dónde se guardan los XML.\r\n2. El asistente comprueba el acceso.\r\n3. Guarde y busque facturas en la aplicación.\r\n\r\nLos archivos originales permanecen en sus carpetas. Su cuenta de Windows necesita acceso de lectura.",
+    "使用方法\r\n\r\n1. 选择企业保存 XML 的文件夹。\r\n2. 向导将检查这些文件夹的访问权限。\r\n3. 保存后即可在应用中查找发票。\r\n\r\n原文件保留在各自文件夹中。您的 Windows 账户需要读取权限。"
+  ],
+  [
+    "Resumo das pastas: {0}; acessíveis: {1}; guardadas para depois: {2}.\r\n\r\n{3}",
+    "Folder summary\r\n\r\nSaved: {0}\r\nAccessible now: {1}\r\nKept for later: {2}\r\n\r\n{3}",
+    "Resumen de carpetas\r\n\r\nGuardadas: {0}\r\nAccesibles ahora: {1}\r\nPara reintentar: {2}\r\n\r\n{3}",
+    "文件夹摘要\r\n\r\n将保存：{0}\r\n目前可访问：{1}\r\n保留以便稍后重试：{2}\r\n\r\n{3}"
+  ],
+  [
+    "Configuração salva. {0} pasta(s) acessível(is). Use Buscar nota no aplicativo.",
+    "Settings saved. Accessible folders: {0}. Use Find invoice in the app.",
+    "Configuración guardada. Carpetas accesibles: {0}. Use Buscar factura en la aplicación.",
+    "设置已保存，可访问的文件夹：{0}。请在应用中使用“查找发票”。"
+  ]
+]

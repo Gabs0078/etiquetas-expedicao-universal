@@ -1,0 +1,284 @@
+[
+  [
+    "Voltar ao aplicativo",
+    "Back to app",
+    "Volver a la aplicación",
+    "返回应用"
+  ],
+  [
+    "Instalar e usar offline — TagEX",
+    "Install and use offline — TagEX",
+    "Instalar y usar sin conexión — TagEX",
+    "安装与离线使用 — TagEX"
+  ],
+  [
+    "Claro / escuro",
+    "Light / dark",
+    "Claro / oscuro",
+    "浅色 / 深色"
+  ],
+  [
+    "Aplicativo local · Windows",
+    "Local app · Windows",
+    "Aplicación local · Windows",
+    "本地应用 · Windows"
+  ],
+  [
+    "Suas etiquetas, mesmo sem internet.",
+    "Your labels, even offline.",
+    "Sus etiquetas, incluso sin internet.",
+    "即使离线，也能打印标签。"
+  ],
+  [
+    "Importe XMLs, preencha etiquetas e imprima neste computador. A busca nas pastas da empresa é opcional.",
+    "Import XMLs, fill in labels and print on this computer. Searching company folders is optional.",
+    "Importe XML, complete etiquetas e imprima en este equipo. Buscar en carpetas de la empresa es opcional.",
+    "导入 XML、填写标签并在此电脑上打印。可自行选择是否搜索企业文件夹。"
+  ],
+  [
+    "Baixar TagEX para Windows",
+    "Download TagEX for Windows",
+    "Descargar TagEX para Windows",
+    "下载 Windows 版 TagEX"
+  ],
+  [
+    "Versão 0.5.0 · Windows 10/11 de 64 bits · Linux e macOS em breve.",
+    "Version 0.5.0 · 64-bit Windows 10/11 · Linux and macOS coming soon.",
+    "Versión 0.5.0 · Windows 10/11 de 64 bits · Linux y macOS próximamente.",
+    "版本 0.5.0 · 64 位 Windows 10/11 · Linux 与 macOS 敬请期待。"
+  ],
+  [
+    "Internet só para baixar; depois você pode levar o ZIP por pendrive.",
+    "Internet is needed to download; you can then transfer the ZIP by USB drive.",
+    "Internet solo para descargar; después puede llevar el ZIP en una memoria USB.",
+    "下载需要联网，之后可通过 U 盘传送 ZIP 安装包。"
+  ],
+  [
+    "Instalar em quatro passos",
+    "Install in four steps",
+    "Instale en cuatro pasos",
+    "四步完成安装"
+  ],
+  [
+    "Baixe o pacote Windows",
+    "Download the Windows package",
+    "Descargue el paquete Windows",
+    "下载 Windows 安装包"
+  ],
+  [
+    "Use o botão acima. No GitHub, baixe TagEX-Windows-0.5.0.zip em Releases; “Source code” é para desenvolvedores.",
+    "Use the button above. On GitHub, download TagEX-Windows-0.5.0.zip from Releases; “Source code” is for developers.",
+    "Use el botón de arriba. En GitHub, descargue TagEX-Windows-0.5.0.zip en Releases; “Source code” es para desarrolladores.",
+    "使用上方按钮，或在 GitHub 的 Releases 下载 TagEX-Windows-0.5.0.zip。“Source code”供开发者使用。"
+  ],
+  [
+    "Extraia todos os arquivos",
+    "Extract all files",
+    "Extraiga todos los archivos",
+    "解压所有文件"
+  ],
+  [
+    "Clique com o botão direito no ZIP e escolha Extrair tudo. Abra a pasta extraída; não execute o instalador dentro do ZIP.",
+    "Right-click the ZIP and choose Extract all. Open the extracted folder; do not run the installer inside the ZIP.",
+    "Haga clic derecho en el ZIP y elija Extraer todo. Abra la carpeta extraída; no ejecute el instalador dentro del ZIP.",
+    "右键点击 ZIP 并选择“全部解压缩”。打开解压后的文件夹，请勿直接在 ZIP 内运行安装程序。"
+  ],
+  [
+    "Abra “Instalar TagEX.exe”",
+    "Open “Instalar TagEX.exe”",
+    "Abra “Instalar TagEX.exe”",
+    "打开“Instalar TagEX.exe”"
+  ],
+  [
+    "Escolha seu idioma e clique em Instalar. A instalação é para sua conta, com atalho no menu Iniciar e na área de trabalho (opcional). Node.js e outros componentes já vêm incluídos.",
+    "Choose your language and click Install. Installation is for your account, with a Start menu shortcut and an optional desktop shortcut. Node.js and other components are included.",
+    "Elija su idioma y pulse Instalar. Se instala para su cuenta, con acceso en Inicio y opcionalmente en el escritorio. Incluye Node.js y los demás componentes.",
+    "选择语言并点击“安装”。程序仅安装到当前账户，创建开始菜单快捷方式，并可选择创建桌面快捷方式。已附带 Node.js 等组件。"
+  ],
+  [
+    "Abra o TagEX e escolha como começar",
+    "Open TagEX and choose how to start",
+    "Abra TagEX y elija cómo comenzar",
+    "打开 TagEX 并选择使用方式"
+  ],
+  [
+    "Comece com Importar XMLs ou preencher manualmente, sem configurar pastas. Para pesquisar XMLs da empresa, escolha Configurar busca nas pastas da empresa.",
+    "Start with Import XMLs or enter manually, without configuring folders. To search company XMLs, choose Set up company folder search.",
+    "Empiece con Importar XML o completar manualmente, sin configurar carpetas. Para buscar XML de la empresa, elija Configurar búsqueda en carpetas de la empresa.",
+    "可选择“导入 XML 或手动填写”，无需配置文件夹。若需查找企业 XML，请选择“配置企业文件夹搜索”。"
+  ],
+  [
+    "Depois, use o atalho TagEX. O endereço 127.0.0.1:8788 no navegador é do próprio computador. O instalador não altera impressoras, compartilhamentos ou firewall.",
+    "Then use the TagEX shortcut. The browser address 127.0.0.1:8788 points to this computer. The installer does not change printers, file shares or firewall settings.",
+    "Después use el acceso TagEX. La dirección 127.0.0.1:8788 corresponde a este equipo. El instalador no cambia impresoras, recursos compartidos ni firewall.",
+    "之后使用 TagEX 快捷方式。浏览器地址 127.0.0.1:8788 指向本机。安装程序不会修改打印机、共享文件夹或防火墙设置。"
+  ],
+  [
+    "O leitor de XML atual aceita NF-e brasileira de saída, modelo 55. Mudar o idioma não muda o formato fiscal nem traduz os dados da nota; as legendas impressas continuam em português nesta versão.",
+    "The current XML reader supports Brazilian outgoing NF-e, model 55. Changing the language does not change the invoice format or translate invoice data; printed captions remain in Portuguese in this version.",
+    "El lector actual admite NF-e brasileña de salida, modelo 55. Cambiar el idioma no cambia el formato fiscal ni traduce los datos; los títulos impresos siguen en portugués en esta versión.",
+    "当前 XML 读取器支持巴西销项 NF-e（型号 55）。切换语言不会改变发票格式或翻译发票数据；本版本的打印标题仍为葡萄牙语。"
+  ],
+  [
+    "Buscar nas pastas da empresa · opcional",
+    "Search company folders · optional",
+    "Buscar en carpetas de la empresa · opcional",
+    "搜索企业文件夹 · 可选"
+  ],
+  [
+    "Abra “Configurar integração”",
+    "Open “Set up integration”",
+    "Abra “Configurar integración”",
+    "打开“配置集成”"
+  ],
+  [
+    "Está em Buscar nas pastas do aplicativo local ou no ícone TagEX ao lado do relógio.",
+    "Find it under Search folders in the local app or in the TagEX tray icon beside the clock.",
+    "Está en Buscar en carpetas de la aplicación local o en el icono TagEX junto al reloj.",
+    "可在本地应用的“搜索文件夹”中找到，也可通过时钟旁的 TagEX 托盘图标打开。"
+  ],
+  [
+    "Adicione as pastas de XML",
+    "Add the XML folders",
+    "Añada las carpetas de XML",
+    "添加 XML 文件夹"
+  ],
+  [
+    "Selecione uma pasta local ou cole o caminho de rede. Sua conta do Windows precisa conseguir abrir a pasta.",
+    "Select a local folder or paste a network path. Your Windows account must be able to open the folder.",
+    "Seleccione una carpeta local o pegue una ruta de red. Su cuenta de Windows debe poder abrir esa carpeta.",
+    "选择本地文件夹或粘贴网络路径。您的 Windows 账户必须有权打开该文件夹。"
+  ],
+  [
+    "Confira o teste e salve",
+    "Review the test and save",
+    "Revise la prueba y guarde",
+    "检查测试结果并保存"
+  ],
+  [
+    "Pastas acessíveis podem ser salvas mesmo vazias ou com avisos em alguns arquivos. Guardar pastas sem acesso é opcional, para tentar quando a rede voltar.",
+    "Accessible folders can be saved even if empty or with warnings for some files. Keeping unavailable folders is optional, to retry when the network returns.",
+    "Puede guardar carpetas accesibles aunque estén vacías o algunos archivos tengan avisos. Guardar carpetas inaccesibles es opcional, para reintentar cuando vuelva la red.",
+    "可保存能够访问的文件夹，即使其中为空或部分文件有提示。也可选择保留暂时无法访问的文件夹，待网络恢复后重试。"
+  ],
+  [
+    "Pesquise e confira a nota",
+    "Search and review the invoice",
+    "Busque y revise la factura",
+    "搜索并核对发票"
+  ],
+  [
+    "Informe número ou cliente e clique na lupa. Aguarde a preparação inicial do índice; depois as buscas usam o índice em disco. O início com o Windows é opcional. Os XMLs originais não são alterados.",
+    "Enter an invoice number or customer and click the magnifier. Wait for initial indexing; later searches use the disk index. Starting with Windows is optional. Original XMLs are not modified.",
+    "Indique número o cliente y pulse la lupa. Espere la indexación inicial; luego las búsquedas usan el índice en disco. Iniciar con Windows es opcional. Los XML originales no se modifican.",
+    "输入发票号或客户名，点击放大镜。首次使用请等待索引建立，后续搜索使用磁盘索引。可选择随 Windows 启动。原始 XML 不会被修改。"
+  ],
+  [
+    "O que funciona sem internet?",
+    "What works offline?",
+    "¿Qué funciona sin internet?",
+    "离线时可以做什么？"
+  ],
+  [
+    "Preenchimento manual, importação de XMLs locais, edição do lote e impressão funcionam sem internet. A impressora precisa estar instalada e disponível.",
+    "Manual entry, local XML import, batch editing and printing work offline. The printer must be installed and available.",
+    "La entrada manual, importación de XML locales, edición del lote e impresión funcionan sin internet. La impresora debe estar instalada y disponible.",
+    "手动填写、导入本地 XML、编辑批次和打印均可离线使用。打印机须已安装并可用。"
+  ],
+  [
+    "Pastas locais funcionam offline com o TagEX aberto. Pastas no servidor precisam da rede ou VPN da empresa; não é a mesma coisa que internet.",
+    "Local folders work offline while TagEX is running. Server folders need the company network or VPN; this is different from internet access.",
+    "Las carpetas locales funcionan sin internet mientras TagEX esté abierto. Las carpetas del servidor necesitan la red o VPN de la empresa; no es lo mismo que internet.",
+    "运行 TagEX 时可离线搜索本地文件夹。服务器文件夹需要连接企业网络或 VPN，这与互联网连接不同。"
+  ],
+  [
+    "O site guarda a interface após o primeiro acesso, mas o navegador pode apagar o cache. O pacote local inclui a interface e não depende desse cache. A versão do site não busca sozinha nas pastas.",
+    "The website caches the interface after a first visit, but the browser may clear it. The local package includes the interface and does not depend on that cache. The website cannot search folders on its own.",
+    "El sitio guarda la interfaz tras la primera visita, pero el navegador puede borrar la caché. El paquete local incluye la interfaz y no depende de esa caché. El sitio no busca carpetas por sí solo.",
+    "网站首次访问后会缓存界面，但浏览器可能清除缓存。本地安装包包含完整界面，无需依赖该缓存。网站本身无法直接搜索文件夹。"
+  ],
+  [
+    "Site e aplicativo local têm dados separados. Empresas, preferências e lote ficam no navegador e endereço em que foram criados. Não há transferência automática entre o Pages e 127.0.0.1; não limpe os dados do navegador se precisar mantê-los.",
+    "The website and local app have separate data. Companies, preferences and batches stay in the browser and address where they were created. Nothing is automatically transferred between Pages and 127.0.0.1; keep browser data if you need it.",
+    "El sitio y la aplicación local tienen datos separados. Empresas, preferencias y lotes quedan en el navegador y dirección donde se crearon. No se transfieren entre Pages y 127.0.0.1; no borre esos datos si los necesita.",
+    "网站与本地应用分别保存数据。企业信息、偏好和批次保存在创建时的浏览器及地址下。Pages 与 127.0.0.1 之间不会自动传输；如需保留，请勿清除浏览器数据。"
+  ],
+  [
+    "Se precisar de ajuda",
+    "If you need help",
+    "Si necesita ayuda",
+    "需要帮助时"
+  ],
+  [
+    "Não abre ou está desconectado",
+    "App will not open or is disconnected",
+    "No abre o está desconectado",
+    "无法打开或连接已断开"
+  ],
+  [
+    "Abra o atalho TagEX. Fechar a aba não encerra o serviço; Encerrar no ícone da bandeja encerra. Uma porta 8788 ocupada é informada, sem fechar outros programas. O último erro está em %LOCALAPPDATA%\\EtiquetasExpedicao\\ultimo-erro.txt.",
+    "Open the TagEX shortcut. Closing the tab keeps the service running; Exit in the tray stops it. An occupied port 8788 is reported without closing other programs. The last error is in %LOCALAPPDATA%\\EtiquetasExpedicao\\ultimo-erro.txt.",
+    "Abra el acceso TagEX. Cerrar la pestaña no detiene el servicio; Salir en la bandeja sí. Si el puerto 8788 está ocupado, se informa sin cerrar otros programas. El último error está en %LOCALAPPDATA%\\EtiquetasExpedicao\\ultimo-erro.txt.",
+    "打开 TagEX 快捷方式。关闭标签页不会停止服务；托盘菜单中的“退出”会停止服务。若端口 8788 已占用，程序会提示，不会关闭其他程序。错误日志：%LOCALAPPDATA%\\EtiquetasExpedicao\\ultimo-erro.txt。"
+  ],
+  [
+    "O Windows bloqueou o instalador",
+    "Windows blocked the installer",
+    "Windows bloqueó el instalador",
+    "Windows 阻止了安装程序"
+  ],
+  [
+    "Esta versão não tem assinatura digital. Confira se baixou deste repositório. Se houver bloqueio por política da empresa, peça liberação à TI; não desative as proteções do Windows.",
+    "This release is not digitally signed. Check that it came from this repository. If company policy blocks it, contact IT; do not disable Windows protections.",
+    "Esta versión no tiene firma digital. Confirme que proviene de este repositorio. Si la política de la empresa la bloquea, consulte con TI; no desactive las protecciones de Windows.",
+    "此版本尚无数字签名。请确认安装包来自本仓库。如被企业策略阻止，请联系 IT 部门；不要关闭 Windows 防护。"
+  ],
+  [
+    "Como atualizar?",
+    "How do I update?",
+    "¿Cómo actualizar?",
+    "如何更新？"
+  ],
+  [
+    "Baixe o pacote novo, extraia tudo, encerre o TagEX na bandeja e execute o novo Instalar TagEX.exe. Pastas configuradas e índice ficam em %LOCALAPPDATA%\\EtiquetasExpedicao. Use o mesmo navegador e endereço para manter o lote e os cadastros. Não há atualização automática.",
+    "Download the new package, extract all files, exit TagEX from the tray and run the new Instalar TagEX.exe. Folder settings and the index stay in %LOCALAPPDATA%\\EtiquetasExpedicao. Use the same browser and address to retain batches and companies. Updates are manual.",
+    "Descargue el paquete nuevo, extraiga todo, cierre TagEX desde la bandeja y ejecute el nuevo Instalar TagEX.exe. Carpetas e índice quedan en %LOCALAPPDATA%\\EtiquetasExpedicao. Use el mismo navegador y dirección para conservar los datos. La actualización es manual.",
+    "下载新安装包并全部解压，从托盘退出 TagEX，然后运行新的 Instalar TagEX.exe。文件夹设置和索引保留在 %LOCALAPPDATA%\\EtiquetasExpedicao。请使用相同浏览器及地址保留批次与企业信息。更新需手动进行。"
+  ],
+  [
+    "Quero usar sem instalar",
+    "Use without installing",
+    "Usar sin instalar",
+    "不安装直接使用"
+  ],
+  [
+    "Na pasta extraída, abra Abrir TagEX.exe. Mantenha a pasta inteira num local fixo. Esse modo não cria atalhos. Se mover a pasta, desative e reative o início com o Windows no assistente.",
+    "In the extracted folder, open Abrir TagEX.exe. Keep the whole folder in a fixed location. This mode creates no shortcuts. If you move it, turn Windows startup off and on again in the wizard.",
+    "En la carpeta extraída, abra Abrir TagEX.exe. Mantenga toda la carpeta en una ubicación fija. Este modo no crea accesos. Si la mueve, desactive y reactive el inicio con Windows en el asistente.",
+    "在解压后的文件夹中打开 Abrir TagEX.exe。请将完整文件夹保存在固定位置，此模式不创建快捷方式。若移动文件夹，请在向导中关闭并重新启用随 Windows 启动。"
+  ],
+  [
+    "Como desinstalar?",
+    "How do I uninstall?",
+    "¿Cómo desinstalar?",
+    "如何卸载？"
+  ],
+  [
+    "Encerre o TagEX na bandeja e use Configurações do Windows → Aplicativos → TagEX → Desinstalar. Configurações, dados do navegador e XMLs originais são mantidos.",
+    "Exit TagEX from the tray and use Windows Settings → Apps → TagEX → Uninstall. Settings, browser data and original XMLs are retained.",
+    "Cierre TagEX desde la bandeja y use Configuración de Windows → Aplicaciones → TagEX → Desinstalar. Se conservan configuración, datos del navegador y XML originales.",
+    "从托盘退出 TagEX，然后打开 Windows 设置 → 应用 → TagEX → 卸载。设置、浏览器数据和原始 XML 会保留。"
+  ],
+  [
+    "Abrir aplicativo",
+    "Open app",
+    "Abrir aplicación",
+    "打开应用"
+  ],
+  [
+    "Pedir ajuda",
+    "Get help",
+    "Pedir ayuda",
+    "获取帮助"
+  ]
+]

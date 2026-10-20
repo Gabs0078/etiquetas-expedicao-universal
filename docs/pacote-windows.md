@@ -17,7 +17,7 @@ scripts/pacote-windows.cjs usa lista explícita de arquivos e inclui apenas o pa
 
 ## Validação automatizada
 
-Execute os testes gerais e de navegador. Para validar o ZIP no Windows, defina TAGEX_PACOTE_TESTE com o caminho absoluto e execute node --test tests/instalador.test.cjs.
+Execute os testes gerais e de navegador. Para validar o ZIP no Windows, defina TAGEX_PACOTE_TESTE com o caminho absoluto e execute pnpm test. O comando também mantém os testes legados em português; testes específicos conferem os quatro idiomas separadamente.
 
 O teste usa uma pasta temporária, sem Node global no PATH. Instala duas vezes, verifica dados externos preservados, rejeita pacote danificado e destino alheio, abre serviço/sessão com runtime incluído e remove a instalação. Não cria atalhos nem registros na conta real do desenvolvedor.
 

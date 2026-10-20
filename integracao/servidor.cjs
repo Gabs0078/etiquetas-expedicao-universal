@@ -7,8 +7,8 @@ const { randomBytes, timingSafeEqual } = require('node:crypto');
 const { criarFontePastas } = require('./fontes/pastas.cjs');
 const FABRICAS = { pastas: criarFontePastas };
 const RAIZ_APP = path.resolve(__dirname, '..');
-const ESTATICOS = ['assets/brand/tagex-compartilhamento-v1.png', 'index.html', 'instalar.html', 'sw.js', 'manifest.webmanifest', 'assets/css/styles.css', 'assets/js/app.js', 'assets/js/nfe.js', 'assets/js/importacao.js', 'assets/js/fontes.js', 'assets/icons/github-invertocat-black.svg', 'assets/icons/github-invertocat-white.svg', 'assets/icons/app-icon.svg', 'assets/icons/app-icon-192.png', 'assets/icons/app-icon-512.png'];
-const TIPOS = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.webmanifest': 'application/manifest+json', '.svg': 'image/svg+xml', '.png': 'image/png' };
+const ESTATICOS = ['assets/i18n/catalogs.json','assets/js/i18n.js','assets/i18n/catalogs.js','assets/brand/tagex-compartilhamento-v1.png', 'index.html', 'instalar.html', 'sw.js', 'manifest.webmanifest', 'assets/css/styles.css', 'assets/js/app.js', 'assets/js/nfe.js', 'assets/js/importacao.js', 'assets/js/fontes.js', 'assets/icons/github-invertocat-black.svg', 'assets/icons/github-invertocat-white.svg', 'assets/icons/app-icon.svg', 'assets/icons/app-icon-192.png', 'assets/icons/app-icon-512.png'];
+const TIPOS = { '.json': 'application/json', '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.webmanifest': 'application/manifest+json', '.svg': 'image/svg+xml', '.png': 'image/png' };
 function correspondeBusca(nota, busca) {
   if (!busca) return true;
   if (/^\d+$/.test(busca)) return busca.length === 44 ? nota.chave === busca : nota.nf.includes(busca);
@@ -57,7 +57,9 @@ function criarServidor(config = {}, opcoes = {}) {
         const html = await fs.readFile(path.join(RAIZ_APP, 'index.html'), 'utf8');
         res.setHeader('Cache-Control', 'no-cache');
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Set-Cookie': 'etiquetas_sessao=' + sessao + '; HttpOnly; SameSite=Strict; Path=/' });
-        return res.end(html.replace('<head>', "<head><script>history.replaceState(null, '', '/');</script>"));
+        const idioma = ["en","pt-BR","es","zh-Hans"].includes(url.searchParams.get("idioma")) ? url.searchParams.get("idioma") : "en";
+        const preferencia = "try{if(!localStorage.getItem('tagex_language_v1'))localStorage.setItem('tagex_language_v1'," + JSON.stringify(idioma) + ")}catch{};";
+        return res.end(html.replace('<head>', "<head><script>" + preferencia + "history.replaceState(null, '', '/');</script>"));
       }
       if (opcoes.desktop && url.pathname === '/api/sessao' && req.method === 'POST') {
         const recebido = Buffer.from((req.headers.authorization || '').replace(/^Bearer /, ''));

@@ -1,11 +1,13 @@
 ﻿param([switch]$SemInterface, [switch]$SemAtalhos)
+if (!(Get-Command T -ErrorAction SilentlyContinue)) { . (Join-Path $PSScriptRoot 'idiomas.ps1') }
+
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'instalacao.ps1')
 $destino = [IO.Path]::GetFullPath((Split-Path $PSScriptRoot -Parent))
 if (!(Test-Path -LiteralPath (Join-Path $destino 'tagex-install.json')) -or (Get-Content -LiteralPath (Join-Path $destino 'tagex-install.json') -Raw | ConvertFrom-Json).produto -ne 'TagEX') { throw 'Esta pasta não é uma instalação do TagEX.' }
 if (!$SemInterface) {
     Add-Type -AssemblyName System.Windows.Forms
-    $confirmar = [Windows.Forms.MessageBox]::Show('Remover o aplicativo TagEX? As pastas de XMLs, configurações e dados do navegador serão mantidos.', 'Desinstalar TagEX', 'YesNo', 'Question')
+    $confirmar = [Windows.Forms.MessageBox]::Show((T 'Remover o aplicativo TagEX? As pastas de XMLs, configurações e dados do navegador serão mantidos.'), (T 'Desinstalar TagEX'), 'YesNo', 'Question')
     if ($confirmar -ne 'Yes') { exit 0 }
 }
 try {
@@ -23,8 +25,8 @@ try {
         if ($valor -and $valor.Contains((Join-Path $destino 'desktop\iniciar.ps1'))) { Remove-ItemProperty -Path $inicio -Name 'EtiquetasExpedicao' }
     }
     # O destino foi obtido da própria pasta do script e conferido pelo marcador acima.
-    Remove-Item -LiteralPath $destino -Recurse -Force
-    if (!$SemInterface) { [Windows.Forms.MessageBox]::Show('Aplicativo removido. Seus dados foram mantidos.', 'TagEX') | Out-Null }
+    [IO.Directory]::Delete($destino,$true)
+    if (!$SemInterface) { [Windows.Forms.MessageBox]::Show((T 'Aplicativo removido. Seus dados foram mantidos.'), 'TagEX') | Out-Null }
 } catch {
     if ($SemInterface) { throw }
     [Windows.Forms.MessageBox]::Show($_.Exception.Message, 'TagEX') | Out-Null

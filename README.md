@@ -1,162 +1,60 @@
-# TagEX — Etiquetas para expedição
+# TagEX — Shipping labels
 
-Etiquetas de expedição com volumes numerados automaticamente, para folhas de papel ou bobina térmica. O aplicativo oferece formatos A4, A3, A2, A5, Carta e Ofício, disposições maiores por folha, organização Grade/Lista e bobinas de 80 × 35 até 100 × 150 mm. Digite os dados, importe XMLs de NF-e ou conecte o serviço opcional de busca em pastas da empresa.
+[English](README.md) · [Português (Brasil)](README.pt-BR.md) · [Español](README.es.md) · [简体中文](README.zh-Hans.md)
 
-## Três formas de trabalhar
+**Open-source shipping labels for paper and thermal rolls.** Enter shipment details manually, import Brazilian NF-e XML files, or search configured company folders using the optional local service.
 
-| Modo | Como funciona | Instalação |
-| --- | --- | --- |
-| Manual | Preencha nota, destinatário e volumes como na versão original | Abra `index.html` |
-| Upload de XML | Selecione um ou vários XMLs, revise cada nota e adicione ao lote | Abra `index.html` |
-| Integração com pastas | Busque por número, chave, destinatário, emitente e período; traga a nota para revisão | Serviço Node.js opcional na máquina que tem acesso às pastas |
+**[Try the web app](https://gabs0078.github.io/etiquetas-expedicao-universal/)** · **[Download Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/tag/v0.5.0)** · **[Installation guide](https://gabs0078.github.io/etiquetas-expedicao-universal/instalar.html)** · **[Contributing](CONTRIBUTING.md)**
 
-O aplicativo mantém HTML, CSS e JavaScript sem framework e sem build. **Manual e upload não precisam de Node.js, dependências ou servidor.** O serviço e seus testes têm dependências próprias, utilizadas apenas quando esses recursos são necessários.
+## What it does
 
-## Versão online
+- Batch printing with sequential package labels; edit an invoice without adding a duplicate.
+- A4, A3, A2, A5, Letter and Legal sheets; large-label layouts, landscape and grid/list arrangements.
+- Thermal rolls from 80 × 35 to 100 × 150 mm, resizable company logos and optional label fields.
+- Local/offline processing, light/dark themes, and UI languages: English (default), Portuguese, Spanish and Simplified Chinese.
+- Optional Windows folder wizard and persistent SQLite search index.
 
-Abra o [TagEX no GitHub Pages](https://gabs0078.github.io/etiquetas-expedicao-universal/). Preenchimento manual, importação de XML, prévia e impressão funcionam no navegador. A busca em pastas usa o aplicativo local; o Pages não executa Node.js nem acessa compartilhamentos da empresa. Cadastros e lotes da versão online são separados dos dados salvos no endereço local.
+**Language is separate from document support.** The current importer reads **Brazilian outgoing NF-e, model 55**. XML is a general file format; invoices from other countries may use different schemas. Switching UI language does not add support for those schemas. Printed captions remain in Portuguese, and invoice names, addresses and fiscal values are not translated. Other document readers can be added through adapters.
 
-A publicação na branch main passa pelos testes antes de atualizar o site. Apenas os arquivos estáticos necessários são publicados. Veja [publicação e manutenção do Pages](docs/publicacao-pages.md).
+## Windows: no commands needed
 
-## Começar pelo modo simples
+1. Download **TagEX-Windows-0.5.0.zip** from Releases. “Source code” is for developers and does not contain the bundled runtime.
+2. Extract the entire ZIP and open **Instalar TagEX.exe**.
+3. Install for your Windows account, then open the **TagEX** shortcut.
+4. Choose manual/XML use or configure invoice folders. Folder integration is optional.
 
-### Windows: instalar uma vez, usar offline
+Windows 10/11 x64. Node.js and the XML parser are bundled; installing the downloaded package needs no internet or administrator access. The installer is currently unsigned and updates are manual. Linux and macOS packages are planned; the web app can be used in a compatible browser.
 
-**[Baixar TagEX para Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.4.0/TagEX-Windows-0.4.0.zip)** · versão 0.4.0, Windows 10/11 x64.
+## Offline and data
 
-1. Extraia todo o ZIP.
-2. Abra **Instalar TagEX.exe** e clique em **Instalar**. Não precisa instalar Node.js, usar comandos ou ser administrador.
-3. Abra o atalho **TagEX** e escolha **Importar XMLs ou preencher manualmente**, ou configure as pastas pelo assistente.
+Manual entry, XML files saved locally, batch editing and printing work offline, with a browser and available printer. Shared folders need access to the company network/VPN. The search index is not a copy of the XMLs: importing a search result rereads its original file.
 
-O pacote inclui os componentes e um guia offline. A busca em pastas compartilhadas exige rede/VPN da empresa; manual, XMLs do disco e impressão funcionam sem internet. Site e aplicativo local mantêm dados separados.
+Company profiles, logos, preferences and batches are stored in the browser for the origin used. **GitHub Pages and the local address have separate data.** There is no automatic cross-browser or cross-origin migration. Local folder settings and the index are stored under %LOCALAPPDATA%\EtiquetasExpedicao. The app does not install printer drivers or change firewall/sharing settings.
 
-Veja o **[passo a passo de instalação, atualização e uso offline](docs/instalacao-windows.md)**, também disponível [no site](https://gabs0078.github.io/etiquetas-expedicao-universal/instalar.html). O pacote ainda não tem assinatura digital nem atualização automática.
+## Develop
 
-### Sem instalar / para desenvolvedores
+The browser app is plain HTML/CSS/JavaScript, without a frontend framework or build requirement. Manual entry and XML upload can also run from index.html. The optional Node.js service uses Node.js 24 or newer.
 
-1. Baixe o projeto e abra `index.html` em um navegador moderno.
-2. Cadastre a empresa e sua logo para as notas digitadas manualmente.
-3. Preencha o formulário ou clique em **Importar XML**.
-4. No upload, clique em **Revisar**, confira os campos e marque a confirmação. Clique em **Adicionar nota ao lote**.
-5. Escolha A4 ou bobina e imprima. Use escala 100%, sem cabeçalho/rodapé e sem margens do navegador.
+1. Clone this repository.
+2. Run pnpm install --frozen-lockfile with pnpm 11.25.0.
+3. Run pnpm test.
+4. Install the test browser with pnpm exec playwright install chromium, then run pnpm test:browser. On Windows, BROWSER_CHANNEL=msedge uses installed Edge.
+5. For the generic local service, configure integracao/config.local.json using config.exemplo.json and run pnpm start. Open the address shown by the service and enter its temporary access code.
 
-No topo da pré-visualização, **Exibir data na etiqueta** e **Exibir descrição dos itens** controlam esses campos em todas as etiquetas do lote. A data começa desativada e a descrição ativada; a escolha fica salva neste navegador. Desmarcar não apaga os dados da nota. A data registrada pode continuar sendo revisada no formulário mesmo quando não aparece na impressão.
+The Windows release includes the Node runtime; a source checkout does not. See [package maintenance](docs/pacote-windows.md) for packaging and installer tests.
 
-A descrição ocupa a largura inteira abaixo do endereço e da identificação da NF/volume. O app adapta o texto ao tamanho da etiqueta e verifica o espaço disponível. Se uma descrição ou endereço ainda exceder a etiqueta, a interface avisa e o botão de impressão solicita revisão; é possível ocultar a descrição ou resumir os dados antes de adicionar a nota. O resumo de produtos do XML continua limitado a 180 caracteres, com aviso na revisão.
+## Translations and document adapters
 
-A escolha da impressora pertence ao diálogo do navegador. Se o navegador integrado não permitir trocar o destino, abra o aplicativo no Chrome ou Edge local para imprimir. Os dados salvos pertencem a cada navegador: importe as notas nesse navegador antes de imprimir. Em bobina, selecione também o papel 100 × 50 mm no driver.
+Translation catalogs live in assets/i18n. Run pnpm i18n:build after editing them. Translations are bundled and work offline; no translation service receives invoice data. See [CONTRIBUTING](CONTRIBUTING.md) for placeholders, testing and adding a language.
 
-Para editar uma nota do lote, use o lápis ao lado da lixeira. Altere os campos na etapa 2 e clique em **Salvar alterações**; **Cancelar edição** mantém a nota como estava. O total de etiquetas e a prévia são atualizados ao salvar. Em notas importadas, o número permanece vinculado ao XML original. Para reler um XML atualizado, remova a nota e importe novamente.
+The shared normalizer is assets/js/nfe.js. New countries/document formats should have explicit readers, schema identification and fictitious fixtures. Do not infer fiscal rules from a user's language or translate addresses to make a document fit.
 
-Cada nota adicionada mantém uma cópia do remetente. Trocar a empresa selecionada afeta as próximas notas manuais. XMLs usam o emitente da NF-e; uma logo cadastrada é aproveitada somente se o CNPJ corresponder. O cadastro de empresas não é alterado pela importação.
+## Limits and validation
 
-## O que o XML preenche
+Up to 100 invoices or 3,000 labels per batch, 1–999 packages per invoice, 100 XMLs per selection and 2 MB per XML. The importer checks basic structure and consistency and requires user review. It does not verify digital signatures, the complete fiscal schema or current authorization/cancellation status with a tax authority. Check the issuing business system when necessary.
 
-- Número, série e chave de acesso da NF-e.
-- Data de emissão, que pode ser ajustada para a data de expedição durante a revisão.
-- Emitente e seu endereço.
-- Nome do destinatário e endereço: o grupo `entrega` tem prioridade sobre `enderDest`.
-- Soma de `qVol` dos grupos de volumes. Sem quantidade válida, o campo fica vazio e exige preenchimento; quantidade de produtos não substitui volumes de transporte.
-- Descrição dos produtos, resumida a 180 caracteres com aviso quando necessário.
+Only fictitious data belongs in issues and tests. Do not commit actual invoices, credentials, company settings or customer logos.
 
-São aceitos XMLs completos `NFe` ou `nfeProc`, com namespace oficial, modelo **55**, de saída e ambiente de produção. O leitor verifica estrutura básica, consistência da chave com emitente/número/série e, quando presente, protocolo com status 100 ou 150. NFC-e, NFS-e, CT-e, resumos e eventos exigem outros leitores e são recusados nesta versão.
+## License
 
-**Esta importação não valida assinatura digital, schema fiscal completo ou situação atual na SEFAZ.** Um XML autorizado pode ter sido cancelado depois em um arquivo de evento separado. Confira a situação no ERP antes de imprimir; a tela exige essa revisão. XML sem protocolo também recebe aviso. Eventos de cancelamento separados não são conciliados automaticamente nesta versão.
-
-Limites: 2 MB por XML, 100 arquivos por seleção, 100 notas em revisão, 100 notas no lote, 1–999 volumes por nota e 3.000 etiquetas no lote. Uma chave já presente no lote ou na fila não é importada novamente. Remover a nota do lote permite reimpressão posterior.
-
-## Integrar com pastas locais ou compartilhadas
-
-O navegador usa arquivos selecionados pelo usuário; ele não pode procurar livremente em `C:\\` ou em um servidor de rede. Para leitura automática, o serviço opcional acessa **somente as pastas configuradas** e entrega os dados ao aplicativo local.
-
-1. Instale Node.js 24 ou superior na máquina que consegue acessar os XMLs.
-2. Na pasta do projeto, instale as dependências:
-
-   ```sh
-   npm install --global pnpm@11.25.0
-   pnpm install --prod --frozen-lockfile
-   ```
-
-3. Copie `integracao/config.exemplo.json` para `integracao/config.local.json`. Ajuste as pastas e remova os exemplos que não usa. Esse arquivo é ignorado pelo Git.
-4. Inicie com `pnpm start` e abra **http://127.0.0.1:8787** na mesma máquina. O terminal mostra um código de acesso temporário.
-5. Clique em **Integração**, informe o código e conecte. Selecione a fonte e busque.
-6. Opcionalmente, marque a atualização a cada 30 segundos. As notas encontradas continuam exigindo seleção e revisão antes da impressão. A atualização funciona enquanto o aplicativo estiver aberto; o navegador pode reduzir a frequência em segundo plano.
-
-Exemplo de configuração, com dados fictícios:
-
-```json
-{
-  "fontes": [
-    {
-      "id": "matriz",
-      "nome": "Notas emitidas da matriz",
-      "tipo": "pastas",
-      "pastas": ["C:\\XMLs\\Emitidas", "\\\\SERVIDOR\\Fiscal\\Emitidas"],
-      "recursivo": true,
-      "cnpjEmitente": ""
-    }
-  ]
-}
-```
-
-`cnpjEmitente` vazio aceita os emitentes encontrados. Preencha os 14 dígitos para limitar a fonte a uma empresa. É possível cadastrar várias fontes com conjuntos diferentes de pastas e emitentes. `recursivo: false` lê somente o primeiro nível.
-
-A conta que executa o serviço precisa ter permissão de leitura no compartilhamento. Em Windows, prefira caminhos UNC a unidades mapeadas quando executar com outra conta. Credenciais do compartilhamento são administradas pelo sistema operacional, fora do app e do repositório.
-
-O serviço escuta apenas em `127.0.0.1`; ele pode ler arquivos de um servidor remoto acessível, mas não fica exposto à rede. Para vários postos, instale o serviço em cada posto com acesso ao compartilhamento. Acesso central por navegador em outras máquinas exige uma implantação futura com HTTPS, autenticação de usuários e autorização por empresa; alterar apenas o endereço de escuta não implementa essa solução.
-
-No aplicativo desktop, a pesquisa usa um índice SQLite local persistente, atualizado ao abrir e a cada 60 segundos com arquivos novos/alterados. A interface mostra progresso e permite pesquisar no índice salvo durante a atualização. O serviço genérico sem o iniciador desktop mantém a listagem direta reutilizada por até 10 segundos. A nota é relida ao ser trazida para revisão. Cada pasta configurada tem seu próprio limite de 10.000 entradas e 20 níveis de subpastas; atingir esse limite não impede a leitura das pastas seguintes. A resposta mostra até 100 notas e 50 erros. Se atingir o limite de leitura de uma pasta, reduza ou separe seu histórico; filtros de busca não ampliam esse limite. Pastas indisponíveis e arquivos inválidos são apresentados como avisos.
-
-Variáveis opcionais: `PORT` muda a porta; `ETIQUETAS_CONFIG` indica outro arquivo de configuração; `ETIQUETAS_TOKEN` define um código com pelo menos 32 caracteres. Sem código fixo, cada reinício gera um novo. O código fica apenas na memória da página, sem persistência no navegador.
-
-## Modularidade e próximas integrações
-
-O normalizador de NF-e é compartilhado pelo navegador e pelo serviço. As fontes fornecem dados no mesmo formato; os detalhes de onde encontrar arquivos ficam fora do formulário e da impressão. Veja [a arquitetura e as alternativas de implantação](docs/integracoes.md).
-
-Nesta entrega, **upload e pastas estão implementados**. API de ERP, SFTP, banco de dados e outros documentos são possibilidades de novos adaptadores, ainda não implementados.
-
-## Dados e funcionamento offline
-
-Empresas e notas adicionadas ficam no `localStorage` deste navegador/dispositivo. A fila de revisão e os resultados de busca são temporários. Os XMLs brutos não são persistidos. Se o armazenamento falhar, o app avisa que as notas permanecerão apenas na sessão.
-
-Upload e digitação processam dados no navegador. Na integração, o serviço local lê os arquivos e envia os campos normalizados à página local. Os dados fiscais não são enviados ao GitHub ou a um servidor externo; o avatar do criador é carregado do GitHub. Em HTTP local ou HTTPS, o PWA guarda somente arquivos estáticos para uso offline; APIs, XMLs e códigos de acesso ficam fora do cache. O serviço local precisa estar disponível para pesquisar; o desktop pode consultar o índice salvo mesmo com pastas temporariamente indisponíveis, com aviso. Importar para conferência exige conseguir reler o XML original.
-
-Não inclua XMLs reais, logos de clientes, configurações empresariais ou credenciais no repositório. Os testes usam somente dados fictícios.
-
-## Verificação
-
-```sh
-pnpm install --frozen-lockfile
-pnpm test
-pnpm exec playwright install chromium
-pnpm test:browser
-```
-
-No Windows, `BROWSER_CHANNEL=msedge` permite executar a verificação com o Edge instalado. A integração contínua usa Chromium. Os testes cobrem normalização, namespaces, volumes, documentos recusados, acesso à API, busca, revisão, duplicidades, remetentes, persistência, offline, abertura direta de arquivo, proteção de HTML, layout móvel e impressão. A impressão física continua dependendo do navegador, driver e impressora; homologue os dois formatos no equipamento usado pela empresa.
-
-## Estrutura
-
-```text
-index.html                    Interface e formulário manual
-assets/js/app.js              Notas, empresas e etiquetas
-assets/js/nfe.js               Leitor e normalizador compartilhado
-assets/js/fontes.js            Adaptadores do navegador
-assets/js/importacao.js        Fila, revisão e busca
-integracao/servidor.cjs        Serviço local opcional e API
-integracao/fontes/pastas.cjs   Adaptador de pastas locais ou de rede
-docs/integracoes.md            Contratos e alternativas
-tests/                        Testes com documentos fictícios
-sw.js                         Cache estático do PWA
-```
-
-## Status e créditos
-
-Versão **0.3.0**: base funcional com testes automatizados, preparada para homologação com XMLs e impressoras de cada empresa. Não representa certificação fiscal ou homologação universal dos ERPs. Veja o [roadmap](ROADMAP.md).
-
-Desenvolvido por [Gabriel Godoy](https://github.com/Gabs0078), a partir da rotina de expedição. Colaboração no front-end: [Renan Ropelato](https://github.com/rRopelato).
-
-Licença MIT — [LICENSE](LICENSE).
-
-## Validação do assistente
-
-Veja o [registro do piloto e pendências de homologação](docs/validacao-assistente.md).
+[MIT](LICENSE), copyright Gabriel de Godoy Nery Theodoro. Contributions and translation reviews are welcome.

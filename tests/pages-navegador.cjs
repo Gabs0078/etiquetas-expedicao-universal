@@ -17,8 +17,8 @@ module.exports=async function(browser){
   const crawlerContext=await browser.newContext({javaScriptEnabled:false});
   try{
    const crawler=await crawlerContext.newPage();await crawler.goto(base);
-   assert.equal(await crawler.locator('meta[property="og:title"]').getAttribute('content'),'TagEX — Etiquetas para expedição');
-   assert.match(await crawler.locator('meta[property="og:description"]').getAttribute('content'),/Importe XML/);
+   assert.equal(await crawler.locator('meta[property="og:title"]').getAttribute('content'),'TagEX — Shipping labels');
+   assert.match(await crawler.locator('meta[property="og:description"]').getAttribute('content'),/Import XML/);
    const imageURL=new URL(await crawler.locator('meta[property="og:image"]').getAttribute('content'));
    assert.equal(imageURL.origin,'https://gabs0078.github.io');
    const image=await crawlerContext.request.get(new URL(imageURL.pathname,base).href);assert.equal(image.status(),200);assert(image.headers()['content-type'].includes('image/png'));
@@ -34,7 +34,7 @@ module.exports=async function(browser){
   await p.locator('[data-editar-nota="0"]').click();await p.locator('#volumes').fill('3');await p.locator('#btnAdicionar').click();assert.equal(await p.locator('#countNotas').textContent(),'2');assert.equal(await p.locator('#preview .label').count(),8);
   await p.evaluate(()=>navigator.serviceWorker.ready);
   await p.reload();assert.equal(await p.locator('#countNotas').textContent(),'2');
-  await c.setOffline(true);await p.reload();assert.equal(await p.locator('#countNotas').textContent(),'2');await p.getByRole('link',{name:'Instalar / usar offline'}).click();assert.match(await p.title(),/Instalar e usar offline/);await c.setOffline(false);
+  await c.setOffline(true);await p.reload();assert.equal(await p.locator('#countNotas').textContent(),'2');await p.locator('#btnDownload').click();await p.locator('.download-guide').click();await p.waitForLoadState();assert.match(await p.title(),/Instalar e usar offline/);await c.setOffline(false);
   assert.deepEqual(errors,[]);console.log('Pages: artefato estático, subpasta, manual, XML, assets, recarga e cache offline verificados.');
  }finally{await c.close();await new Promise(r=>server.close(r));if(path.resolve(stage).startsWith(path.join(os.tmpdir(),'tagex-pages-')))await fs.rm(stage,{recursive:true,force:true});}
 };

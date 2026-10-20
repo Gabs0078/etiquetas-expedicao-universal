@@ -4,24 +4,24 @@ window.Fontes = {
     const notas = [], erros = [];
     for (const arquivo of Array.from(arquivos).slice(0, 100)) {
       try {
-        if (!/\.xml$/i.test(arquivo.name)) throw new Error('Selecione arquivos .xml.');
-        if (arquivo.size > NFe.LIMITE_XML) throw new Error('XML excede 2 MB.');
+        if (!/\.xml$/i.test(arquivo.name)) throw new Error(tr("Selecione arquivos .xml."));
+        if (arquivo.size > NFe.LIMITE_XML) throw new Error(tr("XML excede 2 MB."));
         const xml = new TextDecoder('utf-8', { fatal: true }).decode(await arquivo.arrayBuffer());
         notas.push({ ...NFe.lerXML(xml), arquivo: arquivo.name, origem: 'upload' });
-      } catch (e) { erros.push({ arquivo: arquivo.name, motivo: e.message }); }
+      } catch (e) { erros.push({ arquivo: arquivo.name, motivo: tr(e.message) }); }
     }
-    if (arquivos.length > 100) erros.push({ arquivo: 'Lote', motivo: 'Limite de 100 arquivos por seleção; envie o restante em outro lote.' });
+    if (arquivos.length > 100) erros.push({ arquivo: 'Lote', motivo: tr("Limite de 100 arquivos por seleção; envie o restante em outro lote.") });
     return { notas, erros };
   },
   servico(token) {
     async function requisitar(caminho, params = {}) {
-      if (!['http:', 'https:'].includes(location.protocol)) throw new Error('Abra o app pelo serviço local para usar a integração.');
+      if (!['http:', 'https:'].includes(location.protocol)) throw new Error(tr("Abra o app pelo serviço local para usar a integração."));
       const url = new URL(caminho, location.origin);
       Object.entries(params).forEach(([chave, valor]) => { if (valor) url.searchParams.set(chave, valor); });
       const resposta = await fetch(url, { headers: token ? { Authorization: `Bearer ${token}` } : {}, credentials: 'same-origin', cache: 'no-store', signal: AbortSignal.timeout(120000) });
-      if (!resposta.headers.get('Content-Type')?.includes('application/json')) throw new Error('Integração indisponível neste endereço. Abra o app pelo serviço local.');
+      if (!resposta.headers.get('Content-Type')?.includes('application/json')) throw new Error(tr("Integração indisponível neste endereço. Abra o app pelo serviço local."));
       const dados = await resposta.json();
-      if (!resposta.ok) throw new Error(dados.erro || 'Falha na integração.');
+      if (!resposta.ok) throw new Error(dados.erro ? tr(dados.erro) : tr("Falha na integração."));
       return dados;
     }
     return {

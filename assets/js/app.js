@@ -25,7 +25,7 @@ function layoutPapel() {
 }
 function escalaPapel() { return formatoAtual().tipo === 'papel' ? layoutPapel().escala : 1; }
 const FORMATOS_IMPRESSAO = {"a4":{"tipo":"papel","nome":"A4","largura":210,"altura":297},"a3":{"tipo":"papel","nome":"A3","largura":297,"altura":420},"a2":{"tipo":"papel","nome":"A2","largura":420,"altura":594},"a5":{"tipo":"papel","nome":"A5","largura":148,"altura":210},"carta":{"tipo":"papel","nome":"Carta","largura":215.9,"altura":279.4},"oficio":{"tipo":"papel","nome":"Ofício (Legal)","largura":215.9,"altura":355.6},"bobina80":{"tipo":"bobina","nome":"80 × 35 mm","largura":80,"altura":35},"bobina85":{"tipo":"bobina","nome":"85 × 35 mm","largura":85,"altura":35},"bobina":{"tipo":"bobina","nome":"100 × 50 mm","largura":100,"altura":50},"bobina100x75":{"tipo":"bobina","nome":"100 × 75 mm","largura":100,"altura":75},"bobina100x100":{"tipo":"bobina","nome":"100 × 100 mm","largura":100,"altura":100},"bobina100x150":{"tipo":"bobina","nome":"100 × 150 mm","largura":100,"altura":150}};
-function formatoAtual() { return FORMATOS_IMPRESSAO[modoImpressaoAtual()] || FORMATOS_IMPRESSAO.a4; }
+function formatoAtual() { const f=FORMATOS_IMPRESSAO[modoImpressaoAtual()] || FORMATOS_IMPRESSAO.a4; return {...f,nome:tr(f.nome)}; }
 (() => {
   const key = 'expedicao_aparencia_v1';
   let preference;
@@ -35,9 +35,10 @@ function formatoAtual() { return FORMATOS_IMPRESSAO[modoImpressaoAtual()] || FOR
     document.documentElement.dataset.theme = preference;
     document.documentElement.style.colorScheme = preference;
     const button = document.getElementById('temaAparencia');
-    if (button) { button.setAttribute('aria-checked', String(preference === 'dark')); button.title = preference === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'; }
+    if (button) { button.setAttribute('aria-checked', String(preference === 'dark')); button.title = preference === 'dark' ? tr("Ativar tema claro") : tr("Ativar tema escuro"); }
   }
   apply();
+  document.addEventListener('tagex:languagechange', apply);
   document.addEventListener('DOMContentLoaded', () => {
     const button = document.getElementById('temaAparencia');
     apply();
@@ -88,7 +89,7 @@ function $(id) { return document.getElementById(id); }
 function showToast(message, type = 'info', duration = 3000) {
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  toast.textContent = message;
+  I18n.text(toast, () => message);
   document.body.appendChild(toast);
   
   setTimeout(() => {
@@ -188,7 +189,7 @@ function salvarEmpresas() {
   } catch (erro) {
     // QuotaExceededError: logos em base64 estouram o limite (~5MB) do localStorage.
     console.error('Falha ao salvar empresas:', erro);
-    showToast('Não foi possível salvar: armazenamento do navegador cheio. Use uma logo menor ou exclua uma empresa.', 'error', 6000);
+    showToast(tr("Não foi possível salvar: armazenamento do navegador cheio. Use uma logo menor ou exclua uma empresa."), 'error', 6000);
     return false;
   }
 }
@@ -198,7 +199,7 @@ function salvarNotas() {
     localStorage.setItem(NOTAS_KEY, JSON.stringify(state.notas));
   } catch (erro) {
     console.error('Falha ao salvar notas:', erro);
-    showToast('As notas estão apenas nesta sessão: não foi possível salvar no navegador.', 'error', 6000);
+    showToast(tr("As notas estão apenas nesta sessão: não foi possível salvar no navegador."), 'error', 6000);
   }
 }
 
@@ -240,7 +241,7 @@ function carregarOpcoesImpressao() {
 function salvarOpcoesImpressao() {
   for (const campo of ['exibirData', 'exibirDescricao', 'exibirEnderecoRemetente']) state.opcoesImpressao[campo] = els[campo].checked;
   try { localStorage.setItem(OPCOES_IMPRESSAO_KEY, JSON.stringify(state.opcoesImpressao)); }
-  catch { showToast('As opções de impressão valem apenas nesta sessão: não foi possível salvar no navegador.', 'error'); }
+  catch { showToast(tr("As opções de impressão valem apenas nesta sessão: não foi possível salvar no navegador."), 'error'); }
   renderNotas();
 }
 
@@ -287,16 +288,16 @@ function editarNota(index) {
   const nota = state.notas[index];
   if (!nota) return;
   if (state.notaEditando === nota) { els.destinatario.focus(); return; }
-  if ((state.notaEditando ? camposEdicaoAlterados() : els.nf.value || els.destinatario.value) && !confirm('Substituir os campos atuais para editar esta nota? Alterações não salvas serão descartadas.')) return;
+  if ((state.notaEditando ? camposEdicaoAlterados() : els.nf.value || els.destinatario.value) && !confirm(tr("Substituir os campos atuais para editar esta nota? Alterações não salvas serão descartadas."))) return;
   encerrarEdicao();
   finalizarRevisao();
   state.notaEditando = nota;
   for (const id of ['data', 'nf', 'destinatario', 'volumes', 'descricao']) els[id].value = nota[id] ?? '';
   $('edicaoNota').hidden = false;
-  $('tituloEdicaoNota').textContent = 'Editando NF ' + nota.nf;
+  I18n.text($('tituloEdicaoNota'), () => tr("Editando NF ") + nota.nf);
   els.nf.readOnly = Boolean(nota.chave);
-  if (nota.chave) els.nf.title = 'Número vinculado ao XML original.';
-  els.btnAdicionar.innerHTML = '<span data-icon="save"></span>Salvar alterações';
+  if (nota.chave) els.nf.title = tr("Número vinculado ao XML original.");
+  els.btnAdicionar.innerHTML = '<span data-icon="save"></span><span data-i18n="Salvar alterações">Save changes</span>';
   atualizarAvisosCampos();
   renderizar();
   $('etapaConferencia').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -314,29 +315,29 @@ function adicionarNota() {
   if (!data || !nf || !destinatario || !Number.isInteger(volumes) || volumes < 1 || volumes > 999) {
     const primeiro = ['data', 'nf', 'destinatario', 'volumes'].find(id => $(id).getAttribute('aria-invalid') === 'true');
     if (primeiro) $(primeiro).focus();
-    showToast('Confira o campo indicado antes de ' + (state.notaEditando ? 'salvar.' : 'adicionar.'), 'error');
+    showToast(state.notaEditando ? tr("Confira o campo indicado antes de salvar.") : tr("Confira o campo indicado antes de adicionar."), 'error');
     return;
   }
 
   const editando = state.notaEditando;
   const indiceEdicao = editando ? state.notas.indexOf(editando) : -1;
-  if (editando && indiceEdicao < 0) { limparCamposNota(true); renderizar(); showToast('A nota foi removida do lote.', 'error'); return; }
+  if (editando && indiceEdicao < 0) { limparCamposNota(true); renderizar(); showToast(tr("A nota foi removida do lote."), 'error'); return; }
   const outrasNotas = state.notas.filter(n => n !== editando);
   if (outrasNotas.length >= 100 || outrasNotas.reduce((total, n) => total + n.volumes, 0) + volumes > 3000) {
-    showToast('Limite do lote: 100 notas ou 3.000 etiquetas. Imprima e inicie outro lote.', 'error'); return;
+    showToast(tr("Limite do lote: 100 notas ou 3.000 etiquetas. Imprima e inicie outro lote."), 'error'); return;
   }
   if (editando) {
-    if (editando.chave && nf !== editando.nf) { showToast('O número deve corresponder ao XML original.', 'error'); return; }
+    if (editando.chave && nf !== editando.nf) { showToast(tr("O número deve corresponder ao XML original."), 'error'); return; }
     state.notas[indiceEdicao] = { ...editando, data, nf, destinatario, volumes, descricao };
     limparCamposNota(false);
     renderizar();
-    showToast('Nota atualizada no lote.', 'success');
+    showToast(tr("Nota atualizada no lote."), 'success');
     return;
   }
   const importada = state.notaImportada;
-  if (importada && !$('confirmarRevisao').checked) { $('confirmarRevisao').focus(); showToast('Marque “Conferi os dados do XML” para adicionar.', 'error'); return; }
-  if (importada && nf !== importada.nf) { showToast('O número deve corresponder ao XML. Volte ao manual para digitar outra nota.', 'error'); return; }
-  if (importada && state.notas.some(n => n.chave === importada.chave)) { showToast('Esta chave de NF-e já está no lote.', 'error'); return; }
+  if (importada && !$('confirmarRevisao').checked) { $('confirmarRevisao').focus(); showToast(tr("Marque “Conferi os dados do XML” para adicionar."), 'error'); return; }
+  if (importada && nf !== importada.nf) { showToast(tr("O número deve corresponder ao XML. Volte ao manual para digitar outra nota."), 'error'); return; }
+  if (importada && state.notas.some(n => n.chave === importada.chave)) { showToast(tr("Esta chave de NF-e já está no lote."), 'error'); return; }
   const empresa = { ...(importada?.emitente || empresaAtiva()) };
   state.notas.push({ data, nf, destinatario, volumes, descricao, empresa,
     ...(importada ? { chave: importada.chave, serie: importada.serie, origem: importada.origem, dataEmissao: importada.data } : { origem: 'manual' }) });
@@ -363,7 +364,7 @@ function removerNota(index) {
 }
 
 function limparTudo() {
-  if (state.notas.length > 0 && !confirm('Deseja limpar todas as notas?')) return;
+  if (state.notas.length > 0 && !confirm(tr("Deseja limpar todas as notas?"))) return;
   state.notas = [];
   limparCamposNota(true);
   renderizar();
@@ -434,34 +435,34 @@ function renderNotas() {
 
   const etiquetas = gerarEtiquetas();
   els.btnImprimir.disabled = etiquetas.length === 0 || Boolean(state.notaEditando);
-  els.btnImprimir.title = state.notaEditando ? 'Salve ou cancele a edição antes de imprimir.' : '';
+  els.btnImprimir.title = state.notaEditando ? tr("Salve ou cancele a edição antes de imprimir.") : '';
   const folhas = formatoAtual().tipo === 'papel' ? quebrarEmFolhas(etiquetas) : [];
   const modo = modoImpressaoAtual();
   els.preview.classList.toggle('bobina-compacta', ['bobina80', 'bobina80legivel', 'bobina85'].includes(modo));
   els.preview.classList.toggle('bobina80', modo === 'bobina80');
   els.preview.classList.toggle('bobina80legivel', modo === 'bobina80legivel');
 
-  els.countNotas.textContent = state.notas.length;
+  I18n.text(els.countNotas, () => state.notas.length);
   els.summary.innerHTML = formatoAtual().tipo === 'papel'
-    ? `Total de etiquetas: ${etiquetas.length}<br>Folhas necessárias (${formatoAtual().nome}): ${folhas.length}`
-    : `Total de etiquetas: ${etiquetas.length}<br>Páginas na bobina: ${etiquetas.length}`;
+    ? `${escaparHTML(tr('Total de etiquetas: {0}',[etiquetas.length]))}<br>${escaparHTML(tr('Folhas necessárias ({0}): {1}',[formatoAtual().nome,folhas.length]))}`
+    : `${escaparHTML(tr('Total de etiquetas: {0}',[etiquetas.length]))}<br>${escaparHTML(tr('Páginas na bobina: {0}',[etiquetas.length]))}`;
 
   els.listaNotas.innerHTML = state.notas.map((nota, i) => `
     <div class="note-card${state.notaEditando === nota ? ' is-editing' : ''}">
       <div>
-        <strong>NF: ${escaparHTML(nota.nf)}</strong><span class="badge">${nota.volumes} etiquetas</span>
-        <p><b>Data:</b> ${escaparHTML(formatarDataInput(nota.data))} &nbsp;|&nbsp; <b>Volumes:</b> ${nota.volumes}</p>
-        <p class="note-company"><b>Empresa:</b> ${escaparHTML(nota.empresa?.nome || empresaAtiva().nome)}</p>
+        <strong>NF: ${escaparHTML(nota.nf)}</strong><span class="badge">${escaparHTML(tr('{0} etiquetas',[nota.volumes]))}</span>
+        <p><b>${escaparHTML(tr("Data:"))}</b> ${escaparHTML(formatarDataInput(nota.data))} &nbsp;|&nbsp; <b>${escaparHTML(tr("Volumes:"))}</b> ${nota.volumes}</p>
+        <p class="note-company"><b>${escaparHTML(tr("Empresa:"))}</b> ${escaparHTML(nota.empresa?.nome || empresaAtiva().nome)}</p>
       </div>
       <div class="note-actions">
-        <button class="btn-gray btn-icon" type="button" data-editar-nota="${i}" title="Editar nota" aria-label="Editar nota NF ${escaparHTML(nota.nf)}" aria-pressed="${state.notaEditando === nota}">${icons.pencil}</button>
-        <button class="btn-danger btn-icon" type="button" data-remover-nota="${i}" title="Remover nota" aria-label="Remover nota NF ${escaparHTML(nota.nf)}">${icons.trash}</button>
+        <button class="btn-gray btn-icon" type="button" data-editar-nota="${i}" title="${escaparHTML(tr('Editar nota'))}" aria-label="${escaparHTML(tr('Editar nota NF {0}',[nota.nf]))}" aria-pressed="${state.notaEditando === nota}">${icons.pencil}</button>
+        <button class="btn-danger btn-icon" type="button" data-remover-nota="${i}" title="${escaparHTML(tr('Remover nota'))}" aria-label="${escaparHTML(tr('Remover nota NF {0}',[nota.nf]))}">${icons.trash}</button>
       </div>
     </div>
   `).join('');
 
   if (!etiquetas.length) {
-    els.preview.innerHTML = '<div class="empty">Adicione uma nota para visualizar as etiquetas.</div>';
+    els.preview.innerHTML = '<div class="empty">'+escaparHTML(tr('Adicione uma nota para visualizar as etiquetas.'))+'</div>';
   } else if (formatoAtual().tipo === 'papel') {
     els.preview.innerHTML = folhas.map(folha => `<div class="paper-sheet-preview"><section class="sheet">${folha.map(criarEtiqueta).join('')}</section></div>`).join('');
   } else {
@@ -534,7 +535,7 @@ function ajustarTextosEtiquetas() {
   }
   const aviso = $('avisoLayout');
   aviso.hidden = excedidas.length === 0;
-  aviso.textContent = excedidas.length ? `Texto não cabe na etiqueta da(s) NF(s) ${excedidas.join(', ')}. Resuma a descrição ou revise as quebras do endereço antes de imprimir.` : '';
+  aviso.textContent = excedidas.length ? tr("Texto não cabe na etiqueta da(s) NF(s) {0}. Resuma a descrição ou revise as quebras do endereço antes de imprimir.",[excedidas.join(', ')]) : '';
   return excedidas.length === 0;
 }
 
@@ -545,10 +546,10 @@ function renderEmpresas() {
       <div class="company-card ${ativa ? 'active' : ''}" data-selecionar-empresa="${escaparHTML(empresa.id)}">
         <div class="thumb">${empresa.logo ? `<img src="${escaparHTML(empresa.logo)}" alt="Logo">` : icons.building}</div>
         <div>
-          <strong>${escaparHTML(empresa.nome || 'Empresa sem nome')}</strong>
-          <p>${escaparHTML(empresa.cnpj || 'Sem CNPJ')}<br>${escaparHTML(linhaEnderecoEmpresa(empresa) || 'Sem endereço')}</p>
+          <strong>${escaparHTML(empresa.nome || tr("Empresa sem nome"))}</strong>
+          <p>${escaparHTML(empresa.cnpj || tr("Sem CNPJ"))}<br>${escaparHTML(linhaEnderecoEmpresa(empresa) || tr("Sem endereço"))}</p>
         </div>
-        <span style="color:${ativa ? 'var(--primary)' : 'var(--muted)'}; font-weight:800;">${ativa ? 'Ativa' : 'Usar'}</span>
+        <span style="color:${ativa ? 'var(--primary)' : 'var(--muted)'}; font-weight:800;">${ativa ? tr("Ativa") : tr("Usar")}</span>
       </div>
     `;
   }).join('');
@@ -601,7 +602,7 @@ function salvarEmpresaAtual() {
   };
 
   if (!empresa.nome || !empresa.cnpj) {
-    showToast('Preencha pelo menos Nome da Empresa e CNPJ.', 'error');
+    showToast(tr("Preencha pelo menos Nome da Empresa e CNPJ."), 'error');
     return;
   }
 
@@ -613,19 +614,19 @@ function salvarEmpresaAtual() {
   state.empresaEditandoId = empresa.id;
   const salvo = salvarEmpresas();
   renderizar();
-  if (salvo) showToast('Modelo de empresa salvo com sucesso!', 'success');
+  if (salvo) showToast(tr("Modelo de empresa salvo com sucesso!"), 'success');
 }
 
 function excluirEmpresaAtual() {
   if (!state.empresaEditandoId) {
-    showToast('Selecione uma empresa cadastrada para excluir.', 'error');
+    showToast(tr("Selecione uma empresa cadastrada para excluir."), 'error');
     return;
   }
   if (state.empresas.length <= 1) {
-    showToast('É necessário manter pelo menos uma empresa cadastrada.', 'error');
+    showToast(tr("É necessário manter pelo menos uma empresa cadastrada."), 'error');
     return;
   }
-  if (!confirm('Deseja excluir este modelo de empresa?')) return;
+  if (!confirm(tr("Deseja excluir este modelo de empresa?"))) return;
 
   state.empresas = state.empresas.filter(e => e.id !== state.empresaEditandoId);
   if (state.empresaAtivaId === state.empresaEditandoId) state.empresaAtivaId = state.empresas[0].id;
@@ -668,10 +669,10 @@ function atualizarPreviewLogo() {
   area.style.aspectRatio = w + ' / ' + h;
   area.style.setProperty('--preview-logo-max-w', (simples ? 100 : compacta ? 25/26*100 : 42/43*100) + '%');
   area.style.setProperty('--preview-logo-max-h', (simples ? 5.5/6*100 : compacta ? 8/9*100 : 11/12*100) + '%');
-  $('areaLogoInfo').textContent = 'Área da logo: ' + w + ' × ' + h + ' mm · ' + els.modoImpressao.options[els.modoImpressao.selectedIndex].text;
+  I18n.text($('areaLogoInfo'), () => tr("Área da logo: ") + w + ' × ' + h + ' mm · ' + els.modoImpressao.options[els.modoImpressao.selectedIndex].text);
 
   const tamanho = normalizarTamanhoLogo(els.tamanhoLogo.value);
-  els.valorTamanhoLogo.textContent = tamanho + '%';
+  I18n.text(els.valorTamanhoLogo, () => tamanho + '%');
   els.logoPreview.onload = () => dimensionarLogo(els.logoPreview, els.tamanhoLogo.value);
   if (els.logoPreview.complete) dimensionarLogo(els.logoPreview, tamanho);
   els.tamanhoLogo.disabled = !state.logoEditando;
@@ -693,11 +694,11 @@ function atualizarPreviewLogo() {
 function lerLogo(file) {
   if (!file) return;
   if (!['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
-    showToast('Use uma imagem PNG, JPG ou JPEG.', 'error');
+    showToast(tr("Use uma imagem PNG, JPG ou JPEG."), 'error');
     return;
   }
   if (file.size > 2 * 1024 * 1024) {
-    showToast('A logo precisa ter no máximo 2MB para salvar no navegador.', 'error');
+    showToast(tr("A logo precisa ter no máximo 2MB para salvar no navegador."), 'error');
     return;
   }
 
@@ -742,7 +743,7 @@ function atualizarRegraPagina() {
   const layout = papel ? layoutPapel() : null;
   const larguraPagina = papel ? layout.paginaLargura : f.largura;
   const alturaPagina = papel ? layout.paginaAltura : f.altura;
-  style.textContent = '@page { size: ' + larguraPagina + 'mm ' + alturaPagina + 'mm; margin: 0; }';
+  I18n.text(style, () => '@page { size: ' + larguraPagina + 'mm ' + alturaPagina + 'mm; margin: 0; }');
   els.preview.style.setProperty('--sheet-w', larguraPagina + 'mm');
   els.preview.style.setProperty('--sheet-h', alturaPagina + 'mm');
   els.preview.style.setProperty('--sheet-columns', papel ? layout.colunas : 1);
@@ -759,20 +760,20 @@ function atualizarRegraPagina() {
   $('controleDisposicao').hidden = !papel;
   if (papel) {
     const padrao = layout.padrao;
-    seletor.options[0].textContent = layout.lista ? padrao + ' por folha · Lista' : padrao + ' por folha · 100 × 50 mm (atual)';
+    I18n.text(seletor.options[0], () => layout.lista ? padrao + tr(" por folha · Lista") : padrao + tr(" por folha · 100 × 50 mm (atual)"));
     const dez = seletor.querySelector('[value="10"]');
     dez.hidden = !layout.lista && padrao === 10;
     dez.disabled = Boolean(layout.lista && layout.limiteLista < 10);
-    dez.textContent = layout.lista ? '10 por folha · 10 linhas' + (dez.disabled ? ' (não cabe neste papel)' : '') : '10 por folha · 2 × 5';
-    seletor.querySelector('[value="4"]').textContent = layout.lista ? '4 por folha · 4 linhas' : '4 por folha · 2 × 2';
+    I18n.text(dez, () => layout.lista ? tr("10 por folha · 10 linhas") + (dez.disabled ? tr(" (não cabe neste papel)") : '') : tr("10 por folha · 2 × 5"));
+    I18n.text(seletor.querySelector('[value="4"]'), () => layout.lista ? tr("4 por folha · 4 linhas") : tr("4 por folha · 2 × 2"));
     seletor.value = layout.selecionada ? String(layout.selecionada) : 'atual';
     $('descricaoDisposicao').hidden = !layout.selecionada && !layout.lista;
-    $('descricaoDisposicao').textContent = layout.largura.toLocaleString('pt-BR') + ' × ' + layout.altura.toLocaleString('pt-BR') + ' mm por etiqueta';
+    I18n.text($('descricaoDisposicao'), () => layout.largura.toLocaleString(I18n.language) + ' × ' + layout.altura.toLocaleString(I18n.language) + tr(" mm por etiqueta"));
   }
   document.querySelectorAll('[data-formato]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.formato === modo)));
   document.querySelectorAll('.format-group').forEach(group => {
     const escolhido = group.querySelector('[data-formato="' + modo + '"]');
-    group.querySelector('.format-current').textContent = escolhido ? '· ' + f.nome : '';
+    I18n.text(group.querySelector('.format-current'), () => escolhido ? '· ' + f.nome : '');
   });
 }
 
@@ -794,6 +795,7 @@ function renderizar() {
   renderNotas();
   renderEmpresas();
   renderIcons();
+  I18n.apply();
   atualizarEscalaPrevia();
 }
 
@@ -815,7 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
   els.btnAdicionar.addEventListener('click', adicionarNota);
   $('btnCancelarEdicao').addEventListener('click', () => { limparCamposNota(true); renderizar(); });
   els.btnImprimir.addEventListener('click', () => {
-    if (!ajustarTextosEtiquetas()) { showToast('Revise os textos indicados antes de imprimir: eles excedem o tamanho selecionado.', 'error', 6000); return; }
+    if (!ajustarTextosEtiquetas()) { showToast(tr("Revise os textos indicados antes de imprimir: eles excedem o tamanho selecionado."), 'error', 6000); return; }
     atualizarRegraPagina();
     window.print();
   });
@@ -878,4 +880,17 @@ document.addEventListener('DOMContentLoaded', () => {
   marcar(links.some(link => link.getAttribute('href') === location.hash) ? location.hash : '#etapaNota');
   links.forEach(link => link.addEventListener('click', () => marcar(link.getAttribute('href'))));
   window.addEventListener('hashchange', () => marcar(location.hash || '#etapaNota'));
+});
+document.addEventListener("tagex:languagechange", () => { if(!els.preview)return; renderizar();renderFilaImportacao();atualizarAvisosCampos();if(state.notaEditando)I18n.text($("tituloEdicaoNota"), () => tr("Editando NF ")+state.notaEditando.nf);mostrarProgressoBusca(); });
+
+document.addEventListener('DOMContentLoaded', () => {
+ const menu=$('menuDownload'),button=$('btnDownload');
+ menu.addEventListener('beforetoggle', event => {
+  if(event.newState!=='open')return;
+  const r=button.getBoundingClientRect(),width=Math.min(240,innerWidth-24);
+  menu.style.left=Math.max(12,Math.min(innerWidth-width-12,r.right-width))+'px';
+  menu.style.top=Math.max(12,Math.min(r.bottom+8,innerHeight-240))+'px';
+ });
+ menu.addEventListener('toggle',()=>button.setAttribute('aria-expanded',String(menu.matches(':popover-open'))));
+ window.addEventListener('resize',()=>{if(menu.matches(':popover-open'))menu.hidePopover();});
 });

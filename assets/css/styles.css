@@ -1116,3 +1116,22 @@ button:focus-visible, summary:focus-visible { outline: 3px solid var(--primary);
 .header-local:hover { border-color:var(--primary); color:var(--text); }
 .header-local:focus-visible { outline:3px solid var(--primary); outline-offset:3px; }
 @media screen and (max-width:480px) { .brand-shell .header-actions { justify-content:flex-start; } .header-local { margin-right:auto; } }
+
+.language-control {display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary)}
+.language-control select {width:auto;max-width:170px;padding:8px 9px;font-size:12px;margin:0}
+html[lang="zh-Hans"] {font-family:"Segoe UI","Microsoft YaHei","Noto Sans SC",sans-serif}
+@media(max-width:480px){.language-control{width:100%}.language-control select{flex:1;max-width:none}}
+
+.brand-shell .header-download {display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:9px;border:1px solid var(--border-soft);border-radius:8px;background:var(--surface);color:var(--text);min-width:48px}
+.header-download>svg {width:19px;height:19px}.header-download .icon {width:11px;height:11px}
+.header-download[aria-expanded="true"] {border-color:var(--primary);color:var(--primary)}
+.download-popover {position:fixed;inset:auto;margin:0;width:240px;max-width:calc(100vw - 24px);max-height:calc(100vh - 24px);overflow:auto;padding:7px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);box-shadow:0 12px 32px #0004}
+.download-choice {display:flex;width:100%;align-items:center;justify-content:space-between;gap:16px;padding:12px 10px;border:0;border-radius:6px;background:transparent;color:var(--text);font-size:14px;text-decoration:none;font-weight:500;box-sizing:border-box}
+.download-choice small {font-size:11px;color:var(--text-muted);font-weight:400}
+.download-choice:disabled {opacity:1;color:var(--text-muted);cursor:default}
+.download-choice:hover {transform:none;box-shadow:none}.download-choice:disabled:hover {filter:none;background:transparent}
+a.download-choice:hover {background:var(--surface-hover);color:var(--primary)}
+.download-guide {display:block;border-top:1px solid var(--border-soft);margin-top:5px;padding:11px 10px 5px;color:var(--text-secondary);font-size:12px;text-decoration:none}
+.download-guide:hover {color:var(--primary)}
+.header-download:focus-visible,.download-popover a:focus-visible {outline:3px solid var(--primary);outline-offset:2px}
+@media print {.download-popover{display:none!important}}

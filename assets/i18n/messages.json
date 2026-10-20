@@ -1,0 +1,896 @@
+[
+  [
+    "Idioma",
+    "Language",
+    "Idioma",
+    "语言"
+  ],
+  [
+    "Etiquetas para expedição",
+    "Shipping labels",
+    "Etiquetas de envío",
+    "发货标签"
+  ],
+  [
+    "TagEX — Etiquetas para expedição",
+    "TagEX — Shipping labels",
+    "TagEX — Etiquetas de envío",
+    "TagEX — 发货标签"
+  ],
+  [
+    "Instalar / usar offline",
+    "Install / use offline",
+    "Instalar / usar sin conexión",
+    "安装 / 离线使用"
+  ],
+  [
+    "Modo escuro",
+    "Dark mode",
+    "Modo oscuro",
+    "深色模式"
+  ],
+  [
+    "Ativar tema claro",
+    "Use light theme",
+    "Usar tema claro",
+    "切换浅色主题"
+  ],
+  [
+    "Ativar tema escuro",
+    "Use dark theme",
+    "Usar tema oscuro",
+    "切换深色主题"
+  ],
+  [
+    "Empresas e identidade visual",
+    "Companies and branding",
+    "Empresas e identidad visual",
+    "企业与品牌"
+  ],
+  [
+    "Empresa",
+    "Company",
+    "Empresa",
+    "企业"
+  ],
+  [
+    "Etapas para imprimir etiquetas",
+    "Steps to print labels",
+    "Pasos para imprimir etiquetas",
+    "标签打印步骤"
+  ],
+  [
+    "Preencher",
+    "Fill in",
+    "Completar",
+    "填写"
+  ],
+  [
+    "Conferir",
+    "Review",
+    "Revisar",
+    "核对"
+  ],
+  [
+    "Imprimir",
+    "Print",
+    "Imprimir",
+    "打印"
+  ],
+  [
+    "Etapa 1",
+    "Step 1",
+    "Paso 1",
+    "第 1 步"
+  ],
+  [
+    "Etapa 2",
+    "Step 2",
+    "Paso 2",
+    "第 2 步"
+  ],
+  [
+    "Etapa 3",
+    "Step 3",
+    "Paso 3",
+    "第 3 步"
+  ],
+  [
+    "Etapa 1: preencher as informações da etiqueta",
+    "Step 1: fill in label details",
+    "Paso 1: completar los datos de la etiqueta",
+    "第 1 步：填写标签信息"
+  ],
+  [
+    "Etapa 2: conferir e adicionar ao lote",
+    "Step 2: review and add to batch",
+    "Paso 2: revisar y añadir al lote",
+    "第 2 步：核对并添加到批次"
+  ],
+  [
+    "Etapa 3: imprimir o lote",
+    "Step 3: print the batch",
+    "Paso 3: imprimir el lote",
+    "第 3 步：打印批次"
+  ],
+  [
+    "Formas de preenchimento",
+    "Input methods",
+    "Formas de completar",
+    "填写方式"
+  ],
+  [
+    "Modo de Preenchimento",
+    "Input method",
+    "Modo de entrada",
+    "填写方式"
+  ],
+  [
+    "Ajuda: Modo de Preenchimento",
+    "Help: input method",
+    "Ayuda: modo de entrada",
+    "帮助：填写方式"
+  ],
+  [
+    "Escolha como prefere preencher as informações da etiqueta.",
+    "Choose how to fill in the label details.",
+    "Elija cómo completar los datos de la etiqueta.",
+    "请选择标签信息的填写方式。"
+  ],
+  [
+    "Origem da nota",
+    "Invoice source",
+    "Origen de la factura",
+    "发票来源"
+  ],
+  [
+    "Buscar nas pastas",
+    "Search folders",
+    "Buscar en carpetas",
+    "搜索文件夹"
+  ],
+  [
+    "Importar XML",
+    "Import XML",
+    "Importar XML",
+    "导入 XML"
+  ],
+  [
+    "Preencher manualmente",
+    "Enter manually",
+    "Completar manualmente",
+    "手动填写"
+  ],
+  [
+    "Selecione os arquivos de notas que deseja conferir.",
+    "Select the invoice files to review.",
+    "Seleccione los archivos de facturas que desea revisar.",
+    "选择需要核对的发票文件。"
+  ],
+  [
+    "Quais arquivos são aceitos?",
+    "Which files are supported?",
+    "¿Qué archivos se admiten?",
+    "支持哪些文件？"
+  ],
+  [
+    "NF-e de saída, modelo 55. Até 100 XMLs por lote, 2 MB por arquivo.",
+    "Brazilian outgoing NF-e, model 55. Up to 100 XMLs per batch, 2 MB per file.",
+    "NF-e brasileña de salida, modelo 55. Hasta 100 XML por lote, 2 MB por archivo.",
+    "巴西销项 NF-e，型号 55。每批最多 100 个 XML 文件，每个文件不超过 2 MB。"
+  ],
+  [
+    "Arquivos que precisam de atenção",
+    "Files needing attention",
+    "Archivos que requieren atención",
+    "需要检查的文件"
+  ],
+  [
+    "Notas para revisão",
+    "Invoices to review",
+    "Facturas para revisar",
+    "待核对的发票"
+  ],
+  [
+    "Notas da empresa",
+    "Company invoices",
+    "Facturas de la empresa",
+    "企业发票"
+  ],
+  [
+    "Para buscar nas pastas, use o TagEX local.",
+    "Use the local TagEX app to search folders.",
+    "Use TagEX local para buscar en carpetas.",
+    "请使用本地 TagEX 应用搜索文件夹。"
+  ],
+  [
+    "Instalar e configurar",
+    "Install and set up",
+    "Instalar y configurar",
+    "安装与设置"
+  ],
+  [
+    "Abrir aplicativo local",
+    "Open local app",
+    "Abrir aplicación local",
+    "打开本地应用"
+  ],
+  [
+    "Origem das notas",
+    "Invoice folders",
+    "Carpetas de facturas",
+    "发票文件夹"
+  ],
+  [
+    "Conecte para ver as fontes",
+    "Connect to view sources",
+    "Conecte para ver los orígenes",
+    "连接后查看来源"
+  ],
+  [
+    "Buscar nota",
+    "Find invoice",
+    "Buscar factura",
+    "查找发票"
+  ],
+  [
+    "Ex.: 764 ou Sanepar",
+    "E.g. 764 or customer name",
+    "Ej.: 764 o nombre del cliente",
+    "例如：764 或客户名称"
+  ],
+  [
+    "Buscar nota (Enter)",
+    "Find invoice (Enter)",
+    "Buscar factura (Intro)",
+    "查找发票（Enter）"
+  ],
+  [
+    "Progresso da preparação da busca",
+    "Search preparation progress",
+    "Progreso de preparación de la búsqueda",
+    "搜索准备进度"
+  ],
+  [
+    "Filtros por data",
+    "Date filters",
+    "Filtros por fecha",
+    "日期筛选"
+  ],
+  [
+    "Emitidas desde",
+    "Issued from",
+    "Emitidas desde",
+    "开票起始日期"
+  ],
+  [
+    "Até",
+    "To",
+    "Hasta",
+    "截止日期"
+  ],
+  [
+    "Atualizar resultados automaticamente (a cada 30 segundos)",
+    "Refresh results automatically (every 30 seconds)",
+    "Actualizar resultados automáticamente (cada 30 segundos)",
+    "自动刷新结果（每 30 秒）"
+  ],
+  [
+    "Configurar integração",
+    "Set up folder integration",
+    "Configurar integración",
+    "设置文件夹集成"
+  ],
+  [
+    "Integração",
+    "Integration",
+    "Integración",
+    "集成"
+  ],
+  [
+    "Estado da integração",
+    "Integration status",
+    "Estado de integración",
+    "集成状态"
+  ],
+  [
+    "Aguardando conexão com o serviço local.",
+    "Waiting for the local service.",
+    "Esperando conexión con el servicio local.",
+    "正在等待本地服务连接。"
+  ],
+  [
+    "Conferência da nota",
+    "Invoice review",
+    "Revisión de factura",
+    "发票核对"
+  ],
+  [
+    "Conferir e adicionar ao lote",
+    "Review and add to batch",
+    "Revisar y añadir al lote",
+    "核对并添加到批次"
+  ],
+  [
+    "Revise os dados abaixo. Depois, adicione a nota ao lote que será impresso.",
+    "Review the details, then add the invoice to the print batch.",
+    "Revise los datos y añada la factura al lote de impresión.",
+    "核对以下信息，然后将发票添加到打印批次。"
+  ],
+  [
+    "Cancelar edição",
+    "Cancel editing",
+    "Cancelar edición",
+    "取消编辑"
+  ],
+  [
+    "Voltar ao manual",
+    "Return to manual entry",
+    "Volver a entrada manual",
+    "返回手动填写"
+  ],
+  [
+    "Data:",
+    "Date:",
+    "Fecha:",
+    "日期："
+  ],
+  [
+    "Nº da NF:",
+    "Invoice no.:",
+    "N.º de factura:",
+    "发票编号："
+  ],
+  [
+    "Endereço de entrega:",
+    "Delivery address:",
+    "Dirección de entrega:",
+    "送货地址："
+  ],
+  [
+    "Rua, número\nBairro - Cidade / UF\nCEP (se informado)",
+    "Street, number\nDistrict - City / State\nPostal code (if provided)",
+    "Calle, número\nBarrio - Ciudad / Estado\nCódigo postal (si consta)",
+    "街道、门牌号\n街区 - 城市 / 州\n邮政编码（如有）"
+  ],
+  [
+    "Usar o endereço cadastrado do destinatário",
+    "Use the recipient's registered address",
+    "Usar la dirección registrada del destinatario",
+    "使用收件人的登记地址"
+  ],
+  [
+    "Disponível ao conferir uma nota com endereço cadastrado no XML.",
+    "Available when the XML contains a registered recipient address.",
+    "Disponible si el XML contiene una dirección registrada del destinatario.",
+    "XML 中包含收件人登记地址时可用。"
+  ],
+  [
+    "Qtd. de Volumes:",
+    "Number of packages:",
+    "Cantidad de bultos:",
+    "包裹数量："
+  ],
+  [
+    "Descrição dos Itens:",
+    "Item description:",
+    "Descripción de los artículos:",
+    "物品说明："
+  ],
+  [
+    "Opcional",
+    "Optional",
+    "Opcional",
+    "可选"
+  ],
+  [
+    "Conferi os dados do XML",
+    "I reviewed the XML details",
+    "He revisado los datos del XML",
+    "我已核对 XML 信息"
+  ],
+  [
+    "Adicionar nota ao lote",
+    "Add invoice to batch",
+    "Añadir factura al lote",
+    "添加发票到批次"
+  ],
+  [
+    "Cada volume gera uma etiqueta. Após adicionar, siga para a etapa 3 ou escolha outra nota na etapa 1.",
+    "Each package creates one label. Continue to step 3 or choose another invoice in step 1.",
+    "Cada bulto genera una etiqueta. Continúe al paso 3 o elija otra factura en el paso 1.",
+    "每个包裹生成一张标签。添加后继续第 3 步，或在第 1 步选择其他发票。"
+  ],
+  [
+    "Lote de impressão",
+    "Print batch",
+    "Lote de impresión",
+    "打印批次"
+  ],
+  [
+    "Lote de Impressão",
+    "Print batch",
+    "Lote de impresión",
+    "打印批次"
+  ],
+  [
+    "Ajuda: Lote de Impressão",
+    "Help: print batch",
+    "Ayuda: lote de impresión",
+    "帮助：打印批次"
+  ],
+  [
+    "Confira as notas do lote, escolha o tamanho e revise a prévia antes de imprimir.",
+    "Review the batch, choose a size and check the preview before printing.",
+    "Revise el lote, elija el tamaño y compruebe la vista previa antes de imprimir.",
+    "打印前请核对批次、选择尺寸并检查预览。"
+  ],
+  [
+    "Notas prontas para impressão",
+    "Invoices ready to print",
+    "Facturas listas para imprimir",
+    "待打印发票"
+  ],
+  [
+    "Como atualizar uma nota do lote?",
+    "How do I update an invoice in the batch?",
+    "¿Cómo actualizar una factura del lote?",
+    "如何修改批次中的发票？"
+  ],
+  [
+    "Clique no lápis ao lado da nota, ajuste os campos e selecione “Salvar alterações”. Para sair sem mudar o lote, use “Cancelar edição”. Para carregar uma versão mais recente do XML, remova a nota e importe novamente.",
+    "Click the pencil, edit the fields and choose “Save changes”. “Cancel editing” keeps the batch unchanged. To load an updated XML, remove the invoice and import it again.",
+    "Pulse el lápiz, edite los campos y elija «Guardar cambios». «Cancelar edición» conserva el lote. Para cargar un XML actualizado, elimine la factura e impórtela de nuevo.",
+    "点击铅笔、修改字段并选择“保存更改”。“取消编辑”不会修改批次。若需读取更新后的 XML，请移除发票后重新导入。"
+  ],
+  [
+    "Imprimir Etiquetas",
+    "Print labels",
+    "Imprimir etiquetas",
+    "打印标签"
+  ],
+  [
+    "Limpar lote",
+    "Clear batch",
+    "Vaciar lote",
+    "清空批次"
+  ],
+  [
+    "Prévia de impressão",
+    "Print preview",
+    "Vista previa de impresión",
+    "打印预览"
+  ],
+  [
+    "Tamanho de impressão",
+    "Print size",
+    "Tamaño de impresión",
+    "打印尺寸"
+  ],
+  [
+    "Papel",
+    "Paper",
+    "Papel",
+    "纸张"
+  ],
+  [
+    "Bobina de etiquetas",
+    "Label roll",
+    "Rollo de etiquetas",
+    "标签卷"
+  ],
+  [
+    "Carta",
+    "Letter",
+    "Carta",
+    "Letter"
+  ],
+  [
+    "Ofício (Legal)",
+    "Legal",
+    "Oficio (Legal)",
+    "Legal"
+  ],
+  [
+    "Disposição",
+    "Layout",
+    "Distribución",
+    "版式"
+  ],
+  [
+    "10 por folha · 100 × 50 mm (atual)",
+    "10 per sheet · 100 × 50 mm (default)",
+    "10 por hoja · 100 × 50 mm (actual)",
+    "每页 10 张 · 100 × 50 mm（默认）"
+  ],
+  [
+    "10 por folha · 2 × 5",
+    "10 per sheet · 2 × 5",
+    "10 por hoja · 2 × 5",
+    "每页 10 张 · 2 × 5"
+  ],
+  [
+    "4 por folha · 2 × 2",
+    "4 per sheet · 2 × 2",
+    "4 por hoja · 2 × 2",
+    "每页 4 张 · 2 × 2"
+  ],
+  [
+    "3 por folha · 3 faixas",
+    "3 per sheet · 3 rows",
+    "3 por hoja · 3 filas",
+    "每页 3 张 · 3 行"
+  ],
+  [
+    "2 por folha · 2 faixas",
+    "2 per sheet · 2 rows",
+    "2 por hoja · 2 filas",
+    "每页 2 张 · 2 行"
+  ],
+  [
+    "1 por folha · paisagem",
+    "1 per sheet · landscape",
+    "1 por hoja · horizontal",
+    "每页 1 张 · 横向"
+  ],
+  [
+    "Campos opcionais na impressão",
+    "Optional label fields",
+    "Campos opcionales de impresión",
+    "可选打印字段"
+  ],
+  [
+    "Exibir endereço do remetente",
+    "Show sender address",
+    "Mostrar dirección del remitente",
+    "显示发件人地址"
+  ],
+  [
+    "Data",
+    "Date",
+    "Fecha",
+    "日期"
+  ],
+  [
+    "Descrição dos itens",
+    "Item description",
+    "Descripción de artículos",
+    "物品说明"
+  ],
+  [
+    "Organização das etiquetas",
+    "Label arrangement",
+    "Organización de etiquetas",
+    "标签排列"
+  ],
+  [
+    "Grade",
+    "Grid",
+    "Cuadrícula",
+    "网格"
+  ],
+  [
+    "Lista",
+    "List",
+    "Lista",
+    "列表"
+  ],
+  [
+    "Configurações da empresa",
+    "Company settings",
+    "Configuración de empresa",
+    "企业设置"
+  ],
+  [
+    "Fechar",
+    "Close",
+    "Cerrar",
+    "关闭"
+  ],
+  [
+    "Modelos de empresa",
+    "Company profiles",
+    "Perfiles de empresa",
+    "企业资料"
+  ],
+  [
+    "Nova empresa",
+    "New company",
+    "Nueva empresa",
+    "新建企业"
+  ],
+  [
+    "Nome da empresa",
+    "Company name",
+    "Nombre de empresa",
+    "企业名称"
+  ],
+  [
+    "Nome da Empresa:",
+    "Company name:",
+    "Nombre de empresa:",
+    "企业名称："
+  ],
+  [
+    "CNPJ:",
+    "CNPJ:",
+    "CNPJ:",
+    "CNPJ："
+  ],
+  [
+    "Endereço:",
+    "Address:",
+    "Dirección:",
+    "地址："
+  ],
+  [
+    "Bairro:",
+    "District:",
+    "Barrio:",
+    "街区："
+  ],
+  [
+    "Cidade:",
+    "City:",
+    "Ciudad:",
+    "城市："
+  ],
+  [
+    "UF:",
+    "State (UF):",
+    "Estado (UF):",
+    "州（UF）："
+  ],
+  [
+    "CEP:",
+    "Postal code:",
+    "Código postal:",
+    "邮政编码："
+  ],
+  [
+    "Logo da empresa",
+    "Company logo",
+    "Logo de empresa",
+    "企业标志"
+  ],
+  [
+    "Selecione uma imagem",
+    "Select an image",
+    "Seleccione una imagen",
+    "选择图片"
+  ],
+  [
+    "PNG ou JPG, até 2MB",
+    "PNG or JPG, up to 2 MB",
+    "PNG o JPG, hasta 2 MB",
+    "PNG 或 JPG，最大 2 MB"
+  ],
+  [
+    "Tamanho da logo",
+    "Logo size",
+    "Tamaño del logo",
+    "标志大小"
+  ],
+  [
+    "Restaurar",
+    "Reset",
+    "Restablecer",
+    "重置"
+  ],
+  [
+    "Salvar Modelo",
+    "Save profile",
+    "Guardar perfil",
+    "保存资料"
+  ],
+  [
+    "Excluir empresa",
+    "Delete company",
+    "Eliminar empresa",
+    "删除企业"
+  ],
+  [
+    "Desenvolvimento",
+    "Development",
+    "Desarrollo",
+    "开发"
+  ],
+  [
+    "Criado por",
+    "Created by",
+    "Creado por",
+    "创建者"
+  ],
+  [
+    "Contato e comunidade",
+    "Contact and community",
+    "Contacto y comunidad",
+    "联系与社区"
+  ],
+  [
+    "Contato",
+    "Contact",
+    "Contacto",
+    "联系"
+  ],
+  [
+    "Ajuda",
+    "Help",
+    "Ayuda",
+    "帮助"
+  ],
+  [
+    "Feedback",
+    "Feedback",
+    "Comentarios",
+    "反馈"
+  ],
+  [
+    "Créditos e suporte",
+    "Credits and support",
+    "Créditos y soporte",
+    "鸣谢与支持"
+  ],
+  [
+    "Contato, comunidade e ajuda",
+    "Contact, community and help",
+    "Contacto, comunidad y ayuda",
+    "联系、社区与帮助"
+  ],
+  [
+    "CONFIGURAÇÕES",
+    "SETTINGS",
+    "CONFIGURACIÓN",
+    "设置"
+  ],
+  [
+    "Escolher empresa",
+    "Choose company",
+    "Elegir empresa",
+    "选择企业"
+  ],
+  [
+    "Nova Empresa",
+    "New company",
+    "Nueva empresa",
+    "新建企业"
+  ],
+  [
+    "Dados da empresa",
+    "Company details",
+    "Datos de la empresa",
+    "企业信息"
+  ],
+  [
+    "O modelo fica salvo neste navegador/dispositivo e pode ser alternado quando precisar.",
+    "Profiles are saved in this browser/device. Switch between them when needed.",
+    "Los perfiles se guardan en este navegador/dispositivo y pueden cambiarse cuando lo necesite.",
+    "资料保存在此浏览器或设备中，可随时切换。"
+  ],
+  [
+    "Clique para enviar a logo",
+    "Click to upload a logo",
+    "Pulse para cargar un logo",
+    "点击上传标志"
+  ],
+  [
+    "PNG, JPG ou JPEG até 2MB",
+    "PNG, JPG or JPEG up to 2 MB",
+    "PNG, JPG o JPEG hasta 2 MB",
+    "PNG、JPG 或 JPEG，最大 2 MB"
+  ],
+  [
+    "Prévia da logo",
+    "Logo preview",
+    "Vista previa del logo",
+    "标志预览"
+  ],
+  [
+    "Restaurar tamanho",
+    "Reset size",
+    "Restablecer tamaño",
+    "重置大小"
+  ],
+  [
+    "Nome da Empresa",
+    "Company name",
+    "Nombre de empresa",
+    "企业名称"
+  ],
+  [
+    "Endereço",
+    "Address",
+    "Dirección",
+    "地址"
+  ],
+  [
+    "Rua, número",
+    "Street, number",
+    "Calle, número",
+    "街道、门牌号"
+  ],
+  [
+    "Bairro",
+    "District",
+    "Barrio",
+    "街区"
+  ],
+  [
+    "Cidade",
+    "City",
+    "Ciudad",
+    "城市"
+  ],
+  [
+    "UF",
+    "State (UF)",
+    "Estado (UF)",
+    "州（UF）"
+  ],
+  [
+    "CEP",
+    "Postal code",
+    "Código postal",
+    "邮政编码"
+  ],
+  [
+    "Excluir Modelo",
+    "Delete profile",
+    "Eliminar perfil",
+    "删除资料"
+  ],
+  [
+    "Código de acesso",
+    "Access code",
+    "Código de acceso",
+    "访问代码"
+  ],
+  [
+    "Conectar",
+    "Connect",
+    "Conectar",
+    "连接"
+  ],
+  [
+    "Abra este app pelo serviço local da empresa. Informe o código exibido ao iniciar o serviço. Pastas locais e compartilhadas são configuradas por quem administra a integração.",
+    "Open the app through the local service and enter its access code. Use the setup wizard to configure invoice folders.",
+    "Abra la aplicación desde el servicio local e introduzca su código de acceso. Use el asistente para configurar las carpetas.",
+    "请通过本地服务打开应用并输入访问代码，使用设置向导配置发票文件夹。"
+  ],
+  [
+    "Reduza ou amplie a logo. A ampliação para automaticamente no limite da área reservada em cada formato, sem cortar nem distorcer a imagem. Salve o modelo para aplicar às etiquetas.",
+    "Resize the logo within the reserved print area. Its proportions are preserved. Save the profile to apply the change.",
+    "Ajuste el logo dentro del área de impresión reservada, sin recortar ni deformar. Guarde el perfil para aplicar el cambio.",
+    "在预留打印区域内调整标志大小，保持比例且不裁剪。保存资料以应用更改。"
+  ],
+  [
+    "Baixar TagEX",
+    "Download TagEX",
+    "Descargar TagEX",
+    "下载 TagEX"
+  ],
+  [
+    "Baixar para Windows",
+    "Download for Windows",
+    "Descargar para Windows",
+    "下载 Windows 版"
+  ],
+  [
+    "Em breve",
+    "Coming soon",
+    "Próximamente",
+    "即将推出"
+  ],
+  [
+    "Guia de instalação",
+    "Installation guide",
+    "Guía de instalación",
+    "安装指南"
+  ],
+  [
+    "Crie etiquetas de expedição a partir de notas fiscais. Importe XML, confira os dados e imprima em papel ou bobina.",
+    "Create shipping labels from invoices. Import XML, review the details and print on paper or label rolls.",
+    "Cree etiquetas de envío a partir de facturas. Importe XML, revise los datos e imprima en papel o bobina.",
+    "根据发票创建发货标签。导入 XML、核对数据，并在纸张或标签卷上打印。"
+  ]
+]

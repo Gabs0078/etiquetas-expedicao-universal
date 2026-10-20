@@ -1,4 +1,6 @@
 ﻿param([int]$Porta = 8788, [string]$DiretorioDados = '', [switch]$Verificar)
+if (!(Get-Command T -ErrorAction SilentlyContinue)) { . (Join-Path $PSScriptRoot 'idiomas.ps1') }
+
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -65,7 +67,7 @@ function IniciarServico {
 function AbrirAplicativo {
     if (!$script:processo -or $script:processo.HasExited) { PararServico; IniciarServico }
     $sessao = Invoke-RestMethod -Uri "$script:base/api/sessao" -Method Post -Headers @{ Authorization = "Bearer $script:token" } -TimeoutSec 10
-    Start-Process ($script:base + $sessao.caminho) -WindowStyle Hidden
+    Start-Process ($script:base + $sessao.caminho + '&idioma=' + $script:IdiomaTagEX) -WindowStyle Hidden
 }
 $icone = $null
 $timer = $null
@@ -107,13 +109,13 @@ try {
     if (!$script:processo -or $script:processo.HasExited) { IniciarServico }
     $icone = [System.Windows.Forms.NotifyIcon]::new()
     $icone.Icon = [System.Drawing.SystemIcons]::Application
-    $icone.Text = 'TagEX - Etiquetas para expedição'
+    $icone.Text = (T 'TagEX - Etiquetas para expedição')
     $menu = [System.Windows.Forms.ContextMenuStrip]::new()
-    $abrir = $menu.Items.Add('Abrir TagEX')
+    $abrir = $menu.Items.Add((T 'Abrir TagEX'))
     $abrir.add_Click({ try { AbrirAplicativo } catch { Avisar $_.Exception.Message } })
-    $pastas = $menu.Items.Add('Configurar pastas dos XMLs')
+    $pastas = $menu.Items.Add((T 'Configurar pastas dos XMLs'))
     $pastas.add_Click({ try { if (EscolherPasta) { AplicarIntegracao } } catch { Avisar $_.Exception.Message } })
-    $sair = $menu.Items.Add('Encerrar')
+    $sair = $menu.Items.Add((T 'Encerrar'))
     $sair.add_Click({ [System.Windows.Forms.Application]::ExitThread() })
     $icone.ContextMenuStrip = $menu
     $icone.add_DoubleClick({ try { AbrirAplicativo } catch { Avisar $_.Exception.Message } })

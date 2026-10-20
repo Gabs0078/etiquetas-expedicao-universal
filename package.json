@@ -1,13 +1,14 @@
 {
   "name": "etiquetas-expedicao-universal",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "description": "TagEX — Etiquetas para expedição com importação de NF-e e integração local",
   "scripts": {
     "start": "node integracao/servidor.cjs",
-    "test": "node --test tests/*.test.cjs",
+    "test": "node --require ./tests/idioma-padrao.cjs --test tests/*.test.cjs",
     "test:browser": "node tests/navegador.cjs",
-    "build:pages": "node scripts/preparar-pages.cjs"
+    "build:pages": "node scripts/preparar-pages.cjs",
+    "i18n:build": "node scripts/compilar-i18n.cjs"
   },
   "engines": {
     "node": ">=24"
@@ -16,6 +17,7 @@
     "@xmldom/xmldom": "0.9.12"
   },
   "devDependencies": {
+    "acorn": "8.19.0",
     "playwright": "1.63.0"
   }
 }

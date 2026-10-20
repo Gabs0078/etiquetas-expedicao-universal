@@ -6,8 +6,8 @@ async function preparar(stage,root=path.resolve(__dirname,'..')){
  if((await fs.readdir(stage)).length)throw Error('A pasta do pacote precisa estar vazia.');
  const copiar=async nome=>{const alvo=path.join(stage,nome);await fs.mkdir(path.dirname(alvo),{recursive:true});await fs.copyFile(path.join(root,nome),alvo);};
  // Lista explícita: não copiar XMLs, configurações, índice ou dependências de desenvolvimento.
- for(const nome of [...arquivos,'LICENSE','package.json','README.md','integracao/servidor.cjs','integracao/config.exemplo.json','integracao/fontes/pastas.cjs','integracao/fontes/indice.cjs',
- 'desktop/iniciar.ps1','desktop/assistente.ps1','desktop/boas-vindas.ps1','desktop/instalar.ps1','desktop/instalacao.ps1','desktop/desinstalar.ps1','desktop/diagnostico.cjs','desktop/Abrir Etiquetas.vbs','desktop/README.md','desktop/runtime/node.exe','desktop/runtime/LICENSE-node.txt',
+ for(const nome of [...arquivos,'LICENSE','package.json','README.md','README.pt-BR.md','README.es.md','README.zh-Hans.md','CONTRIBUTING.md','integracao/servidor.cjs','integracao/config.exemplo.json','integracao/fontes/pastas.cjs','integracao/fontes/indice.cjs',
+ 'desktop/idiomas.ps1','desktop/iniciar.ps1','desktop/assistente.ps1','desktop/boas-vindas.ps1','desktop/instalar.ps1','desktop/instalacao.ps1','desktop/desinstalar.ps1','desktop/diagnostico.cjs','desktop/Abrir Etiquetas.vbs','desktop/README.md','desktop/runtime/node.exe','desktop/runtime/LICENSE-node.txt',
  'docs/guia-usuario.md','docs/pacote-windows.md','docs/integracoes.md','docs/instalacao-windows.md','docs/arquitetura-integracao.md','docs/validacao-assistente.md'])await copiar(nome);
  const parser=path.dirname(require.resolve('@xmldom/xmldom/package.json'));
  await fs.cp(parser,path.join(stage,'node_modules/@xmldom/xmldom'),{recursive:true,dereference:true});

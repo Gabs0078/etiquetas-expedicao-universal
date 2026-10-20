@@ -1,17 +1,17 @@
 function atualizarIndicadorIntegracao(cor, descricao) {
   const indicador = $('indicadorIntegracao');
   indicador.dataset.estado = cor;
-  $('descricaoEstadoIntegracao').textContent = descricao;
-  $('ajudaEstadoIntegracao').setAttribute('aria-label', 'Estado da integração: ' + descricao);
+  I18n.text($('descricaoEstadoIntegracao'), () => descricao);
+  $('ajudaEstadoIntegracao').setAttribute('aria-label', tr("Estado da integração: ") + descricao);
 }
 function indicarEstadoIndice(p) {
   if (!p || p.habilitado === false) return;
   if (['aguardando', 'levantando', 'verificando'].includes(p.fase))
-    atualizarIndicadorIntegracao('amarelo', p.pronto ? 'Atualizando o índice das pastas em segundo plano. Isso não refaz a pesquisa nem altera os resultados. A busca no índice salvo continua disponível.' : 'Serviço conectado. Preparando as pastas para a primeira busca.');
+    atualizarIndicadorIntegracao('amarelo', p.pronto ? tr("Atualizando o índice das pastas em segundo plano. Isso não refaz a pesquisa nem altera os resultados. A busca no índice salvo continua disponível.") : tr("Serviço conectado. Preparando as pastas para a primeira busca."));
   else if (p.desatualizado || ['erro', 'indisponivel'].includes(p.fase))
-    atualizarIndicadorIntegracao(p.pronto ? 'amarelo' : 'vermelho', p.pronto ? 'Não foi possível atualizar todas as pastas. A busca usa o índice salvo; confira o acesso ao servidor.' : 'Não foi possível preparar as pastas. Confira o acesso ao servidor; o aplicativo tentará novamente.');
+    atualizarIndicadorIntegracao(p.pronto ? 'amarelo' : 'vermelho', p.pronto ? tr("Não foi possível atualizar todas as pastas. A busca usa o índice salvo; confira o acesso ao servidor.") : tr("Não foi possível preparar as pastas. Confira o acesso ao servidor; o aplicativo tentará novamente."));
   else if (p.pronto)
-    atualizarIndicadorIntegracao(p.limitado ? 'amarelo' : 'verde', 'Serviço conectado e pastas verificadas. A busca está pronta.' + (p.limitado ? ' A varredura atingiu o limite de arquivos.' : ''));
+    atualizarIndicadorIntegracao(p.limitado ? 'amarelo' : 'verde', tr("Serviço conectado e pastas verificadas. A busca está pronta.") + (p.limitado ? tr(" A varredura atingiu o limite de arquivos.") : ''));
 }
 function mostrarProgressoBusca() {
   const p = importacao.indice;
@@ -21,17 +21,17 @@ function mostrarProgressoBusca() {
   if (!visivel) return;
   const barra = $('barraBusca');
   if (atualizando) {
-    const titulo = p.pronto ? 'Atualizando busca' : 'Preparando busca';
+    const titulo = p.pronto ? tr("Atualizando busca") : tr("Preparando busca");
     if (p.total !== null && p.total > 0) {
       barra.max = p.total; barra.value = p.processados;
-      $('textoProgressoBusca').textContent = titulo + ': ' + p.processados.toLocaleString('pt-BR') + ' de ' + p.total.toLocaleString('pt-BR') + ' arquivos verificados.';
+      I18n.text($('textoProgressoBusca'), () => tr('{0}: {1} de {2} arquivos verificados.',[titulo,p.processados.toLocaleString(I18n.language),p.total.toLocaleString(I18n.language)]));
     } else {
       barra.removeAttribute('value');
-      $('textoProgressoBusca').textContent = titulo + ': levantando os arquivos das pastas.';
+      I18n.text($('textoProgressoBusca'), () => tr('{0}: levantando os arquivos das pastas.',[titulo]));
     }
   } else {
     barra.removeAttribute('value');
-    $('textoProgressoBusca').textContent = 'Pesquisando notas...';
+    I18n.text($('textoProgressoBusca'), () => tr("Pesquisando notas..."));
   }
 }
 function iniciarMonitorIndice() {
@@ -47,15 +47,15 @@ function iniciarMonitorIndice() {
       importacao.indice = p;
       indicarEstadoIndice(p);
       mostrarProgressoBusca();
-      if (p.fase === 'erro' && !p.pronto) { importacao.buscaPendente = false; $('statusIntegracao').textContent = 'Não foi possível preparar a busca. O aplicativo tentará novamente; importação de XML e preenchimento manual continuam disponíveis.'; }
+      if (p.fase === 'erro' && !p.pronto) { importacao.buscaPendente = false; I18n.text($('statusIntegracao'), () => tr("Não foi possível preparar a busca. O aplicativo tentará novamente; importação de XML e preenchimento manual continuam disponíveis.")); }
       if (p.atualizadoEm) {
         $('ultimaBuscaIntegracao').hidden = false;
-        $('ultimaBuscaIntegracao').textContent = 'Última verificação das pastas: ' + new Date(p.atualizadoEm).toLocaleString('pt-BR') + (p.desatualizado ? '. Índice salvo disponível; uma ou mais pastas não puderam ser atualizadas.' : '');
+        I18n.text($('ultimaBuscaIntegracao'), () => tr("Última verificação das pastas: ") + new Date(p.atualizadoEm).toLocaleString(I18n.language) + (p.desatualizado ? tr(". Índice salvo disponível; uma ou mais pastas não puderam ser atualizadas.") : ''));
       }
       if (p.pronto && importacao.buscaPendente && !importacao.buscando) { importacao.buscaPendente = false; buscarIntegracao(); }
       if (p.habilitado === false) return;
     } catch {
-      if (servico === importacao.servico && fonte === $('fonteIntegracao').value) atualizarIndicadorIntegracao('vermelho', 'Serviço local sem resposta. Abra o atalho Etiquetas para reconectar. Importar XML e preencher manualmente continuam disponíveis.');
+      if (servico === importacao.servico && fonte === $('fonteIntegracao').value) atualizarIndicadorIntegracao('vermelho', tr("Serviço local sem resposta. Abra o atalho Etiquetas para reconectar. Importar XML e preencher manualmente continuam disponíveis."));
     }
     importacao.monitorIndice = setTimeout(consultar, document.hidden ? 15000 : importacao.indice?.fase === 'verificando' ? 1000 : 5000);
   }
@@ -72,7 +72,7 @@ function trocarEndereco() {
   const r = importacao.enderecos; if (!r) return;
   const caixa = $('usarEnderecoDestinatario');
   const novo = caixa.checked ? r.cadastro : r.entrega;
-  if (els.destinatario.value !== r.ultimo && els.destinatario.value !== novo && !confirm('Substituir o endereço que você editou pelo endereço selecionado?')) { caixa.checked = !caixa.checked; return; }
+  if (els.destinatario.value !== r.ultimo && els.destinatario.value !== novo && !confirm(tr("Substituir o endereço que você editou pelo endereço selecionado?"))) { caixa.checked = !caixa.checked; return; }
   els.destinatario.value = novo; r.ultimo = novo;
   r.origem = caixa.checked ? "destinatario" : r.origemOriginal;
   $('confirmarRevisao').checked = false;
@@ -86,12 +86,12 @@ function trocarEndereco() {
 
 const importacao = { fila: [], servico: null, buscando: false, carregando: false, intervalo: null, versaoBusca: 0 };
 function mensagemImportacao(texto, erros = []) {
-  $('statusImportacao').textContent = texto;
+  I18n.text($('statusImportacao'), () => texto);
   $('avisosArquivos').hidden = erros.length === 0;
   $('errosImportacao').replaceChildren();
   erros.forEach(e => {
     const p = document.createElement('p');
-    p.textContent = `${e.arquivo}: ${e.motivo}`;
+    I18n.text(p, () => `${e.arquivo}: ${tr(e.motivo)}`);
     $('errosImportacao').appendChild(p);
   });
 }
@@ -103,25 +103,26 @@ function enfileirarImportadas(notas) {
     importacao.fila.push(nota); novas++;
   }
   renderFilaImportacao();
-  return `${novas} nota(s) aguardando revisão; ${repetidas} duplicada(s) ignorada(s).${novas + repetidas < notas.length ? ' Fila cheia (100); revise ou descarte antes de importar mais.' : ''}`;
+  return tr("{0} nota(s) aguardando revisão; {1} duplicada(s) ignorada(s).{2}",[novas,repetidas,novas + repetidas < notas.length ? tr(" Fila cheia (100); revise ou descarte antes de importar mais.") : '']);
 }
 function renderFilaImportacao() {
   $('filaImportacao').innerHTML = importacao.fila.map((n, i) => `<div class="import-card">
-    <strong>NF ${escaparHTML(n.nf)} · série ${escaparHTML(n.serie)}</strong>
+    <strong>NF ${escaparHTML(n.nf)}${escaparHTML(tr(" · Série "))}${escaparHTML(n.serie)}</strong>
     <p>${escaparHTML(n.emitente.nome)}<br>${escaparHTML(n.destinatario.split('\n')[0])}</p>
-    <p>${n.volumes === null ? 'Volumes precisam ser informados' : `${n.volumes} volumes`} · ${n.avisos.length} aviso(s)</p>
-    <div class="import-actions"><button class="btn-primary btn-small" type="button" data-revisar="${i}">Revisar</button>
-    <button class="btn-gray btn-small" type="button" data-descartar="${i}">Descartar</button></div></div>`).join('');
+    <p>${n.volumes === null ? tr("Volumes precisam ser informados") : tr('{0} volumes',[n.volumes])} · ${escaparHTML(tr('{0} aviso(s)',[n.avisos.length]))}</p>
+    <div class="import-actions"><button class="btn-primary btn-small" type="button" data-revisar="${i}">${escaparHTML(tr("Revisar"))}</button>
+    <button class="btn-gray btn-small" type="button" data-descartar="${i}">${escaparHTML(tr("Descartar"))}</button></div></div>`).join('');
+  I18n.apply($('etapaConferencia'));
   $('filaImportacao').querySelectorAll('[data-revisar]').forEach(b => b.addEventListener('click', () => revisarImportada(importacao.fila[Number(b.dataset.revisar)])));
   $('filaImportacao').querySelectorAll('[data-descartar]').forEach(b => b.addEventListener('click', () => {
     const removida = importacao.fila.splice(Number(b.dataset.descartar), 1)[0];
     if (state.notaImportada?.chave === removida.chave) limparCamposNota(true);
     renderFilaImportacao();
-    $('statusImportacao').textContent = `${importacao.fila.length} nota(s) aguardando revisão.`;
+    I18n.text($('statusImportacao'), () => tr("{0} nota(s) aguardando revisão.",[importacao.fila.length]));
   }));
 }
 function revisarImportada(nota) {
-  if ((els.nf.value || els.destinatario.value) && !confirm('Substituir os campos atuais pelos dados desta nota para revisão?')) return;
+  if ((els.nf.value || els.destinatario.value) && !confirm(tr("Substituir os campos atuais pelos dados desta nota para revisão?"))) return;
   const estavaEditando = Boolean(state.notaEditando);
   encerrarEdicao();
   state.notaImportada = nota;
@@ -135,10 +136,10 @@ function revisarImportada(nota) {
   configurarOpcaoEndereco(nota);
   $('revisaoXML').hidden = false;
   $('confirmarRevisao').checked = false;
-  $('origemRevisao').textContent = 'XML · NF ' + nota.nf + ' · Série ' + nota.serie;
+  I18n.text($('origemRevisao'), () => 'XML · NF ' + nota.nf + tr(" · Série ") + nota.serie);
   $('confirmacaoXML').hidden = false;
   atualizarAvisosCampos();
-  els.btnAdicionar.textContent = 'Adicionar nota ao lote';
+  I18n.text(els.btnAdicionar, () => tr("Adicionar nota ao lote"));
   if (estavaEditando) { renderNotas(); atualizarEscalaPrevia(); }
   $('revisaoXML').scrollIntoView({ behavior: 'smooth', block: 'center' });
   const primeiro = ['data', 'nf', 'destinatario', 'volumes'].find(id => $(id).getAttribute('aria-invalid') === 'true');
@@ -152,9 +153,9 @@ function finalizarRevisao(chave) {
   $('confirmacaoXML').hidden = true;
   importacao.validarCampos = false;
   $('confirmarRevisao').checked = false;
-  els.btnAdicionar.innerHTML = '<span data-icon="plus"></span>Adicionar nota ao lote';
+  els.btnAdicionar.innerHTML = '<span data-icon="plus"></span><span data-i18n="Adicionar nota ao lote">Add invoice to batch</span>';
   renderFilaImportacao();
-  if (chave) $('statusImportacao').textContent = `Nota adicionada ao lote. ${importacao.fila.length} nota(s) aguardando revisão.`;
+  if (chave) I18n.text($('statusImportacao'), () => tr("Nota adicionada ao lote. {0} nota(s) aguardando revisão.",[importacao.fila.length]));
   renderIcons();
 }
 
@@ -162,8 +163,8 @@ function finalizarRevisao(chave) {
 function definirAvisoCampo(id, texto, erro = false) {
   const grupo = $('avisoCampo-' + id), botao = $('botaoAviso-' + id), campo = $(id);
   grupo.hidden = !texto;
-  $('textoAviso-' + id).textContent = texto || '';
-  botao.setAttribute('aria-label', 'Atenção: ' + document.querySelector('label[for="' + id + '"]').textContent.replace(':', ''));
+  I18n.text($('textoAviso-' + id), () => texto || '');
+  botao.setAttribute('aria-label', tr("Atenção: ") + document.querySelector('label[for="' + id + '"]').textContent.replace(':', ''));
   campo.toggleAttribute('data-atencao', Boolean(texto));
   campo.setAttribute('aria-invalid', String(erro));
   if (texto) campo.setAttribute('aria-describedby', 'dicaCampo-' + id);
@@ -179,27 +180,27 @@ function atualizarAvisosCampos(validar = false) {
   const nota = state.notaImportada;
   const conferir = Boolean(nota || importacao.validarCampos);
 
-  definirAvisoCampo('data', conferir && !els.data.value ? 'Informe a data da expedição.' : '', conferir && !els.data.value);
+  definirAvisoCampo('data', conferir && !els.data.value ? tr("Informe a data da expedição.") : '', conferir && !els.data.value);
   const numeroErrado = Boolean(nota && els.nf.value.trim() !== nota.nf);
   let avisoNF = '';
-  if (conferir && !els.nf.value.trim()) avisoNF = 'Informe o número da nota.';
-  else if (numeroErrado) avisoNF = 'Número diferente do XML. Use NF ' + nota.nf + ' ou volte ao manual.';
-  else if (nota && !nota.autorizada) avisoNF = 'Não foi possível confirmar a autorização desta nota pelo XML. Confira no sistema da empresa.';
+  if (conferir && !els.nf.value.trim()) avisoNF = tr("Informe o número da nota.");
+  else if (numeroErrado) avisoNF = tr('Número diferente do XML. Use NF {0} ou volte ao manual.',[nota.nf]);
+  else if (nota && !nota.autorizada) avisoNF = tr("Não foi possível confirmar a autorização desta nota pelo XML. Confira no sistema da empresa.");
   definirAvisoCampo('nf', avisoNF, conferir && (!els.nf.value.trim() || numeroErrado));
   let endereco = '';
   if (nota && importacao.enderecos?.origem !== 'editado') {
     const avisos = nota.avisos;
-    if (avisos.some(a => /não foi identificado com segurança/i.test(a))) endereco = 'Não foi possível identificar o endereço de entrega. Corrija o campo ou use o endereço do destinatário, se for o mesmo.';
-    else if (avisos.some(a => /Também há uma indicação de ENTREGA/i.test(a))) endereco = 'A nota informa entrega em dois lugares. Confira qual endereço deve ser usado.';
-    else if (avisos.some(a => /Endereço incompleto/i.test(a))) endereco = 'O endereço pode estar incompleto. Confira a rua, a cidade e o estado.';
-    else if (avisos.some(a => /Endereço longo/i.test(a))) endereco = 'O endereço é muito longo. Resuma e confira se cabe na prévia.';
+    if (avisos.some(a => /não foi identificado com segurança/i.test(a))) endereco = tr("Não foi possível identificar o endereço de entrega. Corrija o campo ou use o endereço do destinatário, se for o mesmo.");
+    else if (avisos.some(a => /Também há uma indicação de ENTREGA/i.test(a))) endereco = tr("A nota informa entrega em dois lugares. Confira qual endereço deve ser usado.");
+    else if (avisos.some(a => /Endereço incompleto/i.test(a))) endereco = tr("O endereço pode estar incompleto. Confira a rua, a cidade e o estado.");
+    else if (avisos.some(a => /Endereço longo/i.test(a))) endereco = tr("O endereço é muito longo. Resuma e confira se cabe na prévia.");
   }
-  if (conferir && !els.destinatario.value.trim()) endereco = 'Informe o endereço de entrega.';
+  if (conferir && !els.destinatario.value.trim()) endereco = tr("Informe o endereço de entrega.");
   definirAvisoCampo('destinatario', endereco, conferir && !els.destinatario.value.trim());
   const valor = Number(els.volumes.value);
   const volumesValidos = Boolean(els.volumes.value && Number.isInteger(valor) && valor >= 1 && valor <= 999);
-  definirAvisoCampo('volumes', conferir && !volumesValidos ? (!els.volumes.value && nota?.volumes === null ? 'Quantidade não encontrada no XML. Informe o total de volumes da entrega.' : 'Informe um número inteiro de 1 a 999 volumes.') : '', conferir && !volumesValidos);
-  definirAvisoCampo('descricao', nota && els.descricao.value === nota.descricao && nota.avisos.some(a => /Descrição resumida/i.test(a)) ? 'A descrição foi encurtada. Confira se os itens necessários estão no texto.' : '');
+  definirAvisoCampo('volumes', conferir && !volumesValidos ? (!els.volumes.value && nota?.volumes === null ? tr("Quantidade não encontrada no XML. Informe o total de volumes da entrega.") : tr("Informe um número inteiro de 1 a 999 volumes.")) : '', conferir && !volumesValidos);
+  definirAvisoCampo('descricao', nota && els.descricao.value === nota.descricao && nota.avisos.some(a => /Descrição resumida/i.test(a)) ? tr("A descrição foi encurtada. Confira se os itens necessários estão no texto.") : '');
 
 }
 function iniciarAvisosCampos() {
@@ -236,7 +237,7 @@ function pararBuscaAutomatica() {
   $('buscaAutomatica').checked = false;
 }
 async function conectarIntegracao(token, silencioso = false) {
-  atualizarIndicadorIntegracao('amarelo', 'Conectando ao serviço local...');
+  atualizarIndicadorIntegracao('amarelo', tr("Conectando ao serviço local..."));
   const servico = Fontes.servico(token);
   try {
     const dados = await servico.conectar();
@@ -247,22 +248,22 @@ async function conectarIntegracao(token, silencioso = false) {
     $('btnAssistenteIntegracao').hidden = !dados.desktop;
     if (dados.desktop) {
       $('acessoIntegracao').hidden = true;
-      $('btnIntegracao').textContent = 'Buscar nas pastas';
+      I18n.text($('btnIntegracao'), () => tr("Buscar nas pastas"));
       if (dados.fontes.length) { selecionarEntrada('pasta'); $('painelIntegracao').open = true; }
     }
-    atualizarIndicadorIntegracao('amarelo', dados.fontes.length ? 'Serviço conectado. Verificando o acesso às pastas.' : 'Nenhuma pasta configurada. Use Configurar integração para escolher as pastas de XML.');
+    atualizarIndicadorIntegracao('amarelo', dados.fontes.length ? tr("Serviço conectado. Verificando o acesso às pastas.") : tr("Nenhuma pasta configurada. Use Configurar integração para escolher as pastas de XML."));
     if (importacao.servico) iniciarMonitorIndice();
-    $('statusIntegracao').textContent = '';
+    I18n.text($('statusIntegracao'), () => '');
   } catch (e) {
-    atualizarIndicadorIntegracao('vermelho', 'Serviço local desconectado. Abra o atalho TagEX para conectar. Importar XML e preencher manualmente continuam disponíveis.');
-    $('statusIntegracao').textContent = '';
+    atualizarIndicadorIntegracao('vermelho', tr("Serviço local desconectado. Abra o atalho TagEX para conectar. Importar XML e preencher manualmente continuam disponíveis."));
+    I18n.text($('statusIntegracao'), () => '');
   }
 }
 async function buscarIntegracao() {
   if (!importacao.servico || importacao.buscando || importacao.carregando) return;
   importacao.buscando = true;
   $('btnBuscarIntegracao').disabled = true;
-  $('statusIntegracao').textContent = 'Pesquisando notas...';
+  I18n.text($('statusIntegracao'), () => tr("Pesquisando notas..."));
   mostrarProgressoBusca();
   const filtros = filtrosIntegracao();
   const servico = importacao.servico;
@@ -270,12 +271,12 @@ async function buscarIntegracao() {
   try {
     const dados = await servico.buscar(filtros);
     if (servico !== importacao.servico || versaoBusca !== importacao.versaoBusca) return;
-    if (dados.preparando) { importacao.buscaPendente = true; importacao.indice = dados.indice; indicarEstadoIndice(dados.indice); mostrarProgressoBusca(); $('statusIntegracao').textContent = 'A busca será feita quando a preparação terminar.'; return; }
+    if (dados.preparando) { importacao.buscaPendente = true; importacao.indice = dados.indice; indicarEstadoIndice(dados.indice); mostrarProgressoBusca(); I18n.text($('statusIntegracao'), () => tr("A busca será feita quando a preparação terminar.")); return; }
     importacao.buscaPendente = false;
     if (dados.indice) importacao.indice = dados.indice;
-    $('resultadosIntegracao').innerHTML = dados.notas.map(n => `<div class="import-card"><strong>NF ${escaparHTML(n.nf)} · série ${escaparHTML(n.serie)}</strong>
+    $('resultadosIntegracao').innerHTML = dados.notas.map(n => `<div class="import-card"><strong>NF ${escaparHTML(n.nf)}${escaparHTML(tr(" · Série "))}${escaparHTML(n.serie)}</strong>
       <p>${escaparHTML(n.data)} · ${escaparHTML(n.emitente)}<br>${escaparHTML(n.destinatario.split('\n')[0])}</p>
-      <button class="btn-primary btn-small" type="button" data-importar-id="${escaparHTML(n.id)}">Conferir dados</button></div>`).join('');
+      <button class="btn-primary btn-small" type="button" data-importar-id="${escaparHTML(n.id)}">${escaparHTML(tr("Conferir"))}</button></div>`).join('');
     $('resultadosIntegracao').querySelectorAll('[data-importar-id]').forEach(b => b.addEventListener('click', async () => {
       b.disabled = true;
       try {
@@ -287,18 +288,18 @@ async function buscarIntegracao() {
       catch (e) { mensagemImportacao(e.message); }
       finally { b.disabled = false; }
     }));
-    $('statusIntegracao').textContent = `${dados.total} resultado(s). Atualizado às ${new Date().toLocaleTimeString('pt-BR')}.${dados.limitado ? ' Limite de leitura atingido; reduza as pastas ou refine a busca (até 100 resultados).' : ''}`;
+    I18n.text($('statusIntegracao'), () => tr("{0} resultado(s). Atualizado às {1}.{2}",[dados.total,new Date().toLocaleTimeString(I18n.language),dados.limitado ? ' Limite de leitura atingido; reduza as pastas ou refine a busca (até 100 resultados).' : '']));
     const falhasAcesso = dados.erros.some(e => /pasta indisponível|acesso no servidor|sem acesso/i.test(e.motivo));
     const estadoIndice = dados.indice;
     if (estadoIndice) indicarEstadoIndice(estadoIndice);
-    else atualizarIndicadorIntegracao(falhasAcesso ? 'amarelo' : 'verde', falhasAcesso ? 'Serviço conectado, mas uma ou mais pastas estão sem acesso. Confira a conexão ao servidor.' : 'Serviço conectado e busca concluída nas pastas.');
+    else atualizarIndicadorIntegracao(falhasAcesso ? 'amarelo' : 'verde', falhasAcesso ? tr("Serviço conectado, mas uma ou mais pastas estão sem acesso. Confira a conexão ao servidor.") : tr("Serviço conectado e busca concluída nas pastas."));
     $('ultimaBuscaIntegracao').hidden = false;
-    $('ultimaBuscaIntegracao').textContent = 'Última busca concluída: ' + new Date().toLocaleString('pt-BR');
+    I18n.text($('ultimaBuscaIntegracao'), () => tr("Última busca concluída: ") + new Date().toLocaleString(I18n.language));
     mensagemImportacao(dados.erros.length + ' arquivo(s)/pasta(s) com avisos na busca.', dados.erros);
   } catch (e) {
     if (servico !== importacao.servico || versaoBusca !== importacao.versaoBusca) return;
-    atualizarIndicadorIntegracao('vermelho', 'A busca falhou. Confira o serviço local e o acesso às pastas.');
-    $('statusIntegracao').textContent = 'Busca não concluída. ' + e.message;
+    atualizarIndicadorIntegracao('vermelho', tr("A busca falhou. Confira o serviço local e o acesso às pastas."));
+    I18n.text($('statusIntegracao'), () => tr("Busca não concluída. ") + e.message);
     pararBuscaAutomatica();
   } finally { importacao.buscando = false; $('btnBuscarIntegracao').disabled = !importacao.servico; mostrarProgressoBusca(); }
 }
@@ -316,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (importacao.carregando) return;
     importacao.carregando = true;
     $('btnUploadXML').disabled = true;
-    mensagemImportacao('Lendo XMLs…');
+    mensagemImportacao(tr("Lendo XMLs…"));
     try {
       const dados = await Fontes.arquivos(event.target.files);
       mensagemImportacao(enfileirarImportadas(dados.notas), dados.erros);
@@ -326,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
   selecionarEntrada('manual');
   $('btnUploadXML').addEventListener('click', () => { selecionarEntrada('xml'); $('xmlArquivos').click(); });
   $('btnManual').addEventListener('click', () => {
-    if (camposEdicaoAlterados() && !confirm('Descartar as alterações desta nota e preencher outra?')) return;
+    if (camposEdicaoAlterados() && !confirm(tr("Descartar as alterações desta nota e preencher outra?"))) return;
     const estavaEditando = Boolean(state.notaEditando);
     selecionarEntrada('manual'); limparCamposNota(true);
     if (estavaEditando) renderizar();
@@ -334,9 +335,9 @@ document.addEventListener('DOMContentLoaded', () => {
   $('btnAssistenteIntegracao').addEventListener('click', async () => {
     try {
       const resposta = await fetch('/api/assistente', { method: 'POST', credentials: 'same-origin', headers: importacao.token ? { Authorization: 'Bearer ' + importacao.token } : {}, signal: AbortSignal.timeout(5000) });
-      if (!resposta.ok) throw new Error('Abra novamente pelo ícone do aplicativo para configurar.');
-      $('statusIntegracao').textContent = 'Solicitação enviada. O assistente será aberto pelo aplicativo ao lado do relógio.';
-    } catch { $('statusIntegracao').textContent = 'Não foi possível abrir o assistente. Use o ícone Etiquetas ao lado do relógio ou abra o atalho do aplicativo.'; }
+      if (!resposta.ok) throw new Error(tr("Abra novamente pelo ícone do aplicativo para configurar."));
+      I18n.text($('statusIntegracao'), () => tr("Solicitação enviada. O assistente será aberto pelo aplicativo ao lado do relógio."));
+    } catch { I18n.text($('statusIntegracao'), () => tr("Não foi possível abrir o assistente. Use o ícone Etiquetas ao lado do relógio ou abra o atalho do aplicativo.")); }
   });
   $('btnIntegracao').addEventListener('click', () => { selecionarEntrada('pasta'); $('painelIntegracao').open = true; });
   $('btnCancelarRevisao').addEventListener('click', () => limparCamposNota(true));
@@ -351,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       await conectarIntegracao($('tokenIntegracao').value.trim());
       $('tokenIntegracao').value = '';
-    } catch (e) { $('statusIntegracao').textContent = e.message; }
+    } catch (e) { I18n.text($('statusIntegracao'), () => e.message); }
     finally { $('btnConectar').disabled = false; }
   });
   $('btnBuscarIntegracao').addEventListener('click', buscarIntegracao);
@@ -360,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
     importacao.versaoBusca++;
     pararBuscaAutomatica();
     $('resultadosIntegracao').replaceChildren();
-    $('statusIntegracao').textContent = 'Seleção ou filtros alterados. Use a lupa ou Enter para pesquisar.';
+    I18n.text($('statusIntegracao'), () => tr("Seleção ou filtros alterados. Use a lupa ou Enter para pesquisar."));
   }
   $('fonteIntegracao').addEventListener('change', () => { invalidarBusca(); importacao.indice = null; iniciarMonitorIndice(); });
   ['buscaIntegracao', 'inicioIntegracao', 'fimIntegracao'].forEach(id => $(id).addEventListener('input', invalidarBusca));
