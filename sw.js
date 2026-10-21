@@ -3,10 +3,13 @@
    Ao alterar qualquer arquivo da lista, incremente CACHE_VERSION
    para que os usuários recebam a versão nova. */
 
-const CACHE_VERSION = 'etiquetas-v67-idiomas';
-const ASSET_VERSION = '67';
+const CACHE_VERSION = 'etiquetas-v77-release-0-5-1';
+const ASSET_VERSION = '77';
 
 const ARQUIVOS = [
+  './assets/brand/tagex-wordmark.svg',
+  './assets/brand/tagex-monogram.svg',
+  './assets/icons/app-icon.ico',
   './',
   './index.html',
   './assets/js/i18n.js',

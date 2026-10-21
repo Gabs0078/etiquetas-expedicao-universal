@@ -26,7 +26,7 @@ A publicação na branch main passa pelos testes antes de atualizar o site. Apen
 
 ### Windows: instalar uma vez, usar offline
 
-**[Baixar TagEX para Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.5.0/TagEX-Windows-0.5.0.zip)** · versão 0.5.0, Windows 10/11 x64.
+**[Baixar TagEX para Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.5.1/TagEX-Windows-0.5.1.zip)** · versão 0.5.1, Windows 10/11 x64.
 
 1. Extraia todo o ZIP.
 2. Abra **Instalar TagEX.exe** e clique em **Instalar**. Não precisa instalar Node.js, usar comandos ou ser administrador.

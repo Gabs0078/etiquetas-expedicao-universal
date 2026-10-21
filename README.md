@@ -4,7 +4,7 @@
 
 **Open-source shipping labels for paper and thermal rolls.** Enter shipment details manually, import Brazilian NF-e XML files, or search configured company folders using the optional local service.
 
-**[Try the web app](https://gabs0078.github.io/etiquetas-expedicao-universal/)** · **[Download Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/tag/v0.5.0)** · **[Installation guide](https://gabs0078.github.io/etiquetas-expedicao-universal/instalar.html)** · **[Contributing](CONTRIBUTING.md)**
+**[Try the web app](https://gabs0078.github.io/etiquetas-expedicao-universal/)** · **[Download Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/tag/v0.5.1)** · **[Installation guide](https://gabs0078.github.io/etiquetas-expedicao-universal/instalar.html)** · **[Contributing](CONTRIBUTING.md)**
 
 ## What it does
 
@@ -18,7 +18,7 @@
 
 ## Windows: no commands needed
 
-1. Download **TagEX-Windows-0.5.0.zip** from Releases. “Source code” is for developers and does not contain the bundled runtime.
+1. Download **TagEX-Windows-0.5.1.zip** from Releases. “Source code” is for developers and does not contain the bundled runtime.
 2. Extract the entire ZIP and open **Instalar TagEX.exe**.
 3. Install for your Windows account, then open the **TagEX** shortcut.
 4. Choose manual/XML use or configure invoice folders. Folder integration is optional.

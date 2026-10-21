@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 420 132" role="img" aria-labelledby="brand-title">
+  <title id="brand-title">TagEX — T-EX em forma de etiqueta</title>
+  <g fill="#0ea5e9">
+    <path d="M10 0H50V22H0V10Z"/>
+    <path d="M54 0H197L210 22H78V114L68 124H54Z"/>
+    <path d="M131 26H153V52H193L200 59V67L193 74H153V102H211L198 124H131Z"/>
+    <path d="M202 0H241L262 34L283 0H321L284 62L321 124H283L262 90L241 124H202L240 62Z"/>
+    <path d="M246 0H278L264 22H260ZM260 102H264L278 124H246Z"/>
+    <path fill-rule="evenodd" d="M325 0H341L411 62L341 124H325L312 102H333L378 62L333 22H312ZM402 62a5.5 5.5 0 1 0-11 0a5.5 5.5 0 1 0 11 0Z"/>
+  </g>
+</svg>

@@ -4,6 +4,7 @@ function SalvarModoSimples([string]$ArquivoConfig) {
 }
 function MostrarPrimeiroUso {
     $form = New-Object Windows.Forms.Form
+    AplicarIconeTagEX $form
     $form.Text = (T 'Bem-vindo ao TagEX'); $form.ClientSize = New-Object Drawing.Size(620,450)
     $form.StartPosition = 'CenterScreen'; $form.FormBorderStyle = 'FixedDialog'; $form.MaximizeBox = $false
     $form.Font = New-Object Drawing.Font('Segoe UI',10); $form.BackColor = [Drawing.Color]::White

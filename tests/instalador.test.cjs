@@ -4,7 +4,7 @@ test('pacote Windows instala, atualiza e remove offline sem Node global e sem to
  const dir=await fs.mkdtemp(path.join(os.tmpdir(),'tagex-instalar-'));
  t.after(()=>fs.rm(dir,{recursive:true,force:true}));
  const script=path.join(dir,'teste.ps1'),pacote=path.resolve(process.env.TAGEX_PACOTE_TESTE);
- await fs.writeFile(script,'\ufeff'+String.raw`param([string]$Zip,[string]$RaizTeste)
+ await fs.writeFile(script,'\ufeff'+String.raw`param([string]$Zip,[string]$RaizTeste,[string]$VersaoEsperada)
 $ErrorActionPreference='Stop'
 Expand-Archive -LiteralPath $Zip -DestinationPath (Join-Path $RaizTeste 'pacote')
 $origem=Join-Path $RaizTeste 'pacote'
@@ -15,8 +15,22 @@ New-Item -ItemType Directory -Path $dados | Out-Null
 $env:PATH=$env:SystemRoot+'\System32;'+$env:SystemRoot+';'+$env:SystemRoot+'\System32\WindowsPowerShell\v1.0'
 . (Join-Path $origem 'desktop\instalacao.ps1')
 $v=InstalarPacoteTagEX $origem $destino
-if($v -ne '0.5.0'){throw 'Versão incorreta'}
+if($v -ne $VersaoEsperada){throw 'Versão incorreta'}
 if(!(Test-Path -LiteralPath (Join-Path $destino 'Abrir TagEX.exe'))){throw 'Executável não instalado'}
+Add-Type -AssemblyName System.Drawing
+$iconeArquivo=Join-Path $destino 'assets/icons/app-icon.ico'
+foreach($tamanho in @(16,20,24,32,40,48,64,128)){
+ $icone=[Drawing.Icon]::new($iconeArquivo,[Drawing.Size]::new($tamanho,$tamanho))
+ try{if($icone.Width -ne $tamanho -or $icone.Height -ne $tamanho){throw 'Tamanho de ícone Windows incorreto'}}finally{$icone.Dispose()}
+}
+foreach($nomeExe in @('Abrir TagEX.exe','Instalar TagEX.exe')){
+ $incorporado=[Drawing.Icon]::ExtractAssociatedIcon((Join-Path $destino $nomeExe))
+ $esperado=[Drawing.Icon]::new($iconeArquivo,$incorporado.Size)
+ $imagem=$incorporado.ToBitmap();$referencia=$esperado.ToBitmap()
+ try{
+  for($y=0;$y -lt $imagem.Height;$y++){for($x=0;$x -lt $imagem.Width;$x++){if($imagem.GetPixel($x,$y).ToArgb() -ne $referencia.GetPixel($x,$y).ToArgb()){throw 'O executável não contém a marca atual'}}}
+ }finally{$imagem.Dispose();$referencia.Dispose();$incorporado.Dispose();$esperado.Dispose()}
+}
 if(Test-Path -LiteralPath (Join-Path $destino 'integracao\config.local.json')){throw 'Configuração privada no pacote'}
 if(Test-Path -LiteralPath (Join-Path $destino 'node_modules\playwright')){throw 'Dependência de teste distribuída'}
 $segunda=InstalarPacoteTagEX $origem $destino
@@ -42,6 +56,6 @@ if(Test-Path -LiteralPath $destino){throw 'Programa não removido'}
 if(!(Test-Path -LiteralPath (Join-Path $dados 'config.json'))){throw 'Configuração removida na desinstalação'}
 Write-Output 'Pacote offline, atualização, integridade, isolamento e desinstalação aprovados.'
 `);
- const r=await exec('powershell.exe',['-NoProfile','-STA','-ExecutionPolicy','Bypass','-File',script,'-Zip',pacote,'-RaizTeste',dir],{timeout:160000,maxBuffer:1024*1024});
+ const r=await exec('powershell.exe',['-NoProfile','-STA','-ExecutionPolicy','Bypass','-File',script,'-Zip',pacote,'-RaizTeste',dir,'-VersaoEsperada',require('../package.json').version],{timeout:160000,maxBuffer:1024*1024});
  assert.match(r.stdout,/Pacote offline/);
 });

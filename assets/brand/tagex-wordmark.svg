@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 494.25 132" role="img" aria-labelledby="brand-title">
+  <title id="brand-title">TagEX — composição revisada por Gabriel</title>
+  <g fill="#0ea5e9">
+    <path transform="translate(4 4)" d="M10 0H104V22H64V114L54 124H40V22H0V10Z"/>
+    <path transform="matrix(1.12 0 0 .971830986 -58.29 24.9859155)" fill-rule="evenodd" d="M134 35H157L174 52V106H156V99L149 106H133L117 90V52ZM139 53H152L156 57V84L152 88H139L135 84V57Z"/>
+    <path transform="matrix(1.12 0 0 .941011236 -68.44 11.3146067)" fill-rule="evenodd" d="M204 35H225L244 52V109L229 124H193V107H222L226 103V95L219 101H203L187 85V52ZM209 53H222L226 57V79L222 83H209L205 79V57Z"/>
+    <path transform="translate(-49.25 4)" d="M259 0H325L338 22H281V52H321L328 59V67L321 74H281V102H339L326 124H259Z"/>
+    <g transform="translate(-48.75 4)">
+      <path d="M330 0H369L390 34L411 0H449L412 62L449 124H411L390 90L369 124H330L368 62Z"/>
+      <path d="M374 0H406L392 22H388ZM388 102H392L406 124H374Z"/>
+      <path fill-rule="evenodd" d="M453 0H469L539 62L469 124H453L440 102H461L506 62L461 22H440ZM530 62a5.5 5.5 0 1 0-11 0a5.5 5.5 0 1 0 11 0Z"/>
+    </g>
+  </g>
+</svg>

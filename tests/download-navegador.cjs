@@ -13,7 +13,8 @@ module.exports=async(browser,url)=>{
     await assert.doesNotReject(()=>menu.waitFor({state:'visible'}));
     const box=await menu.boundingBox();assert(box.x>=0&&box.x+box.width<=width+1,'Download menu fits '+lang+'/'+width);
     assert.equal(await menu.locator('button:disabled').count(),2);assert.match(await menu.textContent(),/Linux/);assert.match(await menu.textContent(),/macOS/);
-    assert.match(await p.locator('#downloadWindows').getAttribute('href'),/v0\.5\.0\/TagEX-Windows-0\.5\.0\.zip$/);
+    const version=require('../package.json').version;
+    assert.equal(await p.locator('#downloadWindows').getAttribute('href'),`https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v${version}/TagEX-Windows-${version}.zip`);
     await p.keyboard.press('Escape');assert.equal(await menu.isVisible(),false);
    }
   }

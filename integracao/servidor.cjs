@@ -7,8 +7,8 @@ const { randomBytes, timingSafeEqual } = require('node:crypto');
 const { criarFontePastas } = require('./fontes/pastas.cjs');
 const FABRICAS = { pastas: criarFontePastas };
 const RAIZ_APP = path.resolve(__dirname, '..');
-const ESTATICOS = ['assets/i18n/catalogs.json','assets/js/i18n.js','assets/i18n/catalogs.js','assets/brand/tagex-compartilhamento-v1.png', 'index.html', 'instalar.html', 'sw.js', 'manifest.webmanifest', 'assets/css/styles.css', 'assets/js/app.js', 'assets/js/nfe.js', 'assets/js/importacao.js', 'assets/js/fontes.js', 'assets/icons/github-invertocat-black.svg', 'assets/icons/github-invertocat-white.svg', 'assets/icons/app-icon.svg', 'assets/icons/app-icon-192.png', 'assets/icons/app-icon-512.png'];
-const TIPOS = { '.json': 'application/json', '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.webmanifest': 'application/manifest+json', '.svg': 'image/svg+xml', '.png': 'image/png' };
+const ESTATICOS = ['assets/brand/tagex-wordmark.svg','assets/brand/tagex-monogram.svg','assets/icons/app-icon.ico','assets/i18n/catalogs.json','assets/js/i18n.js','assets/i18n/catalogs.js','assets/brand/tagex-compartilhamento-v1.png', 'index.html', 'instalar.html', 'sw.js', 'manifest.webmanifest', 'assets/css/styles.css', 'assets/js/app.js', 'assets/js/nfe.js', 'assets/js/importacao.js', 'assets/js/fontes.js', 'assets/icons/github-invertocat-black.svg', 'assets/icons/github-invertocat-white.svg', 'assets/icons/app-icon.svg', 'assets/icons/app-icon-192.png', 'assets/icons/app-icon-512.png'];
+const TIPOS = { '.ico': 'image/vnd.microsoft.icon', '.json': 'application/json', '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.webmanifest': 'application/manifest+json', '.svg': 'image/svg+xml', '.png': 'image/png' };
 function correspondeBusca(nota, busca) {
   if (!busca) return true;
   if (/^\d+$/.test(busca)) return busca.length === 44 ? nota.chave === busca : nota.nf.includes(busca);

@@ -27,6 +27,11 @@ function LocalizarJanelaTagEX($Controle) {
     }
     foreach ($filho in $Controle.Controls) { LocalizarJanelaTagEX $filho }
 }
+function AplicarIconeTagEX($Janela) {
+    $iconeJanela = [Drawing.Icon]::new((Join-Path (Split-Path $PSScriptRoot -Parent) 'assets/icons/app-icon.ico'),[Drawing.Size]::new(32,32))
+    $Janela.Icon = $iconeJanela
+    $Janela.add_Disposed({ $iconeJanela.Dispose() }.GetNewClosure())
+}
 function AdicionarSeletorIdiomaTagEX($Janela,[int]$X,[int]$Y,[int]$Largura=210) {
     $combo = New-Object Windows.Forms.ComboBox
     $combo.SetBounds($X,$Y,$Largura,28); $combo.DropDownStyle='DropDownList'

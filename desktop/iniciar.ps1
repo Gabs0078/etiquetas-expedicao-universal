@@ -70,6 +70,7 @@ function AbrirAplicativo {
     Start-Process ($script:base + $sessao.caminho + '&idioma=' + $script:IdiomaTagEX) -WindowStyle Hidden
 }
 $icone = $null
+$iconeMarca = $null
 $timer = $null
 try {
     if (!$Verificar) { New-Item -ItemType Directory -Path $dados -Force | Out-Null }
@@ -108,7 +109,8 @@ try {
     }
     if (!$script:processo -or $script:processo.HasExited) { IniciarServico }
     $icone = [System.Windows.Forms.NotifyIcon]::new()
-    $icone.Icon = [System.Drawing.SystemIcons]::Application
+    $iconeMarca = [System.Drawing.Icon]::new((Join-Path $raiz 'assets/icons/app-icon.ico'), [System.Windows.Forms.SystemInformation]::SmallIconSize)
+    $icone.Icon = $iconeMarca
     $icone.Text = (T 'TagEX - Etiquetas para expedição')
     $menu = [System.Windows.Forms.ContextMenuStrip]::new()
     $abrir = $menu.Items.Add((T 'Abrir TagEX'))
@@ -129,6 +131,7 @@ try {
 finally {
     if ($timer) { $timer.Stop(); $timer.Dispose() }
     if ($icone) { $icone.Visible = $false; $icone.ContextMenuStrip.Dispose(); $icone.Dispose() }
+    if ($iconeMarca) { $iconeMarca.Dispose() }
     PararServico
     $evento.Dispose()
     $mutex.ReleaseMutex()

@@ -8,7 +8,18 @@ if(Test-Path -LiteralPath $saida){throw 'O arquivo de destino já existe. Escolh
 $stage=Join-Path ([IO.Path]::GetTempPath()) ('tagex-pacote-'+[guid]::NewGuid().ToString('N'))
 & $node (Join-Path $raiz 'scripts/pacote-windows.cjs') preparar $stage
 if($LASTEXITCODE -ne 0){throw 'Falha ao preparar os arquivos do pacote.'}
-Add-Type -Path (Join-Path $PSScriptRoot 'Bootstrap.cs') -ReferencedAssemblies 'System.Windows.Forms','System.Core' -OutputAssembly (Join-Path $stage 'Instalar TagEX.exe') -OutputType WindowsApplication
+$compilacao=[CodeDom.Compiler.CompilerParameters]::new()
+$compilacao.GenerateExecutable=$true
+$compilacao.GenerateInMemory=$false
+$compilacao.OutputAssembly=Join-Path $stage 'Instalar TagEX.exe'
+$compilacao.ReferencedAssemblies.AddRange(@('System.dll','System.Windows.Forms.dll','System.Core.dll'))
+$compilacao.CompilerOptions='/target:winexe /win32icon:"'+(Join-Path $raiz 'assets/icons/app-icon.ico')+'"'
+# Compile without loading the resulting EXE into this process, so the archive can read it.
+$compilador=[Microsoft.CSharp.CSharpCodeProvider]::new()
+try {
+    $resultadoCompilacao=$compilador.CompileAssemblyFromFile($compilacao,@((Join-Path $PSScriptRoot 'Bootstrap.cs')))
+    if($resultadoCompilacao.Errors.HasErrors){throw (($resultadoCompilacao.Errors | ForEach-Object {$_.ToString()}) -join [Environment]::NewLine)}
+} finally {$compilador.Dispose()}
 Copy-Item -LiteralPath (Join-Path $stage 'Instalar TagEX.exe') -Destination (Join-Path $stage 'Abrir TagEX.exe')
 & $node (Join-Path $raiz 'scripts/pacote-windows.cjs') manifesto $stage
 if($LASTEXITCODE -ne 0){throw 'Falha ao conferir a lista de arquivos do pacote.'}

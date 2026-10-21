@@ -34,6 +34,7 @@ function EscolherPasta {
     $anterior = if (Test-Path -LiteralPath $config) { Get-Content -LiteralPath $config -Raw | ConvertFrom-Json } else { [pscustomobject]@{fontes=@()} }
     $script:assist = @{ etapa=0; processo=$null; leitura=$null; entrada=$null; inicio=$null; resultados=@(); testadas=@(); retorno=$false }
     $janela = New-Object System.Windows.Forms.Form
+    AplicarIconeTagEX $janela
     $janela.Text = (T 'Assistente de integração — Etiquetas')
     $janela.ClientSize = New-Object System.Drawing.Size(740,540)
     $janela.StartPosition = 'CenterScreen'; $janela.FormBorderStyle='FixedDialog'; $janela.MaximizeBox=$false

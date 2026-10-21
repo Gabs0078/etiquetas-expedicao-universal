@@ -31,7 +31,7 @@ function ConferirPacoteTagEX([string]$Origem) {
         }
         if ((HashArquivoTagEX $final) -ne $arquivo.sha256) { throw ((T 'Arquivo incompleto ou alterado: ') + $arquivo.nome + '. Baixe e extraia o pacote novamente.') }
     }
-    foreach ($obrigatorio in @('desktop/runtime/node.exe','desktop/iniciar.ps1','desktop/assistente.ps1','desktop/boas-vindas.ps1','integracao/servidor.cjs','index.html','node_modules/@xmldom/xmldom/lib/index.js','Abrir TagEX.exe')) {
+    foreach ($obrigatorio in @('desktop/runtime/node.exe','desktop/iniciar.ps1','desktop/assistente.ps1','desktop/boas-vindas.ps1','integracao/servidor.cjs','index.html','assets/icons/app-icon.ico','node_modules/@xmldom/xmldom/lib/index.js','Abrir TagEX.exe')) {
         if (!$vistos.ContainsKey((CaminhoTagEX $Origem $obrigatorio))) { throw ('Pacote sem componente obrigatório: ' + $obrigatorio) }
     }
     return $manifesto

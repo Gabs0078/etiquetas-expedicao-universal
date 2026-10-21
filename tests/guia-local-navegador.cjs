@@ -8,7 +8,8 @@ module.exports=async(browser,url)=>{
  try{
   await p.goto(url);await p.locator('#btnDownload').click();await p.locator('.download-guide').click();await p.waitForLoadState();
   assert.match(await p.title(),/Instalar e usar offline/);assert.equal(await p.locator('#instalar .guide-steps li').count(),4);
-  assert.match(await p.locator('#baixarWindows').getAttribute('href'),/releases\/download\/v0\.5\.0\/TagEX-Windows-0\.5\.0\.zip$/);
+  const version=require('../package.json').version;
+  assert.equal(await p.locator('#baixarWindows').getAttribute('href'),`https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v${version}/TagEX-Windows-${version}.zip`);
   assert.match(await p.locator('#offline').textContent(),/rede ou VPN/);
   for(const theme of ['dark','light']){
    if(await p.locator('html').getAttribute('data-theme')!==theme)await p.locator('#alternarTema').click();

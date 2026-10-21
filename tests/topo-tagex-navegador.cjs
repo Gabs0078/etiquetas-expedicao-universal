@@ -4,7 +4,7 @@ module.exports=async function(browser,url){
  const output=process.env.QA_OUTPUT||path.join(os.tmpdir(),'tagex-topo');await fs.mkdir(output,{recursive:true});
  try{
   await p.goto(url);
-  assert.match(await p.title(),/^TagEX/);assert.equal(await p.locator('.brand-wordmark').textContent(),'TagEX');assert.equal(await p.locator('.brand-mark svg').count(),1);
+  assert.match(await p.title(),/^TagEX/);assert.equal(await p.locator('.brand-wordmark').getAttribute('aria-label'),'TagEX');assert.equal(await p.locator('.brand-mark img').evaluate(e=>e.complete&&e.naturalWidth>0),true);
   const theme=p.locator('#temaAparencia');assert.equal(await theme.getAttribute('role'),'switch');assert.equal(await p.locator('select#temaAparencia').count(),0);
   for(const appearance of ['dark','light']){
    if(await p.locator('html').getAttribute('data-theme')!==appearance)await theme.click();
