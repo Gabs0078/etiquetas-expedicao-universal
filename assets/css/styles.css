@@ -1156,6 +1156,11 @@ a.download-choice:hover {background:var(--surface-hover);color:var(--primary)}
 .freight-volume-dimensions>strong { margin-top:3px; padding-top:3px; border-top:1px solid #cbd5e1; font-size:9px; }
 .freight-volume-grid>strong { grid-column:1 / -1; }
 .freight-report { display:none; }
+.freight-report-measure { display:block!important; position:fixed; top:0; left:-10000px; width:190mm; visibility:hidden; }
+.freight-report-page { display:flex; flex-direction:column; width:190mm; height:276mm; box-sizing:border-box; break-after:page; page-break-after:always; }
+.freight-report-page:last-child { break-after:auto; page-break-after:auto; }
+.freight-report-page>.freight-list { flex:0 0 auto; }
+.freight-report-page>.freight-report-footer { margin-top:auto; }
 .freight-report-header { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; border-bottom:2px solid #172033; padding-bottom:10px; }
 .freight-report-header h1 { margin:0; font-size:22px; }
 .freight-report-kicker { margin:0 0 4px; color:#526078; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; }

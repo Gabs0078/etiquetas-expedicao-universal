@@ -541,6 +541,69 @@ function renderNotas() {
   ajustarTamanhosLogos();
 }
 
+function paginarRelatorioFrete(cabecalho, itensHTML, notaHTML, assinaturaHTML) {
+  const mm = 96 / 25.4;
+  const alturaUtil = 276 * mm;
+  const medicao = document.createElement('div');
+  medicao.className = 'freight-report freight-report-measure';
+  medicao.innerHTML = `<section class="freight-report-page">${cabecalho}<section class="freight-list">${itensHTML}</section>${notaHTML}${assinaturaHTML}</section>`;
+  document.body.append(medicao);
+  const listaMedida = medicao.querySelector('.freight-list');
+  const cabecalhoH = medicao.querySelector('.freight-report-header').getBoundingClientRect().height;
+  const margemLista = parseFloat(getComputedStyle(listaMedida).marginTop) || 0;
+  const capacidade = alturaUtil - cabecalhoH - margemLista;
+  const nota = medicao.querySelector('.freight-report-note');
+  const assinatura = medicao.querySelector('.freight-report-footer');
+  const reservaFinal = (parseFloat(getComputedStyle(nota).marginTop) || 0)
+    + nota.getBoundingClientRect().height + assinatura.getBoundingClientRect().height;
+  const capacidadeFinal = capacidade - reservaFinal;
+  const cartoes = Array.from(listaMedida.querySelectorAll('.freight-item'));
+  const intervalo = parseFloat(getComputedStyle(listaMedida).rowGap) || 0;
+  const linhas = [];
+  for (let i = 0; i < cartoes.length; i += 2) {
+    linhas.push({
+      html: cartoes.slice(i, i + 2).map(cartao => cartao.outerHTML),
+      altura: Math.max(...cartoes.slice(i, i + 2).map(cartao => cartao.getBoundingClientRect().height))
+    });
+  }
+  medicao.remove();
+
+  let inicioUltima = linhas.length;
+  let alturaUltima = 0;
+  while (inicioUltima > 0) {
+    const linha = linhas[inicioUltima - 1];
+    const proximaAltura = alturaUltima + (alturaUltima ? intervalo : 0) + linha.altura;
+    if (proximaAltura > capacidadeFinal) break;
+    alturaUltima = proximaAltura;
+    inicioUltima--;
+  }
+
+  const paginas = [];
+  let pagina = { linhas: [], altura: 0 };
+  for (const linha of linhas.slice(0, inicioUltima)) {
+    const proximaAltura = pagina.altura + (pagina.linhas.length ? intervalo : 0) + linha.altura;
+    if (pagina.linhas.length && proximaAltura > capacidade) {
+      paginas.push(pagina);
+      pagina = { linhas: [], altura: 0 };
+    }
+    pagina.altura += (pagina.linhas.length ? intervalo : 0) + linha.altura;
+    pagina.linhas.push(linha);
+  }
+  if (pagina.linhas.length) paginas.push(pagina);
+
+  // Se uma linha excepcionalmente alta não couber com o rodapé, reserva-se uma página final para a assinatura.
+  const ultima = inicioUltima < linhas.length
+    ? { linhas: linhas.slice(inicioUltima), altura: alturaUltima }
+    : { linhas: [], altura: 0 };
+  if (ultima.linhas.length || !paginas.length) paginas.push(ultima);
+
+  return paginas.map((paginaFinal, indice) => {
+    const eUltima = indice === paginas.length - 1;
+    const cards = paginaFinal.linhas.flatMap(linha => linha.html).join('');
+    return `<section class="freight-report-page">${cabecalho}<section class="freight-list">${cards}</section>${eUltima ? notaHTML + assinaturaHTML : ''}</section>`;
+  }).join('');
+}
+
 function gerarRelatorioFrete() {
   const relatorio = $('relatorioFrete');
   const moeda = valor => valor == null ? '—' : new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
@@ -553,9 +616,8 @@ function gerarRelatorioFrete() {
   const textoMedidas = medidas => dimensaoCompleta(medidas)
     ? `${numero(medidas.medidaComprimento, 1)} × ${numero(medidas.medidaLargura, 1)} × ${numero(medidas.medidaAltura, 1)} cm`
     : '—';
-  relatorio.innerHTML = `
-    <header class="freight-report-header"><div><p class="freight-report-kicker">TagEX</p><h1>${escaparHTML(tr('Relatório para cotação de frete'))}</h1></div><time>${escaparHTML(new Intl.DateTimeFormat(I18n.language).format(new Date()))}</time></header>
-    <section class="freight-list">${state.notas.map(n => {
+  const cabecalho = `<header class="freight-report-header"><div><p class="freight-report-kicker">TagEX</p><h1>${escaparHTML(tr('Relatório para cotação de frete'))}</h1></div><time>${escaparHTML(new Intl.DateTimeFormat(I18n.language).format(new Date()))}</time></header>`;
+  const itens = state.notas.map(n => {
       const medidasVolume = Array.isArray(n.medidasPorVolume)
         ? Array.from({ length: n.volumes }, (_, i) => n.medidasPorVolume[i] || {})
         : Array.from({ length: n.volumes }, () => ({ medidaComprimento:n.medidaComprimento, medidaLargura:n.medidaLargura, medidaAltura:n.medidaAltura }));
@@ -564,14 +626,15 @@ function gerarRelatorioFrete() {
       const porVolume = Array.isArray(n.medidasPorVolume) || medidasManuscritas;
       const comumPreenchida = dimensaoCompleta(medidasVolume[0]);
       const linhasMedidas = porVolume ? medidasVolume.map((m, i) => {
-        if (medidasManuscritas) return `<span class="freight-writein-row"><b>${escaparHTML(tr('Vol. {0}', [volumeFormatado(i + 1)]))}</b><span>C: ______ cm</span><span>L: ______ cm</span><span>A: ______ cm</span></span>`;
+        if (medidasManuscritas) return `<span class="freight-writein-row"><b>${escaparHTML(tr('Vol. {0}', [volumeFormatado(i + 1)]))}</b><span>C: _________ cm</span><span>L: _________ cm</span><span>A: _________ cm</span></span>`;
         return `<span class="freight-dimension-row"><b>${escaparHTML(tr('Vol. {0}', [volumeFormatado(i + 1)]))}</b><span>${textoMedidas(m)}</span></span>`;
       }).join('') : (comumPreenchida ? `${textoMedidas(medidasVolume[0])}${cubagemTotal == null ? '' : ` · ${numero(cubagemTotal, 4)} m³ ${escaparHTML(tr('no total'))}`}` : '—');
       const medidas = porVolume ? `<span class="freight-volume-dimensions${!medidasManuscritas && n.volumes > 1 ? ' freight-volume-grid' : ''}">${linhasMedidas}${!medidasManuscritas && cubagemTotal != null && n.volumes > 1 ? `<strong>${escaparHTML(tr('Cubagem total:'))} ${numero(cubagemTotal, 4)} m³</strong>` : ''}</span>` : `<span>${linhasMedidas}</span>`;
       return `<article class="freight-item"><div class="freight-line freight-nf"><b>${escaparHTML(tr('NF:'))}</b><span>${escaparHTML(n.nf)}</span></div><div class="freight-line"><b>${escaparHTML(tr('Volume:'))}</b><span>${volumeFormatado(n.volumes)}</span></div><div class="freight-line"><b>${escaparHTML(tr('Peso:'))}</b><span>${n.pesoBruto > 0 ? `${numero(n.pesoBruto, 3, 2)} kg` : '—'}</span></div><div class="freight-line"><b>${escaparHTML(tr('Valor:'))}</b><span>${moeda(n.valorNota)}</span></div><div class="freight-line"><b>${escaparHTML(tr('Destinatário:'))}</b><span class="freight-recipient">${textoComQuebras(n.destinatario)}</span></div><div class="freight-line${medidasManuscritas ? ' freight-measures-writein' : ''}"><b>${escaparHTML(tr('Medidas:'))}</b>${medidas}</div></article>`;
-    }).join('')}</section>
-    <p class="freight-report-note">${escaparHTML(tr('Medidas informadas por volume; a cubagem total considera a quantidade de volumes.'))}</p>
-    <footer class="freight-report-footer"><span>${escaparHTML(tr('Responsável pelo preenchimento:'))}</span><span class="freight-report-signature" aria-hidden="true"></span></footer>`;
+    }).join('');
+  const notaRelatorio = `<p class="freight-report-note">${escaparHTML(tr('Medidas informadas por volume; a cubagem total considera a quantidade de volumes.'))}</p>`;
+  const assinatura = `<footer class="freight-report-footer"><span>${escaparHTML(tr('Responsável pelo preenchimento:'))}</span><span class="freight-report-signature" aria-hidden="true"></span></footer>`;
+  relatorio.innerHTML = paginarRelatorioFrete(cabecalho, itens, notaRelatorio, assinatura);
   relatorio.hidden = false;
   document.body.dataset.printmode = 'frete';
   if ($('relatorioMonocromatico')?.checked) document.body.dataset.reportInk = 'mono';

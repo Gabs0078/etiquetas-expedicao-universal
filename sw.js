@@ -3,8 +3,8 @@
    Ao alterar qualquer arquivo da lista, incremente CACHE_VERSION
    para que os usuários recebam a versão nova. */
 
-const CACHE_VERSION = 'etiquetas-v91-report-mono-label';
-const ASSET_VERSION = '91';
+const CACHE_VERSION = 'etiquetas-v93-report-last-page-footer';
+const ASSET_VERSION = '93';
 
 const ARQUIVOS = [
   './assets/brand/tagex-wordmark.svg',
