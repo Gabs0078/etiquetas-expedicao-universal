@@ -170,6 +170,11 @@ async function testar() {
     await arquivo.locator('[data-revisar]').waitFor();
     await arquivo.locator('[data-revisar]').click();
     assert.equal(await arquivo.locator('#nf').inputValue(), '123');
+    await arquivo.close();
+    const contextoArmazenamento = await browser.newContext({ serviceWorkers: 'block' });
+    const armazenamento = await contextoArmazenamento.newPage();
+    armazenamento.on('pageerror', e => erros.push(e.message));
+    await armazenamento.goto(`http://127.0.0.1:${servidor.address().port}`);
     const cachesPermitidos = await pagina.evaluate(async () => {
       const cache = await caches.open('etiquetas-v77-release-0-5-1');
       return (await cache.keys()).every(r => !new URL(r.url).pathname.startsWith('/api/'));
@@ -209,16 +214,16 @@ async function testar() {
     }
     await contextoCorrida.close();
     await require('./textos-etiqueta.cjs')(browser, `http://127.0.0.1:${servidor.address().port}`, saida);
-    await arquivo.locator('#btnManual').click();
-    await arquivo.locator('#nf').fill('XSS');
-    await arquivo.locator('#destinatario').fill('<img src=x onerror="window.injetado=true">');
-    await arquivo.locator('#btnAdicionar').click();
-    assert.equal(await arquivo.locator('#preview .shipping-text img').count(), 0);
-    assert.equal(await arquivo.evaluate(() => Boolean(window.injetado)), false);
-    await arquivo.evaluate(() => { localStorage.setItem('expedicao_empresas_v2', '{}'); localStorage.setItem('expedicao_notas_v1', '[{"volumes":-1}]'); });
-    await arquivo.reload();
-    assert.equal(await arquivo.locator('#countNotas').textContent(), '0');
-    await arquivo.evaluate(() => {
+    await armazenamento.locator('#btnManual').click();
+    await armazenamento.locator('#nf').fill('XSS');
+    await armazenamento.locator('#destinatario').fill('<img src=x onerror="window.injetado=true">');
+    await armazenamento.locator('#btnAdicionar').click();
+    assert.equal(await armazenamento.locator('#preview .shipping-text img').count(), 0);
+    assert.equal(await armazenamento.evaluate(() => Boolean(window.injetado)), false);
+    await armazenamento.evaluate(() => { localStorage.setItem('expedicao_empresas_v2', '{}'); localStorage.setItem('expedicao_notas_v1', '[{"volumes":-1}]'); });
+    await armazenamento.reload();
+    assert.equal(await armazenamento.locator('#countNotas').textContent(), '0');
+    await armazenamento.evaluate(() => {
       const nota = { nf: 'LEGADO', data: '2026-10-05', destinatario: 'Cliente\nRua Exemplo', volumes: 1 };
       localStorage.setItem('expedicao_notas_v1', JSON.stringify([
         nota,
@@ -226,18 +231,18 @@ async function testar() {
         { ...nota, nf: 'NORMALIZADA', descricao: {}, empresa: { nome: 'Remetente salvo', cidade: {}, logo: 'https://externo.example/logo.png' } }
       ]));
     });
-    await arquivo.reload();
-    assert.equal(await arquivo.locator('#countNotas').textContent(), '2');
-    assert.match(await arquivo.locator('.label').nth(1).textContent(), /Remetente salvo/);
-    assert.equal(await arquivo.locator('.label img').count(), 0);
-    await arquivo.evaluate(() => {
+    await armazenamento.reload();
+    assert.equal(await armazenamento.locator('#countNotas').textContent(), '2');
+    assert.match(await armazenamento.locator('.label').nth(1).textContent(), /Remetente salvo/);
+    assert.equal(await armazenamento.locator('.label img').count(), 0);
+    await armazenamento.evaluate(() => {
       Storage.prototype.setItem = () => { throw new DOMException('Sem espaco', 'QuotaExceededError'); };
     });
-    await arquivo.locator('#btnConfiguracoes').click();
-    await arquivo.locator('#nomeEmpresa').fill('Empresa apenas na sessao');
-    await arquivo.locator('#btnSalvarEmpresa').click();
-    assert.match(await arquivo.locator('.toast.error').first().textContent(), /Não foi possível salvar/);
-    assert.equal(await arquivo.locator('.toast.success').count(), 0);
+    await armazenamento.locator('#btnConfiguracoes').click();
+    await armazenamento.locator('#nomeEmpresa').fill('Empresa apenas na sessao');
+    await armazenamento.locator('#btnSalvarEmpresa').click();
+    assert.match(await armazenamento.locator('.toast.error').first().textContent(), /Não foi possível salvar/);
+    assert.equal(await armazenamento.locator('.toast.success').count(), 0);
     assert.deepEqual(erros, []);
     await require('./desktop-navegador.cjs')(browser, pasta);
     await require('./logo-cnpj.cjs')(browser, `http://127.0.0.1:${servidor.address().port}`);
