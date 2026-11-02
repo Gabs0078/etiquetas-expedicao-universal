@@ -76,10 +76,12 @@ jobs:
         run: |
           set -euo pipefail
           version=$(node -p "require('./package.json').version")
+          prerelease=()
+          if [[ "$version" == *-* ]]; then prerelease=(--prerelease); fi
           if gh release view "v$version" >/dev/null 2>&1; then
             echo "A versão v$version já foi publicada; pacote preservado."
           else
-            gh release create "v$version" pacote/* --target "$GITHUB_SHA" --title "TagEX $version" --notes-file "docs/versao-$version.md"
+            gh release create "v$version" pacote/* --target "$GITHUB_SHA" --title "TagEX $version" --notes-file "docs/versao-$version.md" "${prerelease[@]}"
           fi
   pages:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'

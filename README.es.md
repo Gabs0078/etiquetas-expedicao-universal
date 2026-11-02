@@ -12,7 +12,7 @@ Aplicación de código abierto para crear etiquetas en papel o rollos térmicos.
 
 ## Empezar
 
-1. [Descargue el paquete Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/tag/v0.5.1), no “Source code”.
+1. [Descargue el paquete Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/tag/v0.6.0-beta.1), no “Source code”.
 2. Extraiga todo el ZIP y abra **Instalar TagEX.exe**.
 3. Instale, abra TagEX y elija importar XML, entrada manual o configurar carpetas.
 

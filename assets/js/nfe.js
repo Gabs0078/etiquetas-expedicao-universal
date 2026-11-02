@@ -106,6 +106,10 @@
     if (origemEndereco !== 'informacoes-complementares' && (!texto(end, 'xLgr') || !texto(end, 'xMun') || !texto(end, 'UF'))) avisos.push('Endereço incompleto: preencha antes de adicionar.');
     if (destinatario.length > 240) avisos.push('Endereço longo: confira o espaço disponível na etiqueta.');
     const grupos = filhos(filho(inf, 'transp'), 'vol');
+    const pesosBrutos = grupos.map(vol => Number(texto(vol, 'pesoB'))).filter(peso => Number.isFinite(peso) && peso > 0);
+    const pesoBruto = pesosBrutos.length === grupos.length && grupos.length ? Number(pesosBrutos.reduce((a, b) => a + b, 0).toFixed(3)) : null;
+    const valorNotaTexto = texto(filho(filho(inf, 'total'), 'ICMSTot'), 'vNF');
+    const valorNota = /^\d+(?:\.\d{1,2})?$/.test(valorNotaTexto) ? Number(valorNotaTexto) : null;
     const quantidades = grupos.map(vol => Number(texto(vol, 'qVol') || NaN));
     let volumes = grupos.length && quantidades.every(v => Number.isInteger(v) && v > 0) ? quantidades.reduce((a, b) => a + b, 0) : null;
     if (!volumes || volumes > 999) {
@@ -117,7 +121,7 @@
     if (descricaoCompleta.length > 180) avisos.push('Descrição resumida a 180 caracteres. Revise os itens.');
     const data = (texto(ide, 'dhEmi') || texto(ide, 'dEmi')).slice(0, 10);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(data) || Number.isNaN(Date.parse(`${data}T00:00:00Z`)) || new Date(`${data}T00:00:00Z`).toISOString().slice(0, 10) !== data) throw new Error('Data de emissão inválida.');
-    return { chave, nf, serie, data, destinatario, destinatarioCadastrado: [texto(dest, 'xNome'), enderecoFiscal].filter(Boolean).join('\n'), origemEndereco, enderecoFiscal, volumes, descricao: descricaoCompleta.slice(0, 180), emitente, avisos, autorizada: Boolean(protocolo) };
+    return { chave, nf, serie, data, destinatario, destinatarioCadastrado: [texto(dest, 'xNome'), enderecoFiscal].filter(Boolean).join('\n'), origemEndereco, enderecoFiscal, volumes, pesoBruto, valorNota, descricao: descricaoCompleta.slice(0, 180), emitente, avisos, autorizada: Boolean(protocolo) };
   }
   return { lerXML, LIMITE_XML, digitos };
 });

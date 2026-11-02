@@ -64,6 +64,8 @@ const state = {
   logoEditando: '',
   notaImportada: null,
   notaEditando: null,
+  medidasVolumeDraft: [],
+  medidaVolumeSelecionado: 1,
   opcoesImpressao: { exibirData: false, exibirDescricao: true, exibirEnderecoRemetente: true },
 };
 
@@ -100,7 +102,7 @@ function showToast(message, type = 'info', duration = 3000) {
 
 function initElements() {
   [
-    'data', 'nf', 'destinatario', 'volumes', 'descricao', 'btnAdicionar', 'btnImprimir', 'btnLimpar',
+    'data', 'nf', 'destinatario', 'volumes', 'descricao', 'valorNota', 'pesoBruto', 'medidaComprimento', 'medidaLargura', 'medidaAltura', 'medidasVariaveis', 'seletorMedidasVolume', 'volumeMedidasSelecionado', 'btnAdicionar', 'btnImprimir', 'btnRelatorioFrete', 'btnLimpar',
     'listaNotas', 'countNotas', 'summary', 'preview', 'modoImpressao', 'listaEmpresas',
     'btnNovaEmpresa', 'btnSalvarEmpresa', 'btnExcluirEmpresa', 'logoEmpresa', 'uploadBox', 'logoPreview',
     'logoPreviewIcon', 'logoPreviewText', 'tamanhoLogo', 'valorTamanhoLogo', 'btnRestaurarLogo', 'nomeEmpresa', 'cnpjEmpresa', 'enderecoEmpresa', 'bairroEmpresa',
@@ -217,7 +219,9 @@ function carregarNotas() {
       origem: ['manual', 'upload', 'integracao'].includes(n.origem) ? n.origem : 'manual',
       ...(typeof n.chave === 'string' && /^\d{44}$/.test(n.chave) ? { chave: n.chave } : {}),
       ...(typeof n.serie === 'string' ? { serie: n.serie } : {}),
-      ...(typeof n.dataEmissao === 'string' ? { dataEmissao: n.dataEmissao } : {})
+      ...(typeof n.dataEmissao === 'string' ? { dataEmissao: n.dataEmissao } : {}),
+      ...Object.fromEntries(['valorNota', 'pesoBruto', 'medidaComprimento', 'medidaLargura', 'medidaAltura'].map(campo => [campo, Number.isFinite(Number(n[campo])) && Number(n[campo]) > 0 ? Number(n[campo]) : null])),
+      ...(Array.isArray(n.medidasPorVolume) ? { medidasPorVolume: n.medidasPorVolume.slice(0, n.volumes).map(m => Object.fromEntries(['medidaComprimento', 'medidaLargura', 'medidaAltura'].map(c => [c, Number.isFinite(Number(m?.[c])) && Number(m[c]) > 0 ? Number(m[c]) : null]))) } : {})
     })) : [];
     let total = 0;
     state.notas = state.notas.filter(n => (total += n.volumes) <= 3000);
@@ -273,7 +277,51 @@ function logoHTML(empresa, classe = 'label') {
 
 function camposEdicaoAlterados() {
   const nota = state.notaEditando;
-  return Boolean(nota && ['data', 'nf', 'destinatario', 'volumes', 'descricao'].some(id => String(els[id].value) !== String(nota[id] ?? '')));
+  if (!nota) return false;
+  salvarMedidaVolumeSelecionado();
+  return ['data', 'nf', 'destinatario', 'volumes', 'descricao', 'valorNota', 'pesoBruto', 'medidaComprimento', 'medidaLargura', 'medidaAltura'].some(id => String(els[id].value) !== String(nota[id] ?? '')) || els.medidasVariaveis.checked !== Array.isArray(nota.medidasPorVolume) || (els.medidasVariaveis.checked && JSON.stringify(state.medidasVolumeDraft) !== JSON.stringify(nota.medidasPorVolume));
+}
+
+function lerNumeroOpcional(input) {
+  const valor = input.value.trim().replace(',', '.');
+  if (!valor) return null;
+  const numero = Number(valor);
+  return Number.isFinite(numero) && numero > 0 ? numero : null;
+}
+
+const CAMPOS_MEDIDAS = ['medidaComprimento', 'medidaLargura', 'medidaAltura'];
+function lerMedidasFormulario() { return Object.fromEntries(CAMPOS_MEDIDAS.map(id => [id, lerNumeroOpcional(els[id])])); }
+function salvarMedidaVolumeSelecionado() {
+  if (!els.medidasVariaveis?.checked) return;
+  const indice = Math.max(0, Number(state.medidaVolumeSelecionado || 1) - 1);
+  state.medidasVolumeDraft[indice] = lerMedidasFormulario();
+}
+function mostrarMedidaVolume(indice) {
+  state.medidaVolumeSelecionado = indice + 1;
+  const dados = state.medidasVolumeDraft[indice] || {};
+  CAMPOS_MEDIDAS.forEach(id => { els[id].value = dados[id] ?? ''; });
+}
+function atualizarSeletorMedidasVolume({ preservar = true } = {}) {
+  if (preservar) salvarMedidaVolumeSelecionado();
+  const quantidade = Math.max(1, Math.min(999, Number(els.volumes.value) || 1));
+  state.medidasVolumeDraft = Array.from({ length: quantidade }, (_, i) => state.medidasVolumeDraft[i] || (i === 0 ? lerMedidasFormulario() : {}));
+  const atual = Math.min(quantidade, Math.max(1, Number(els.volumeMedidasSelecionado.value) || 1));
+  els.volumeMedidasSelecionado.innerHTML = Array.from({ length: quantidade }, (_, i) => `<option value="${i + 1}">${escaparHTML(tr('Volume {0}', [i + 1]))}</option>`).join('');
+  els.volumeMedidasSelecionado.value = String(atual);
+  els.seletorMedidasVolume.hidden = !els.medidasVariaveis.checked;
+  if (els.medidasVariaveis.checked) mostrarMedidaVolume(atual - 1);
+}
+function alternarMedidasVariaveis() {
+  if (els.medidasVariaveis.checked) {
+    const comuns = lerMedidasFormulario();
+    state.medidasVolumeDraft = Array.from({ length: Math.max(1, Number(els.volumes.value) || 1) }, () => ({ ...comuns }));
+    els.volumeMedidasSelecionado.value = '1';
+    state.medidaVolumeSelecionado = 1;
+  } else {
+    salvarMedidaVolumeSelecionado();
+    mostrarMedidaVolume(0);
+  }
+  atualizarSeletorMedidasVolume({ preservar: false });
 }
 
 function encerrarEdicao() {
@@ -292,7 +340,12 @@ function editarNota(index) {
   encerrarEdicao();
   finalizarRevisao();
   state.notaEditando = nota;
-  for (const id of ['data', 'nf', 'destinatario', 'volumes', 'descricao']) els[id].value = nota[id] ?? '';
+  for (const id of ['data', 'nf', 'destinatario', 'volumes', 'descricao', 'valorNota', 'pesoBruto', 'medidaComprimento', 'medidaLargura', 'medidaAltura']) els[id].value = nota[id] ?? '';
+  els.medidasVariaveis.checked = Array.isArray(nota.medidasPorVolume);
+  state.medidasVolumeDraft = Array.isArray(nota.medidasPorVolume) ? JSON.parse(JSON.stringify(nota.medidasPorVolume)) : [];
+  els.volumeMedidasSelecionado.value = '1';
+  state.medidaVolumeSelecionado = 1;
+  atualizarSeletorMedidasVolume({ preservar: false });
   $('edicaoNota').hidden = false;
   I18n.text($('tituloEdicaoNota'), () => tr("Editando NF ") + nota.nf);
   els.nf.readOnly = Boolean(nota.chave);
@@ -310,6 +363,9 @@ function adicionarNota() {
   const destinatario = els.destinatario.value.trim();
   const volumes = Number(els.volumes.value);
   const descricao = els.descricao.value.trim();
+  const dadosFrete = Object.fromEntries(['valorNota', 'pesoBruto', 'medidaComprimento', 'medidaLargura', 'medidaAltura'].map(id => [id, lerNumeroOpcional(els[id])]));
+  salvarMedidaVolumeSelecionado();
+  dadosFrete.medidasPorVolume = els.medidasVariaveis.checked ? state.medidasVolumeDraft.slice(0, volumes) : null;
 
   atualizarAvisosCampos(true);
   if (!data || !nf || !destinatario || !Number.isInteger(volumes) || volumes < 1 || volumes > 999) {
@@ -328,7 +384,7 @@ function adicionarNota() {
   }
   if (editando) {
     if (editando.chave && nf !== editando.nf) { showToast(tr("O número deve corresponder ao XML original."), 'error'); return; }
-    state.notas[indiceEdicao] = { ...editando, data, nf, destinatario, volumes, descricao };
+    state.notas[indiceEdicao] = { ...editando, data, nf, destinatario, volumes, descricao, ...dadosFrete };
     limparCamposNota(false);
     renderizar();
     showToast(tr("Nota atualizada no lote."), 'success');
@@ -339,7 +395,7 @@ function adicionarNota() {
   if (importada && nf !== importada.nf) { showToast(tr("O número deve corresponder ao XML. Volte ao manual para digitar outra nota."), 'error'); return; }
   if (importada && state.notas.some(n => n.chave === importada.chave)) { showToast(tr("Esta chave de NF-e já está no lote."), 'error'); return; }
   const empresa = { ...(importada?.emitente || empresaAtiva()) };
-  state.notas.push({ data, nf, destinatario, volumes, descricao, empresa,
+  state.notas.push({ data, nf, destinatario, volumes, descricao, empresa, ...dadosFrete,
     ...(importada ? { chave: importada.chave, serie: importada.serie, origem: importada.origem, dataEmissao: importada.data } : { origem: 'manual' }) });
   limparCamposNota(false);
   renderizar();
@@ -353,6 +409,11 @@ function limparCamposNota(limparData) {
   els.destinatario.value = '';
   els.volumes.value = '1';
   els.descricao.value = '';
+  for (const id of ['valorNota', 'pesoBruto', 'medidaComprimento', 'medidaLargura', 'medidaAltura']) els[id].value = '';
+  els.medidasVariaveis.checked = false;
+  state.medidasVolumeDraft = [];
+  state.medidaVolumeSelecionado = 1;
+  atualizarSeletorMedidasVolume({ preservar: false });
   atualizarAvisosCampos();
   els.nf.focus();
 }
@@ -435,6 +496,7 @@ function renderNotas() {
 
   const etiquetas = gerarEtiquetas();
   els.btnImprimir.disabled = etiquetas.length === 0 || Boolean(state.notaEditando);
+  els.btnRelatorioFrete.disabled = state.notas.length === 0 || Boolean(state.notaEditando);
   els.btnImprimir.title = state.notaEditando ? tr("Salve ou cancele a edição antes de imprimir.") : '';
   const folhas = formatoAtual().tipo === 'papel' ? quebrarEmFolhas(etiquetas) : [];
   const modo = modoImpressaoAtual();
@@ -477,6 +539,43 @@ function renderNotas() {
   });
   ajustarTextosEtiquetas();
   ajustarTamanhosLogos();
+}
+
+function gerarRelatorioFrete() {
+  const relatorio = $('relatorioFrete');
+  const moeda = valor => valor == null ? '—' : new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+  const numero = (valor, casas = 3, minimo = 0) => valor == null ? '—' : new Intl.NumberFormat(I18n.language, { minimumFractionDigits: minimo, maximumFractionDigits: casas }).format(valor);
+  const volumeFormatado = valor => String(valor).padStart(2, '0');
+  const medidasManuscritas = $('medidasManuscritas')?.checked;
+  const dimensaoCompleta = medidas => medidas && CAMPOS_MEDIDAS.every(campo => Number(medidas[campo]) > 0);
+  const cubagemVolume = medidas => dimensaoCompleta(medidas)
+    ? Number((medidas.medidaComprimento * medidas.medidaLargura * medidas.medidaAltura / 1000000).toFixed(4)) : null;
+  const textoMedidas = medidas => dimensaoCompleta(medidas)
+    ? `${numero(medidas.medidaComprimento, 1)} × ${numero(medidas.medidaLargura, 1)} × ${numero(medidas.medidaAltura, 1)} cm`
+    : '—';
+  relatorio.innerHTML = `
+    <header class="freight-report-header"><div><p class="freight-report-kicker">TagEX</p><h1>${escaparHTML(tr('Relatório para cotação de frete'))}</h1></div><time>${escaparHTML(new Intl.DateTimeFormat(I18n.language).format(new Date()))}</time></header>
+    <section class="freight-list">${state.notas.map(n => {
+      const medidasVolume = Array.isArray(n.medidasPorVolume)
+        ? Array.from({ length: n.volumes }, (_, i) => n.medidasPorVolume[i] || {})
+        : Array.from({ length: n.volumes }, () => ({ medidaComprimento:n.medidaComprimento, medidaLargura:n.medidaLargura, medidaAltura:n.medidaAltura }));
+      const cubagens = medidasVolume.map(cubagemVolume);
+      const cubagemTotal = cubagens.every(v => v != null) ? Number(cubagens.reduce((a, b) => a + b, 0).toFixed(4)) : null;
+      const porVolume = Array.isArray(n.medidasPorVolume) || medidasManuscritas;
+      const comumPreenchida = dimensaoCompleta(medidasVolume[0]);
+      const linhasMedidas = porVolume ? medidasVolume.map((m, i) => {
+        if (medidasManuscritas) return `<span class="freight-writein-row"><b>${escaparHTML(tr('Vol. {0}', [volumeFormatado(i + 1)]))}</b><span>C: ______ cm</span><span>L: ______ cm</span><span>A: ______ cm</span></span>`;
+        return `<span class="freight-dimension-row"><b>${escaparHTML(tr('Vol. {0}', [volumeFormatado(i + 1)]))}</b><span>${textoMedidas(m)}</span></span>`;
+      }).join('') : (comumPreenchida ? `${textoMedidas(medidasVolume[0])}${cubagemTotal == null ? '' : ` · ${numero(cubagemTotal, 4)} m³ ${escaparHTML(tr('no total'))}`}` : '—');
+      const medidas = porVolume ? `<span class="freight-volume-dimensions${!medidasManuscritas && n.volumes > 1 ? ' freight-volume-grid' : ''}">${linhasMedidas}${!medidasManuscritas && cubagemTotal != null && n.volumes > 1 ? `<strong>${escaparHTML(tr('Cubagem total:'))} ${numero(cubagemTotal, 4)} m³</strong>` : ''}</span>` : `<span>${linhasMedidas}</span>`;
+      return `<article class="freight-item"><div class="freight-line freight-nf"><b>${escaparHTML(tr('NF:'))}</b><span>${escaparHTML(n.nf)}</span></div><div class="freight-line"><b>${escaparHTML(tr('Volume:'))}</b><span>${volumeFormatado(n.volumes)}</span></div><div class="freight-line"><b>${escaparHTML(tr('Peso:'))}</b><span>${n.pesoBruto > 0 ? `${numero(n.pesoBruto, 3, 2)} kg` : '—'}</span></div><div class="freight-line"><b>${escaparHTML(tr('Valor:'))}</b><span>${moeda(n.valorNota)}</span></div><div class="freight-line"><b>${escaparHTML(tr('Destinatário:'))}</b><span class="freight-recipient">${textoComQuebras(n.destinatario)}</span></div><div class="freight-line${medidasManuscritas ? ' freight-measures-writein' : ''}"><b>${escaparHTML(tr('Medidas:'))}</b>${medidas}</div></article>`;
+    }).join('')}</section>
+    <p class="freight-report-note">${escaparHTML(tr('Medidas informadas por volume; a cubagem total considera a quantidade de volumes.'))}</p>`;
+  relatorio.hidden = false;
+  document.body.dataset.printmode = 'frete';
+  const regra = $('print-page-rule');
+  if (regra) regra.textContent = '@page { size: A4 portrait; margin: 10mm; }';
+  window.print();
 }
 
 function ajustarTextosEtiquetas() {
@@ -815,11 +914,21 @@ document.addEventListener('DOMContentLoaded', () => {
   configurarUploadLogo();
 
   els.btnAdicionar.addEventListener('click', adicionarNota);
+  els.medidasVariaveis.addEventListener('change', alternarMedidasVariaveis);
+  els.volumeMedidasSelecionado.addEventListener('change', () => { salvarMedidaVolumeSelecionado(); mostrarMedidaVolume(Number(els.volumeMedidasSelecionado.value) - 1); });
+  els.volumes.addEventListener('change', () => atualizarSeletorMedidasVolume());
+  CAMPOS_MEDIDAS.forEach(id => els[id].addEventListener('input', salvarMedidaVolumeSelecionado));
   $('btnCancelarEdicao').addEventListener('click', () => { limparCamposNota(true); renderizar(); });
   els.btnImprimir.addEventListener('click', () => {
     if (!ajustarTextosEtiquetas()) { showToast(tr("Revise os textos indicados antes de imprimir: eles excedem o tamanho selecionado."), 'error', 6000); return; }
     atualizarRegraPagina();
     window.print();
+  });
+  els.btnRelatorioFrete.addEventListener('click', gerarRelatorioFrete);
+  window.addEventListener('afterprint', () => {
+    delete document.body.dataset.printmode;
+    $('relatorioFrete').hidden = true;
+    atualizarRegraPagina();
   });
   window.addEventListener('beforeprint', ajustarTextosEtiquetas);
   const observadorPrevia = new ResizeObserver(atualizarEscalaPrevia);
@@ -845,6 +954,7 @@ document.addEventListener('DOMContentLoaded', () => {
   els.btnExcluirEmpresa.addEventListener('click', excluirEmpresaAtual);
 
   renderizar();
+  atualizarSeletorMedidasVolume({ preservar: false });
   registrarServiceWorker();
 });
 
@@ -881,7 +991,7 @@ document.addEventListener('DOMContentLoaded', () => {
   links.forEach(link => link.addEventListener('click', () => marcar(link.getAttribute('href'))));
   window.addEventListener('hashchange', () => marcar(location.hash || '#etapaNota'));
 });
-document.addEventListener("tagex:languagechange", () => { if(!els.preview)return; renderizar();renderFilaImportacao();atualizarAvisosCampos();if(state.notaEditando)I18n.text($("tituloEdicaoNota"), () => tr("Editando NF ")+state.notaEditando.nf);mostrarProgressoBusca(); });
+document.addEventListener("tagex:languagechange", () => { if(!els.preview)return; renderizar();renderFilaImportacao();atualizarAvisosCampos();atualizarSeletorMedidasVolume();if(state.notaEditando)I18n.text($("tituloEdicaoNota"), () => tr("Editando NF ")+state.notaEditando.nf);mostrarProgressoBusca(); });
 
 document.addEventListener('DOMContentLoaded', () => {
  const menu=$('menuDownload'),button=$('btnDownload');

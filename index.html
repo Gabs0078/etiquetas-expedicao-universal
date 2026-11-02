@@ -23,22 +23,22 @@
   <meta name="twitter:image" content="https://gabs0078.github.io/etiquetas-expedicao-universal/assets/brand/tagex-compartilhamento-v1.png">
   <meta name="twitter:image:alt" content="TagEX — Etiquetas para expedição. Preencher, conferir e imprimir.">
   <link rel="canonical" href="https://gabs0078.github.io/etiquetas-expedicao-universal/">
-  <link rel="icon" type="image/svg+xml" href="assets/icons/app-icon.svg?v=77">
-  <link rel="apple-touch-icon" href="assets/icons/app-icon-192.png?v=77">
-  <link rel="manifest" href="manifest.webmanifest?v=77">
-  <script src="assets/i18n/catalogs.js?v=77"></script><script src="assets/js/i18n.js?v=77"></script><script src="assets/js/app.js?v=77"></script>
-  <link rel="stylesheet" href="assets/css/styles.css?v=77">
-  <script defer="" src="assets/js/nfe.js?v=77"></script>
-  <script defer="" src="assets/js/fontes.js?v=77"></script>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/app-icon.svg?v=88">
+  <link rel="apple-touch-icon" href="assets/icons/app-icon-192.png?v=88">
+  <link rel="manifest" href="manifest.webmanifest?v=88">
+  <script src="assets/i18n/catalogs.js?v=88"></script><script src="assets/js/i18n.js?v=88"></script><script src="assets/js/app.js?v=88"></script>
+  <link rel="stylesheet" href="assets/css/styles.css?v=88">
+  <script defer="" src="assets/js/nfe.js?v=88"></script>
+  <script defer="" src="assets/js/fontes.js?v=88"></script>
 
-  <script defer="" src="assets/js/importacao.js?v=77"></script>
+  <script defer="" src="assets/js/importacao.js?v=88"></script>
 </head>
 <body>
 <div class="brand-shell">
   <header class="workspace-header">
     <div class="brand-identity">
       <div class="brand-lockup">
-        <h1 class="brand-wordmark" aria-label="TagEX"><span class="brand-mark"><img class="brand-mark-logo" src="assets/brand/tagex-wordmark.svg?v=77" alt="TagEX" width="216" height="58"></span></h1>
+        <h1 class="brand-wordmark" aria-label="TagEX"><span class="brand-mark"><img class="brand-mark-logo" src="assets/brand/tagex-wordmark.svg?v=88" alt="TagEX" width="216" height="58"></span></h1>
         <p class="brand-description" data-i18n="Etiquetas para expedição">Shipping labels</p>
       </div>
     </div>
@@ -112,6 +112,13 @@ CEP (se informado)"></textarea><span class="field-attention" id="avisoCampo-dest
         <label for="volumes" data-i18n="Qtd. de Volumes:">Number of packages:</label>
         <div class="field-input-wrap" data-campo="volumes"><input type="number" id="volumes" min="1" max="999" value="1"><span class="field-attention" id="avisoCampo-volumes" hidden=""><button type="button" class="field-warning-button" id="botaoAviso-volumes" aria-label="Atenção: Qtd. de Volumes" aria-describedby="dicaCampo-volumes" aria-expanded="false"><svg class="field-warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.3 3.8 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"></path><path d="M12 9v4.5m0 3h.01"></path></svg></button><span class="field-warning-tooltip" id="dicaCampo-volumes" role="tooltip" hidden=""><span id="textoAviso-volumes"></span></span></span></div>
       </div>
+      <details class="freight-fields"><summary data-i18n="Dados para cotação de frete (opcional)">Freight quote details (optional)</summary><p class="hint" data-i18n="Valor e peso podem vir do XML. Confira ou preencha as medidas de cada volume.">Value and weight may come from the XML. Check them and enter dimensions for each package.</p>
+        <div class="field"><label for="valorNota" data-i18n="Valor total da NF (R$)">Invoice total (BRL)</label><input id="valorNota" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00"></div>
+        <div class="field"><label for="pesoBruto" data-i18n="Peso bruto total (kg)">Total gross weight (kg)</label><input id="pesoBruto" type="number" min="0" step="0.001" inputmode="decimal" placeholder="0,000"></div>
+        <label class="freight-variable-option"><input id="medidasVariaveis" type="checkbox"><span data-i18n="Informar medidas diferentes por volume">Enter different dimensions for each package</span></label>
+        <div class="field freight-volume-picker" id="seletorMedidasVolume" hidden><label for="volumeMedidasSelecionado" data-i18n="Volume para informar as medidas">Package to enter dimensions for</label><select id="volumeMedidasSelecionado"></select><p class="hint" data-i18n="Selecione um volume, informe suas medidas e repita para os demais.">Select a package, enter its dimensions, then repeat for the others.</p></div>
+        <fieldset class="freight-dimensions"><legend data-i18n="Medidas por volume (cm)">Dimensions per package (cm)</legend><label><span data-i18n="Comprimento">Length</span><input id="medidaComprimento" type="number" min="0" step="0.1" inputmode="decimal" placeholder="cm"></label><label><span data-i18n="Largura">Width</span><input id="medidaLargura" type="number" min="0" step="0.1" inputmode="decimal" placeholder="cm"></label><label><span data-i18n="Altura">Height</span><input id="medidaAltura" type="number" min="0" step="0.1" inputmode="decimal" placeholder="cm"></label></fieldset>
+      </details>
       <div class="field">
         <label for="descricao" data-i18n="Descrição dos Itens:">Item description:</label>
         <div class="field-input-wrap" data-campo="descricao"><textarea id="descricao" maxlength="180" placeholder="Optional" data-i18n-placeholder="Opcional"></textarea><span class="field-attention" id="avisoCampo-descricao" hidden=""><button type="button" class="field-warning-button" id="botaoAviso-descricao" aria-label="Atenção: Descrição dos Itens" aria-describedby="dicaCampo-descricao" aria-expanded="false"><svg class="field-warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.3 3.8 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"></path><path d="M12 9v4.5m0 3h.01"></path></svg></button><span class="field-warning-tooltip" id="dicaCampo-descricao" role="tooltip" hidden=""><span id="textoAviso-descricao"></span></span></span></div>
@@ -131,11 +138,13 @@ CEP (se informado)"></textarea><span class="field-attention" id="avisoCampo-dest
       <p class="hint layout-warning" id="avisoLayout" role="status" hidden=""></p>
 
       <details class="batch-help"><summary data-i18n="Como atualizar uma nota do lote?">How do I update an invoice in the batch?</summary><p data-i18n="Clique no lápis ao lado da nota, ajuste os campos e selecione “Salvar alterações”. Para sair sem mudar o lote, use “Cancelar edição”. Para carregar uma versão mais recente do XML, remova a nota e importe novamente.">Click the pencil, edit the fields and choose “Save changes”. “Cancel editing” keeps the batch unchanged. To load an updated XML, remove the invoice and import it again.</p></details>
+      <label class="freight-handwrite-option"><input id="medidasManuscritas" type="checkbox"><span data-i18n="Deixar medidas em branco para preencher à mão">Leave dimensions blank to fill in by hand</span></label>
       <div class="actions">
         <button class="btn-success" id="btnImprimir" type="button"><span data-icon="printer"></span><span data-i18n="Imprimir Etiquetas">Print labels</span></button>
+        <button class="btn-gray" id="btnRelatorioFrete" type="button" disabled title="Imprime em A4 ou permite salvar como PDF" data-i18n-title="Imprime em A4 ou permite salvar como PDF"><span data-icon="printer"></span><span data-i18n="Relatório de frete">Freight report</span></button>
         <button class="btn-gray" id="btnLimpar" type="button"><span data-icon="trash"></span><span data-i18n="Limpar lote">Clear batch</span></button>
       </div>
-</section><div class="preview-heading"><h3 data-i18n="Prévia de impressão">Print preview</h3></div>
+</section><div id="relatorioFrete" class="freight-report" hidden></div><div class="preview-heading"><h3 data-i18n="Prévia de impressão">Print preview</h3></div>
       <div class="preview-toolbar">
 <select id="modoImpressao" hidden="" aria-hidden="true" tabindex="-1"><option value="a4">A4</option><option value="a3">A3</option><option value="a2">A2</option><option value="a5">A5</option><option value="carta" data-i18n="Carta">Letter</option><option value="oficio" data-i18n="Ofício (Legal)">Legal</option><option value="bobina80">80 × 35 mm</option><option value="bobina85">85 × 35 mm</option><option value="bobina">100 × 50 mm</option><option value="bobina100x75">100 × 75 mm</option><option value="bobina100x100">100 × 100 mm</option><option value="bobina100x150">100 × 150 mm</option></select><div class="format-groups" aria-label="Print size" data-i18n-aria-label="Tamanho de impressão"><details class="format-group" open=""><summary><span data-i18n="Papel">Paper</span> <span class="format-current"></span></summary><div class="format-choices" role="group" aria-label="Paper" data-i18n-aria-label="Papel"><button type="button" data-formato="a4" aria-pressed="true">A4</button><button type="button" data-formato="a3" aria-pressed="false">A3</button><button type="button" data-formato="a2" aria-pressed="false">A2</button><button type="button" data-formato="a5" aria-pressed="false">A5</button><button type="button" data-formato="carta" aria-pressed="false" data-i18n="Carta">Letter</button><button type="button" data-formato="oficio" aria-pressed="false" data-i18n="Ofício (Legal)">Legal</button></div></details><details class="format-group"><summary><span data-i18n="Bobina de etiquetas">Label roll</span> <span class="format-current"></span></summary><div class="format-choices" role="group" aria-label="Label roll" data-i18n-aria-label="Bobina de etiquetas"><button type="button" data-formato="bobina80" aria-pressed="false">80 × 35 mm</button><button type="button" data-formato="bobina85" aria-pressed="false">85 × 35 mm</button><button type="button" data-formato="bobina" aria-pressed="false">100 × 50 mm</button><button type="button" data-formato="bobina100x75" aria-pressed="false">100 × 75 mm</button><button type="button" data-formato="bobina100x100" aria-pressed="false">100 × 100 mm</button><button type="button" data-formato="bobina100x150" aria-pressed="false">100 × 150 mm</button></div></details></div>
 <div id="controleDisposicao" class="paper-layout-control"><label for="disposicaoPapel" data-i18n="Disposição">Layout</label><select id="disposicaoPapel"><option value="atual" data-i18n="10 por folha · 100 × 50 mm (atual)">10 per sheet · 100 × 50 mm (default)</option><option value="10" data-i18n="10 por folha · 2 × 5">10 per sheet · 2 × 5</option><option value="4" data-i18n="4 por folha · 2 × 2">4 per sheet · 2 × 2</option><option value="3" data-i18n="3 por folha · 3 faixas">3 per sheet · 3 rows</option><option value="2" data-i18n="2 por folha · 2 faixas">2 per sheet · 2 rows</option><option value="1" data-i18n="1 por folha · paisagem">1 per sheet · landscape</option></select><span id="descricaoDisposicao" class="hint" role="status"></span></div>
@@ -205,4 +214,4 @@ CEP (se informado)"></textarea><span class="field-attention" id="avisoCampo-dest
 
 
 
-<div id="menuDownload" class="download-popover" popover aria-label="Download TagEX" data-i18n-aria-label="Baixar TagEX"><a class="download-choice" id="downloadWindows" href="https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.5.1/TagEX-Windows-0.5.1.zip" aria-label="Download for Windows" data-i18n-aria-label="Baixar para Windows"><span>Windows</span><small>64-bit</small></a><button class="download-choice" type="button" disabled><span>Linux</span><small data-i18n="Em breve">Coming soon</small></button><button class="download-choice" type="button" disabled><span>macOS</span><small data-i18n="Em breve">Coming soon</small></button><a class="download-guide" href="instalar.html" data-i18n="Guia de instalação">Installation guide</a></div></body></html>
+<div id="menuDownload" class="download-popover" popover aria-label="Download TagEX" data-i18n-aria-label="Baixar TagEX"><a class="download-choice" id="downloadWindows" href="https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.6.0-beta.1/TagEX-Windows-0.6.0-beta.1.zip" aria-label="Download for Windows" data-i18n-aria-label="Baixar para Windows"><span>Windows</span><small>64-bit</small></a><button class="download-choice" type="button" disabled><span>Linux</span><small data-i18n="Em breve">Coming soon</small></button><button class="download-choice" type="button" disabled><span>macOS</span><small data-i18n="Em breve">Coming soon</small></button><a class="download-guide" href="instalar.html" data-i18n="Guia de instalação">Installation guide</a></div></body></html>

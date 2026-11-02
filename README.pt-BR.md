@@ -6,6 +6,8 @@ Projeto open-source sob a licença MIT. A interface começa em inglês e permite
 
 Etiquetas de expedição com volumes numerados automaticamente, para folhas de papel ou bobina térmica. O aplicativo oferece formatos A4, A3, A2, A5, Carta e Ofício, disposições maiores por folha, organização Grade/Lista e bobinas de 80 × 35 até 100 × 150 mm. Digite os dados, importe XMLs de NF-e ou conecte o serviço opcional de busca em pastas da empresa.
 
+A versão beta 0.6.0-beta.1 inclui um relatório A4 para cotação de frete, com medidas iguais ou diferentes por volume, cubagem automática e campos opcionais para preencher à caneta.
+
 ## Três formas de trabalhar
 
 | Modo | Como funciona | Instalação |
@@ -26,7 +28,7 @@ A publicação na branch main passa pelos testes antes de atualizar o site. Apen
 
 ### Windows: instalar uma vez, usar offline
 
-**[Baixar TagEX para Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.5.1/TagEX-Windows-0.5.1.zip)** · versão 0.5.1, Windows 10/11 x64.
+**[Baixar TagEX para Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.6.0-beta.1/TagEX-Windows-0.6.0-beta.1.zip)** · versão 0.6.0-beta.1, Windows 10/11 x64.
 
 1. Extraia todo o ZIP.
 2. Abra **Instalar TagEX.exe** e clique em **Instalar**. Não precisa instalar Node.js, usar comandos ou ser administrador.

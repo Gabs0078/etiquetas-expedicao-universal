@@ -131,6 +131,13 @@ function revisarImportada(nota) {
   els.destinatario.value = nota.destinatario;
   els.volumes.value = nota.volumes ?? '';
   els.descricao.value = nota.descricao;
+  els.valorNota.value = nota.valorNota ?? '';
+  els.pesoBruto.value = nota.pesoBruto ?? '';
+  for (const campo of ['medidaComprimento', 'medidaLargura', 'medidaAltura']) els[campo].value = '';
+  els.medidasVariaveis.checked = false;
+  state.medidasVolumeDraft = [];
+  state.medidaVolumeSelecionado = 1;
+  atualizarSeletorMedidasVolume({ preservar: false });
   const modelo = state.empresas.find(e => NFe.digitos(e.cnpj) === nota.emitente.cnpj);
   state.notaImportada = { ...nota, emitente: { ...nota.emitente, logo: modelo?.logo || '' } };
   configurarOpcaoEndereco(nota);

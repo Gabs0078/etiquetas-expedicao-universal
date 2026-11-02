@@ -1,6 +1,6 @@
 # Aplicativo TagEX para Windows
 
-Para usar: [baixe o pacote Windows 0.5.1](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.5.1/TagEX-Windows-0.5.1.zip), extraia tudo e abra **Instalar TagEX.exe**. O pacote inclui runtime e leitor XML. Não precisa de Node global nem comandos. Abra pelo atalho **TagEX**.
+Para usar: [baixe o pacote Windows 0.6.0-beta.1](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.6.0-beta.1/TagEX-Windows-0.6.0-beta.1.zip), extraia tudo e abra **Instalar TagEX.exe**. O pacote inclui runtime e leitor XML. Não precisa de Node global nem comandos. Abra pelo atalho **TagEX**.
 
 Na primeira abertura, escolha importar XMLs/preencher manualmente ou configurar as pastas. A configuração é opcional e pode ser feita depois. Para uso portátil, abra **Abrir TagEX.exe** na pasta extraída.
 

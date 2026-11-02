@@ -4,7 +4,7 @@ O pacote Windows inclui o aplicativo, o runtime Node.js e o leitor de XML. Você
 
 ## Primeiro uso
 
-1. Baixe [TagEX-Windows-0.5.1.zip](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.5.1/TagEX-Windows-0.5.1.zip). Em Releases, use o ZIP do Windows, e não “Source code”.
+1. Baixe [TagEX-Windows-0.6.0-beta.1.zip](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.6.0-beta.1/TagEX-Windows-0.6.0-beta.1.zip). Em Releases, use o ZIP do Windows, e não “Source code”.
 2. Clique com o botão direito no ZIP → **Extrair tudo**. Abra a pasta extraída.
 3. Abra **Instalar TagEX.exe** → **Instalar**. A instalação é por usuário, em %LOCALAPPDATA%\Programs\TagEX; não solicita administrador. O menu Iniciar recebe um atalho e a área de trabalho é opcional.
 4. Clique em **Abrir TagEX**. Escolha **Importar XMLs ou preencher manualmente** para começar imediatamente, ou **Configurar busca nas pastas da empresa** para abrir o assistente.

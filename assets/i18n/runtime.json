@@ -832,5 +832,251 @@
     "Invalid issue date.",
     "Fecha de emisión no válida.",
     "开票日期无效。"
+  ],
+  [
+    "Dados para cotação de frete (opcional)",
+    "Freight quote details (optional)",
+    "Datos para cotizar el flete (opcional)",
+    "运费报价信息（可选）"
+  ],
+  [
+    "Valor e peso podem vir do XML. Confira ou preencha as medidas de cada volume.",
+    "Value and weight may come from the XML. Check them and enter dimensions for each package.",
+    "El valor y el peso pueden venir del XML. Revise los datos e indique las medidas de cada bulto.",
+    "金额和重量可能来自 XML。请核对并填写每件货物的尺寸。"
+  ],
+  [
+    "Valor total da NF (R$)",
+    "Invoice total (BRL)",
+    "Importe total de la factura (BRL)",
+    "发票总额（巴西雷亚尔）"
+  ],
+  [
+    "Peso bruto total (kg)",
+    "Total gross weight (kg)",
+    "Peso bruto total (kg)",
+    "总毛重（千克）"
+  ],
+  [
+    "Medidas por volume (cm)",
+    "Dimensions per package (cm)",
+    "Medidas por bulto (cm)",
+    "每件尺寸（厘米）"
+  ],
+  [
+    "Comprimento",
+    "Length",
+    "Largo",
+    "长"
+  ],
+  [
+    "Largura",
+    "Width",
+    "Ancho",
+    "宽"
+  ],
+  [
+    "Altura",
+    "Height",
+    "Alto",
+    "高"
+  ],
+  [
+    "Cotação de frete",
+    "Freight quote",
+    "Cotización de flete",
+    "运费报价"
+  ],
+  [
+    "Relatório de frete",
+    "Freight report",
+    "Informe de flete",
+    "货运报告"
+  ],
+  [
+    "Imprime em A4 ou permite salvar como PDF",
+    "Print on A4 or save as PDF",
+    "Imprime en A4 o permite guardar como PDF",
+    "以 A4 打印或另存为 PDF"
+  ],
+  [
+    "Relatório para cotação de frete",
+    "Freight quote report",
+    "Informe para cotizar el flete",
+    "运费报价单"
+  ],
+  [
+    "NF:",
+    "Invoice:",
+    "Factura:",
+    "发票："
+  ],
+  [
+    "VOL:",
+    "PKGS:",
+    "BULTOS:",
+    "件数："
+  ],
+  [
+    "PESO:",
+    "WEIGHT:",
+    "PESO:",
+    "重量："
+  ],
+  [
+    "Valor:",
+    "Value:",
+    "Valor:",
+    "金额："
+  ],
+  [
+    "Dest:",
+    "Recipient:",
+    "Destinatario:",
+    "收件人："
+  ],
+  [
+    "Medidas:",
+    "Dimensions:",
+    "Medidas:",
+    "尺寸："
+  ],
+  [
+    "no total",
+    "total",
+    "en total",
+    "合计"
+  ],
+  [
+    "NF(s)",
+    "Invoice(s)",
+    "Factura(s)",
+    "发票"
+  ],
+  [
+    "volumes",
+    "packages",
+    "bultos",
+    "件"
+  ],
+  [
+    "Peso total:",
+    "Total weight:",
+    "Peso total:",
+    "总重量："
+  ],
+  [
+    "Valor total:",
+    "Total value:",
+    "Valor total:",
+    "总金额："
+  ],
+  [
+    "Cubagem total:",
+    "Total cubic volume:",
+    "Volumen cúbico total:",
+    "总体积："
+  ],
+  [
+    "NF",
+    "Invoice",
+    "Factura",
+    "发票"
+  ],
+  [
+    "Vol.",
+    "Pkgs.",
+    "Bultos",
+    "件数"
+  ],
+  [
+    "Peso bruto (kg)",
+    "Gross weight (kg)",
+    "Peso bruto (kg)",
+    "毛重（千克）"
+  ],
+  [
+    "Valor total (R$)",
+    "Total value (BRL)",
+    "Importe total (BRL)",
+    "总金额（巴西雷亚尔）"
+  ],
+  [
+    "Destinatário",
+    "Recipient",
+    "Destinatario",
+    "收件人"
+  ],
+  [
+    "Cubagem total (m³)",
+    "Total cubic volume (m³)",
+    "Volumen cúbico total (m³)",
+    "总体积（立方米）"
+  ],
+  [
+    "Totais",
+    "Totals",
+    "Totales",
+    "合计"
+  ],
+  [
+    "Medidas informadas por volume; a cubagem total considera a quantidade de volumes.",
+    "Dimensions are per package; total cubic volume includes the package count.",
+    "Las medidas corresponden a cada bulto; el volumen total considera la cantidad.",
+    "尺寸按每件填写；总体积已计入件数。"
+  ],
+  [
+    "Deixar medidas em branco para preencher à mão",
+    "Leave dimensions blank to fill in by hand",
+    "Dejar las medidas en blanco para rellenarlas a mano",
+    "留空尺寸以便手动填写"
+  ],
+  [
+    "Informar medidas diferentes por volume",
+    "Enter different dimensions for each package",
+    "Indicar medidas diferentes para cada bulto",
+    "为每件货物分别填写尺寸"
+  ],
+  [
+    "Volume para informar as medidas",
+    "Package to enter dimensions for",
+    "Bulto para indicar las medidas",
+    "选择要填写尺寸的货物"
+  ],
+  [
+    "Volume {0}",
+    "Package {0}",
+    "Bulto {0}",
+    "第 {0} 件"
+  ],
+  [
+    "Vol. {0}",
+    "Pkg. {0}",
+    "Bulto {0}",
+    "第 {0} 件"
+  ],
+  [
+    "Selecione um volume, informe suas medidas e repita para os demais.",
+    "Select a package, enter its dimensions, then repeat for the others.",
+    "Seleccione un bulto, indique sus medidas y repita con los demás.",
+    "选择一个货物并填写尺寸，然后对其他货物重复此操作。"
+  ],
+  [
+    "Volume:",
+    "Packages:",
+    "Bultos:",
+    "件数："
+  ],
+  [
+    "Peso:",
+    "Weight:",
+    "Peso:",
+    "重量："
+  ],
+  [
+    "Destinatário:",
+    "Recipient:",
+    "Destinatario:",
+    "收件人："
   ]
 ]

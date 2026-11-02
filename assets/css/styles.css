@@ -1135,3 +1135,52 @@ a.download-choice:hover {background:var(--surface-hover);color:var(--primary)}
 .download-guide:hover {color:var(--primary)}
 .header-download:focus-visible,.download-popover a:focus-visible {outline:3px solid var(--primary);outline-offset:2px}
 @media print {.download-popover{display:none!important}}
+
+.freight-fields { margin:4px 0 16px; border:1px solid var(--border-soft); border-radius:9px; padding:10px 12px; }
+.freight-fields summary { cursor:pointer; font-size:12px; font-weight:600; }
+.freight-fields>.hint { margin:7px 0 10px; font-size:11px; }
+.freight-fields .field { margin:9px 0 0; }
+.freight-fields .field label,.freight-dimensions legend,.freight-dimensions label { font-size:11px; color:var(--text-secondary); }
+.freight-dimensions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; border:0; margin:10px 0 0; padding:0; }
+.freight-dimensions legend { margin-bottom:6px; }
+.freight-dimensions label { display:grid; gap:5px; }
+.freight-dimensions input { min-width:0; width:100%; }
+.freight-variable-option { display:flex; align-items:center; gap:7px; margin-top:12px; color:var(--text-secondary); font-size:11px; cursor:pointer; }
+.freight-variable-option input { flex:0 0 16px; width:16px; height:16px; margin:0; }
+.freight-volume-picker { margin-top:8px; }
+.freight-volume-dimensions { display:grid; gap:2px; min-width:0; }
+.freight-volume-grid { grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:5px; row-gap:2px; }
+.freight-dimension-row { display:grid; grid-template-columns:11mm minmax(0,1fr); gap:2px; align-items:baseline; font-size:9px; line-height:1.25; }
+.freight-volume-grid .freight-dimension-row { grid-template-columns:10mm minmax(0,1fr); }
+.freight-writein-row { display:grid; grid-template-columns:10mm repeat(3,minmax(0,1fr)); gap:2px; font-size:9px; }
+.freight-volume-dimensions>strong { margin-top:3px; padding-top:3px; border-top:1px solid #cbd5e1; font-size:9px; }
+.freight-volume-grid>strong { grid-column:1 / -1; }
+.freight-report { display:none; }
+.freight-report-header { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; border-bottom:2px solid #172033; padding-bottom:10px; }
+.freight-report-header h1 { margin:0; font-size:22px; }
+.freight-report-kicker { margin:0 0 4px; color:#526078; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; }
+.freight-report-header time { font-size:10px; color:#526078; }
+.freight-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; gap:4mm 6mm; margin-top:14px; }
+.freight-item { min-width:0; padding:3mm; border:1px solid #cbd5e1; border-radius:2mm; color:#111827; font-size:10.5px; line-height:1.4; break-inside:avoid; page-break-inside:avoid; }
+.freight-line { display:grid; grid-template-columns:18mm minmax(0,1fr); gap:5px; padding:2px 0; }
+.freight-line>b { font-weight:700; }
+.freight-line>span { overflow-wrap:anywhere; }
+.freight-line.freight-nf { padding:5px 7px; margin:-1mm -1mm 4px; background:#edf3fa; border-left:3px solid #1678b8; font-size:12px; }
+.freight-recipient { line-height:1.45; }
+.freight-report-note { margin-top:12px; color:#526078; font-size:10px; line-height:1.5; }
+.freight-handwrite-option { display:flex; align-items:center; gap:7px; margin:12px 0 -4px; color:var(--text-secondary); font-size:11px; cursor:pointer; }
+.freight-handwrite-option input { flex:0 0 16px; width:16px; height:16px; margin:0; }
+.freight-measures-writein { display:block; }
+.freight-writein { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; margin-top:4px; }
+.freight-writein>span { white-space:nowrap; font-size:9px; }
+@media screen { .batch-panel .actions>#btnRelatorioFrete { flex:1; background:var(--surface-hover); color:var(--text); } }
+@media print {
+  @page { size:A4 portrait; margin:10mm; }
+  body[data-printmode="frete"] { color:#111827; background:#fff; font-family:Arial,sans-serif; }
+  body[data-printmode="frete"] .app { display:block; min-height:0; padding:0; margin:0; }
+  body[data-printmode="frete"] .app>aside,
+  body[data-printmode="frete"] .preview-wrap>*:not(#relatorioFrete) { display:none!important; }
+  body[data-printmode="frete"] .preview-wrap { display:block; width:auto; margin:0; padding:0; border:0; border-radius:0; box-shadow:none; overflow:visible; }
+  body[data-printmode="frete"] #relatorioFrete { display:block!important; color:#111827; }
+  body[data-printmode="frete"] .freight-line.freight-nf { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+}

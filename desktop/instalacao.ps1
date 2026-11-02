@@ -94,14 +94,30 @@ function InstalarPacoteTagEX([string]$Origem, [string]$Destino) {
     return $pacote.versao
 }
 function CriarAtalhosTagEX([string]$Destino, [bool]$AreaTrabalho) {
+    $destinoReal = [IO.Path]::GetFullPath($Destino)
+    $executavel = Join-Path $destinoReal 'Abrir TagEX.exe'
+    if (!(Test-Path -LiteralPath $executavel -PathType Leaf)) { throw (T 'Não foi possível criar o atalho: o executável do TagEX não foi encontrado.') }
     $menu = Join-Path ([Environment]::GetFolderPath('Programs')) 'TagEX'
     New-Item -ItemType Directory -Path $menu -Force | Out-Null
     $wsh = New-Object -ComObject WScript.Shell
     $locais = @((Join-Path $menu 'TagEX.lnk'))
     if ($AreaTrabalho) { $locais += Join-Path ([Environment]::GetFolderPath('DesktopDirectory')) 'TagEX.lnk' }
     foreach ($local in $locais) {
-        $atalho = $wsh.CreateShortcut($local); $atalho.TargetPath = Join-Path $Destino 'Abrir TagEX.exe'
-        $atalho.WorkingDirectory = $Destino; $atalho.Description = (T 'TagEX - Etiquetas para expedição'); $atalho.Save()
+        $atalho = $wsh.CreateShortcut($local); $atalho.TargetPath = $executavel
+        $atalho.WorkingDirectory = $destinoReal; $atalho.Description = (T 'TagEX - Etiquetas para expedição'); $atalho.Save()
+        $gravado = $wsh.CreateShortcut($local)
+        if ([IO.Path]::GetFullPath($gravado.TargetPath) -ne $executavel) { throw (T 'O atalho não foi gravado corretamente: ') + $local }
+    }
+    if ($AreaTrabalho) {
+        # Migra o atalho da versão antiga somente quando ele aponta para o iniciador antigo do projeto.
+        $legado = Join-Path ([Environment]::GetFolderPath('DesktopDirectory')) 'Etiquetas de Expedição.lnk'
+        if (Test-Path -LiteralPath $legado -PathType Leaf) {
+            $antigo = $wsh.CreateShortcut($legado)
+            if ($antigo.TargetPath -match '\\Windows\\System32\\WindowsPowerShell\\v1\.0\\powershell\.exe$' -and
+                $antigo.Arguments -match '(?i)-File\s+"[^"]+\\desktop\\iniciar\.ps1"') {
+                Remove-Item -LiteralPath $legado -Force
+            }
+        }
     }
     $registro = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\TagEX'
     New-Item -Path $registro -Force | Out-Null
