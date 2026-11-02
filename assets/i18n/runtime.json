@@ -912,6 +912,12 @@
     "填写人："
   ],
   [
+    "Relatório em Preto e Branco",
+    "Black and White Report",
+    "Informe en blanco y negro",
+    "黑白报告"
+  ],
+  [
     "NF:",
     "Invoice:",
     "Factura:",
@@ -1032,10 +1038,10 @@
     "尺寸按每件填写；总体积已计入件数。"
   ],
   [
-    "Deixar medidas em branco para preencher à mão",
-    "Leave dimensions blank to fill in by hand",
-    "Dejar las medidas en blanco para rellenarlas a mano",
-    "留空尺寸以便手动填写"
+    "Preencher medidas à mão",
+    "Fill in dimensions by hand",
+    "Completar las medidas a mano",
+    "手动填写尺寸"
   ],
   [
     "Informar medidas diferentes por volume",

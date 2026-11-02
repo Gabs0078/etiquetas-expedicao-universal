@@ -1170,6 +1170,8 @@ a.download-choice:hover {background:var(--surface-hover);color:var(--primary)}
 .freight-report-note { margin-top:12px; color:#526078; font-size:10px; line-height:1.5; }
 .freight-report-footer { display:flex; align-items:baseline; gap:4mm; margin-top:10mm; padding-top:4mm; border-top:1px solid #cbd5e1; color:#374151; font-size:10px; line-height:1.5; break-inside:avoid; page-break-inside:avoid; }
 .freight-report-signature { flex:1; min-width:35mm; height:1em; border-bottom:1px solid #64748b; }
+.freight-mono-option { display:flex; align-items:center; gap:7px; margin:8px 0 0; color:var(--text-secondary); font-size:11px; cursor:pointer; }
+.freight-mono-option input { flex:0 0 16px; width:16px; height:16px; margin:0; }
 .freight-handwrite-option { display:flex; align-items:center; gap:7px; margin:12px 0 -4px; color:var(--text-secondary); font-size:11px; cursor:pointer; }
 .freight-handwrite-option input { flex:0 0 16px; width:16px; height:16px; margin:0; }
 .freight-measures-writein { display:block; }
@@ -1185,4 +1187,11 @@ a.download-choice:hover {background:var(--surface-hover);color:var(--primary)}
   body[data-printmode="frete"] .preview-wrap { display:block; width:auto; margin:0; padding:0; border:0; border-radius:0; box-shadow:none; overflow:visible; }
   body[data-printmode="frete"] #relatorioFrete { display:block!important; color:#111827; }
   body[data-printmode="frete"] .freight-line.freight-nf { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body[data-printmode="frete"][data-report-ink="mono"] #relatorioFrete,
+  body[data-printmode="frete"][data-report-ink="mono"] #relatorioFrete * { color:#000!important; }
+  body[data-printmode="frete"][data-report-ink="mono"] .freight-report-header { border-color:#000; }
+  body[data-printmode="frete"][data-report-ink="mono"] .freight-line.freight-nf { background:#fff!important; border-left-color:#000; }
+  body[data-printmode="frete"][data-report-ink="mono"] .freight-item,
+  body[data-printmode="frete"][data-report-ink="mono"] .freight-volume-dimensions>strong,
+  body[data-printmode="frete"][data-report-ink="mono"] .freight-report-footer { border-color:#000; }
 }

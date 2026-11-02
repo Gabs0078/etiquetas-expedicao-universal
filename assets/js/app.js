@@ -574,6 +574,7 @@ function gerarRelatorioFrete() {
     <footer class="freight-report-footer"><span>${escaparHTML(tr('Responsável pelo preenchimento:'))}</span><span class="freight-report-signature" aria-hidden="true"></span></footer>`;
   relatorio.hidden = false;
   document.body.dataset.printmode = 'frete';
+  if ($('relatorioMonocromatico')?.checked) document.body.dataset.reportInk = 'mono';
   const regra = $('print-page-rule');
   if (regra) regra.textContent = '@page { size: A4 portrait; margin: 10mm; }';
   window.print();
@@ -928,6 +929,7 @@ document.addEventListener('DOMContentLoaded', () => {
   els.btnRelatorioFrete.addEventListener('click', gerarRelatorioFrete);
   window.addEventListener('afterprint', () => {
     delete document.body.dataset.printmode;
+    delete document.body.dataset.reportInk;
     $('relatorioFrete').hidden = true;
     atualizarRegraPagina();
   });
