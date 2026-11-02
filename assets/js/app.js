@@ -570,7 +570,8 @@ function gerarRelatorioFrete() {
       const medidas = porVolume ? `<span class="freight-volume-dimensions${!medidasManuscritas && n.volumes > 1 ? ' freight-volume-grid' : ''}">${linhasMedidas}${!medidasManuscritas && cubagemTotal != null && n.volumes > 1 ? `<strong>${escaparHTML(tr('Cubagem total:'))} ${numero(cubagemTotal, 4)} m³</strong>` : ''}</span>` : `<span>${linhasMedidas}</span>`;
       return `<article class="freight-item"><div class="freight-line freight-nf"><b>${escaparHTML(tr('NF:'))}</b><span>${escaparHTML(n.nf)}</span></div><div class="freight-line"><b>${escaparHTML(tr('Volume:'))}</b><span>${volumeFormatado(n.volumes)}</span></div><div class="freight-line"><b>${escaparHTML(tr('Peso:'))}</b><span>${n.pesoBruto > 0 ? `${numero(n.pesoBruto, 3, 2)} kg` : '—'}</span></div><div class="freight-line"><b>${escaparHTML(tr('Valor:'))}</b><span>${moeda(n.valorNota)}</span></div><div class="freight-line"><b>${escaparHTML(tr('Destinatário:'))}</b><span class="freight-recipient">${textoComQuebras(n.destinatario)}</span></div><div class="freight-line${medidasManuscritas ? ' freight-measures-writein' : ''}"><b>${escaparHTML(tr('Medidas:'))}</b>${medidas}</div></article>`;
     }).join('')}</section>
-    <p class="freight-report-note">${escaparHTML(tr('Medidas informadas por volume; a cubagem total considera a quantidade de volumes.'))}</p>`;
+    <p class="freight-report-note">${escaparHTML(tr('Medidas informadas por volume; a cubagem total considera a quantidade de volumes.'))}</p>
+    <footer class="freight-report-footer"><span>${escaparHTML(tr('Responsável pelo preenchimento:'))}</span><span class="freight-report-signature" aria-hidden="true"></span></footer>`;
   relatorio.hidden = false;
   document.body.dataset.printmode = 'frete';
   const regra = $('print-page-rule');
