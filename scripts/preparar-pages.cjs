@@ -2,7 +2,11 @@
 const fs=require('node:fs/promises');
 const path=require('node:path');
 const arquivos=[
- 'assets/brand/tagex-wordmark.svg','assets/brand/tagex-monogram.svg','assets/icons/app-icon.ico',
+ 'assets/brand/tagex-wordmark.svg','assets/brand/tagex-monogram.svg',
+ 'assets/brand/tagex-wordmark-light-preview.png','assets/brand/tagex-wordmark-dark-preview.png',
+ 'assets/brand/tagex-icon-light-preview.svg','assets/brand/tagex-icon-dark-preview.svg','assets/icons/app-icon.ico',
+ 'assets/brand/tagex-lockup-light.svg','assets/brand/tagex-lockup-dark.svg',
+ 'assets/brand/tagex-favicon-light.svg','assets/brand/tagex-favicon-dark.svg',
  'index.html','instalar.html','sw.js','manifest.webmanifest','assets/brand/tagex-compartilhamento-v1.png',
  'assets/js/i18n.js','assets/i18n/catalogs.js','assets/i18n/catalogs.json',
  'assets/css/styles.css','assets/js/app.js','assets/js/nfe.js','assets/js/fontes.js','assets/js/importacao.js',

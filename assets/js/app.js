@@ -34,6 +34,10 @@ function formatoAtual() { const f=FORMATOS_IMPRESSAO[modoImpressaoAtual()] || FO
   function apply() {
     document.documentElement.dataset.theme = preference;
     document.documentElement.style.colorScheme = preference;
+    const logo = document.querySelector('.brand-mark-logo');
+    if (logo) logo.src = preference === 'dark' ? logo.dataset.darkSrc : logo.dataset.lightSrc;
+    const favicon = document.getElementById('appFavicon');
+    if (favicon) favicon.href = preference === 'dark' ? favicon.dataset.darkHref : favicon.dataset.lightHref;
     const button = document.getElementById('temaAparencia');
     if (button) { button.setAttribute('aria-checked', String(preference === 'dark')); button.title = preference === 'dark' ? tr("Ativar tema claro") : tr("Ativar tema escuro"); }
   }

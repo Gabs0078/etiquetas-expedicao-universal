@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164.88 74.41" role="img" aria-labelledby="title"><title id="title">TagEX label icon dark theme</title><g id="Icone_Etiqueta_DarkMode" data-name="Icone_Etiqueta DarkMode">
+    <g id="T">
+      <path fill="#ffffff" d="M33.65,22.34H14.52v-8.07h50.68v8.07h-19.12v41.04h-12.44V22.34Z"/>
+    </g>
+    <g id="X">
+      <path fill="#ddaa19" d="M71.8,38.05l-19.11-23.79h12.49l12.9,16.14,12.9-16.14h12.49l-19.1,24.06,19.92,25.05h-12.49l-13.72-17.33-13.72,17.33h-12.49l19.92-25.33Z"/>
+    </g>
+    <path id="ETIQUETA" fill="#ffffff" d="M110.9.53c-.32-.21-.4-.34-.5-.53H0v74.4h109.92s54.72-37.18,54.72-37.18L110.9.53ZM144.16,46.51c-10.85,7.24-25.3,16.62-35.51,24.53-19.87.02-86.88.03-105.54.29l.03-68.19,104.8-.02,49.85,34.08c-4.02,2.39-9.87,6.7-13.63,9.3Z"/>
+    <circle id="FURO" fill="#ddaa19" cx="121.8" cy="37.82" r="7.23"/>
+  </g></svg>

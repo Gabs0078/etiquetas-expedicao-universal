@@ -34,7 +34,7 @@ module.exports=async function(browser){
   await p.locator('[data-editar-nota="0"]').click();await p.locator('#volumes').fill('3');await p.locator('#btnAdicionar').click();assert.equal(await p.locator('#countNotas').textContent(),'2');assert.equal(await p.locator('#preview .label').count(),8);
   await p.evaluate(()=>navigator.serviceWorker.ready);
   await p.reload();assert.equal(await p.locator('#countNotas').textContent(),'2');
-  await c.setOffline(true);await p.reload();assert.equal(await p.locator('#countNotas').textContent(),'2');await p.locator('#btnDownload').click();await p.locator('.download-guide').click();await p.waitForLoadState();assert.match(await p.title(),/Instalar e usar offline/);await c.setOffline(false);
+  await c.setOffline(true);await p.reload();assert.equal(await p.locator('#countNotas').textContent(),'2');await p.locator('#btnDownload').click();await p.locator('.download-guide').click();await p.waitForLoadState();assert.match(await p.title(),/(Install and use offline|Instalar e usar offline)/);await c.setOffline(false);
   assert.deepEqual(errors,[]);console.log('Pages: artefato estático, subpasta, manual, XML, assets, recarga e cache offline verificados.');
  }finally{await c.close();await new Promise(r=>server.close(r));if(path.resolve(stage).startsWith(path.join(os.tmpdir(),'tagex-pages-')))await fs.rm(stage,{recursive:true,force:true});}
 };

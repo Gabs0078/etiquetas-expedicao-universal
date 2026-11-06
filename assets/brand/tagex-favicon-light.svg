@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164.88 74.41" role="img" aria-labelledby="title"><title id="title">TagEX label icon light theme</title><g id="Icone_Etiqueta_Invertido" data-name="Icone_Etiqueta Invertido">
+    <polygon id="ETIQUETA" fill="#051320" points="110.14 0 164.88 37.32 110.14 74.19 0 74.19 0 0 110.14 0"/>
+    <g id="T_cópia" data-name="T cópia">
+      <path fill="#ffffff" d="M33.65,22.34H14.52v-8.07h50.68v8.07h-19.12v41.04h-12.44V22.34Z"/>
+    </g>
+    <g id="X_cópia" data-name="X cópia">
+      <path fill="#ddaa19" d="M71.8,38.05l-19.11-23.79h12.49l12.9,16.14,12.9-16.14h12.49l-19.1,24.06,19.92,25.05h-12.49l-13.72-17.33-13.72,17.33h-12.49l19.92-25.33Z"/>
+    </g>
+    <circle id="FURO" fill="#ffffff" cx="121.8" cy="37.82" r="7.23"/>
+  </g></svg>

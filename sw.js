@@ -3,12 +3,20 @@
    Ao alterar qualquer arquivo da lista, incremente CACHE_VERSION
    para que os usuários recebam a versão nova. */
 
-const CACHE_VERSION = 'etiquetas-v93-report-last-page-footer';
-const ASSET_VERSION = '93';
+const CACHE_VERSION = 'etiquetas-v97-illustrator-brand-spacing';
+const ASSET_VERSION = '97';
 
 const ARQUIVOS = [
   './assets/brand/tagex-wordmark.svg',
   './assets/brand/tagex-monogram.svg',
+  './assets/brand/tagex-wordmark-light-preview.png',
+  './assets/brand/tagex-wordmark-dark-preview.png',
+  './assets/brand/tagex-icon-light-preview.svg',
+  './assets/brand/tagex-icon-dark-preview.svg',
+  './assets/brand/tagex-lockup-light.svg',
+  './assets/brand/tagex-lockup-dark.svg',
+  './assets/brand/tagex-favicon-light.svg',
+  './assets/brand/tagex-favicon-dark.svg',
   './assets/icons/app-icon.ico',
   './',
   './index.html',

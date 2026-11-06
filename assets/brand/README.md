@@ -6,6 +6,8 @@
 
 `../icons/app-icon.svg` is the simplified companion for browser tabs, Windows notification icons and application shortcuts: a single T cut into a label. This avoids compressing the five-letter name into a small square. The header image has an accessible TagEX name independently of the vector artwork.
 
+`tagex-lockup-dark.svg` combines the supplied Illustrator DarkMode icon and TagEX lettering exports. `tagex-lockup-light.svg` uses the same lettering recolored for the light theme and the filled light icon vector already present in this directory. Both lockups omit Illustrator's embedded raster tagline; the accessible tagline is rendered as HTML below the mark. The two newly supplied LightMode SVGs had empty artboards (no vector shapes), so they were not used. `tagex-favicon-dark.svg` and `tagex-favicon-light.svg` provide the matching theme-specific label marks. The application swaps both lockup and favicon with the theme switch.
+
 Run `pnpm icons:build` to regenerate the transparent wordmark (1977 × 528), original monogram (1680 × 528), application PNGs and multi-resolution Windows ICO. The ICO includes 16, 20, 24, 32, 40, 48, 64, 128 and 256 px images. Windows PowerShell's legacy Icon class may choose 128 px when 256 px is requested; the 256 px PNG frame remains available to the Windows shell.
 
 Edit the SVG sources, not the generated PNG/ICO files. The original PSD remains the author's editable source outside this repository. These application brand assets are separate from the sender/company logos printed on shipping labels.

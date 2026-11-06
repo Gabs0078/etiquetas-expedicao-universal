@@ -36,12 +36,16 @@ async function testar() {
     await pagina.evaluate(() => localStorage.setItem('expedicao_aparencia_v1', 'system'));
     await pagina.reload();
     assert.equal(await pagina.locator('html').getAttribute('data-theme'), 'light');
+    assert.equal(await pagina.locator('.brand-mark-logo').getAttribute('src'), await pagina.locator('.brand-mark-logo').getAttribute('data-light-src'));
+    assert.equal(await pagina.locator('#appFavicon').getAttribute('href'), await pagina.locator('#appFavicon').getAttribute('data-light-href'));
     await pagina.emulateMedia({ colorScheme: 'dark' });
     assert.equal(await pagina.locator('html').getAttribute('data-theme'), 'light');
     await pagina.locator('#temaAparencia').click();
     await pagina.reload();
     assert.equal(await pagina.locator('#temaAparencia').getAttribute('aria-checked'), 'true');
     assert.equal(await pagina.locator('html').getAttribute('data-theme'), 'dark');
+    assert.equal(await pagina.locator('.brand-mark-logo').getAttribute('src'), await pagina.locator('.brand-mark-logo').getAttribute('data-dark-src'));
+    assert.equal(await pagina.locator('#appFavicon').getAttribute('href'), await pagina.locator('#appFavicon').getAttribute('data-dark-href'));
     await pagina.locator('#temaAparencia').press('Space');
     await pagina.reload();
     assert.equal(await pagina.locator('html').getAttribute('data-theme'), 'light');

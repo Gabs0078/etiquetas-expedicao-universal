@@ -1052,10 +1052,10 @@ button:focus-visible, summary:focus-visible { outline: 3px solid var(--primary);
  .brand-shell .workspace-header::after { left:38%; right:-4%; top:53px; height:12px; background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--brand-accent) 7%,transparent) 40%,transparent); }
  .brand-identity { display:flex; align-items:center; }
  .brand-lockup { display:flex; flex-direction:column; align-items:flex-start; flex:none; }
- .brand-mark { display:block; width:216px; height:58px; }
- .brand-mark-logo { display:block; width:216px; height:58px; object-fit:contain; }
+ .brand-mark { display:block; width:250px; height:57px; }
+ .brand-mark-logo { display:block; width:250px; height:57px; object-fit:contain; }
  .brand-shell .brand-wordmark { margin:0; line-height:1; }
- .brand-description { margin:8px 0 0; font-size:11px; line-height:1.4; color:var(--text-secondary); }
+ .brand-description { box-sizing:border-box; width:250px; margin:4px 0 0; padding-left:88px; text-align:center; font-size:11px; line-height:1.4; color:var(--text-secondary); }
  .brand-shell .header-actions { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
  .brand-shell .theme-switch { display:flex; align-items:center; justify-content:space-between; position:relative; width:64px; height:34px; padding:4px; border:1px solid var(--border-soft); border-radius:30px; color:var(--text-muted); background:var(--surface); flex:none; }
  .theme-switch-thumb { position:absolute; left:4px; top:50%; width:24px; height:24px; border-radius:50%; background:var(--primary-light); transform:translateY(-50%); transition:transform .16s ease; }
