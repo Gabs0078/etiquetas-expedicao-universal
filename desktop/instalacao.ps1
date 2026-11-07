@@ -41,6 +41,47 @@ function ConferirTagEXFechado {
     try { $m = [Threading.Mutex]::OpenExisting("Local\Etiquetas-$sid") } catch [Threading.WaitHandleCannotBeOpenedException] { return }
     if ($m) { $m.Dispose(); throw (T 'Feche o TagEX pelo ícone ao lado do relógio > Encerrar. Depois clique em Instalar novamente.') }
 }
+function CompararVersaoTagEX([string]$A, [string]$B) {
+    $padrao = '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$'
+    $ma = [regex]::Match($A, $padrao); $mb = [regex]::Match($B, $padrao)
+    if (!$ma.Success -or !$mb.Success) { throw 'Formato de versão TagEX inválido.' }
+    for ($i = 1; $i -le 3; $i++) {
+        $cmp = ([long]$ma.Groups[$i].Value).CompareTo([long]$mb.Groups[$i].Value)
+        if ($cmp -ne 0) { return $cmp }
+    }
+    $preA = $ma.Groups[4].Value; $preB = $mb.Groups[4].Value
+    if (!$preA -and !$preB) { return 0 }
+    if (!$preA) { return 1 }
+    if (!$preB) { return -1 }
+    $idsA = [string[]]$preA.Split('.'); $idsB = [string[]]$preB.Split('.')
+    for ($i = 0; $i -lt [Math]::Max($idsA.Count, $idsB.Count); $i++) {
+        if ($i -ge $idsA.Count) { return -1 }
+        if ($i -ge $idsB.Count) { return 1 }
+        $numA = $idsA[$i] -match '^(0|[1-9]\d*)$'; $numB = $idsB[$i] -match '^(0|[1-9]\d*)$'
+        if ($numA -and $numB) { $cmp = ([long]$idsA[$i]).CompareTo([long]$idsB[$i]) }
+        elseif ($numA) { $cmp = -1 }
+        elseif ($numB) { $cmp = 1 }
+        else { $cmp = [string]::CompareOrdinal($idsA[$i], $idsB[$i]) }
+        if ($cmp -ne 0) { return $cmp }
+    }
+    return 0
+}
+function EstadoInstalacaoTagEX([string]$Origem, [string]$Destino) {
+    $pacote = Get-Content -LiteralPath (Join-Path $Origem 'pacote.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+    $nova = [string]$pacote.versao
+    if ($pacote.produto -ne 'TagEX' -or $nova -notmatch '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$') { throw (T 'Não foi possível ler a versão deste instalador. Extraia o ZIP completo novamente.') }
+    if (!(Test-Path -LiteralPath $Destino)) { return @{estado='novo';disponivel=$nova} }
+    $marcador = Join-Path $Destino 'tagex-install.json'
+    if (!(Test-Path -LiteralPath $marcador)) { return @{estado='destino-ocupado';disponivel=$nova} }
+    try { $instalada = Get-Content -LiteralPath $marcador -Raw -Encoding UTF8 | ConvertFrom-Json } catch { return @{estado='destino-ocupado';disponivel=$nova} }
+    if ($instalada.produto -ne 'TagEX') { return @{estado='destino-ocupado';disponivel=$nova} }
+    $atual = [string]$instalada.versao
+    if (!$atual) { return @{estado='versao-desconhecida';atual='';disponivel=$nova} }
+    try { $comparacao = CompararVersaoTagEX $atual $nova } catch { return @{estado='versao-desconhecida';atual=$atual;disponivel=$nova} }
+    if ($comparacao -lt 0) { return @{estado='atualizacao';atual=$atual;disponivel=$nova} }
+    if ($comparacao -gt 0) { return @{estado='mais-nova';atual=$atual;disponivel=$nova} }
+    return @{estado='igual';atual=$atual;disponivel=$nova}
+}
 function RemoverTemporariaTagEX([string]$Pasta, [string]$Pai) {
     $p = [IO.Path]::GetFullPath($Pasta)
     if ((Split-Path $p -Parent) -ne [IO.Path]::GetFullPath($Pai) -or (Split-Path $p -Leaf) -notmatch '^\.TagEX-(novo|anterior)-[a-f0-9]{32}$') { throw 'Pasta temporária fora do local esperado.' }

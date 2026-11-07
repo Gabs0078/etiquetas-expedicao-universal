@@ -4,7 +4,7 @@ O pacote Windows inclui o aplicativo, o runtime Node.js e o leitor de XML. Você
 
 ## Primeiro uso
 
-1. Baixe [TagEX-Windows-0.6.0-beta.1.zip](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.6.0-beta.1/TagEX-Windows-0.6.0-beta.1.zip). Em Releases, use o ZIP do Windows, e não “Source code”.
+1. Baixe [TagEX-Windows-0.6.0-beta.2.zip](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.6.0-beta.2/TagEX-Windows-0.6.0-beta.2.zip). Em Releases, use o ZIP do Windows, e não “Source code”.
 2. Clique com o botão direito no ZIP → **Extrair tudo**. Abra a pasta extraída.
 3. Abra **Instalar TagEX.exe** → **Instalar**. A instalação é por usuário, em %LOCALAPPDATA%\Programs\TagEX; não solicita administrador. O menu Iniciar recebe um atalho e a área de trabalho é opcional.
 4. Clique em **Abrir TagEX**. Escolha **Importar XMLs ou preencher manualmente** para começar imediatamente, ou **Configurar busca nas pastas da empresa** para abrir o assistente.
@@ -50,7 +50,9 @@ Não há consulta de CEP nem validação online da situação fiscal. Confira a 
 
 ## Atualizar, reparar e remover
 
-Encerre pelo ícone ao lado do relógio → **Encerrar**. Extraia o novo ZIP em outra pasta e execute **Instalar TagEX.exe**. O instalador verifica os arquivos e testa o runtime antes de substituir o programa. Não sobrescreve pastas empresariais nem o diretório de dados.
+Baixe e extraia o novo ZIP completo. Encerre o TagEX pelo ícone ao lado do relógio → **Encerrar** e abra **Instalar TagEX.exe**. O instalador detecta a versão instalada e mostra a versão do pacote. Se o pacote for mais recente, clique em **Atualizar** para confirmar. Não é necessário desinstalar antes: a atualização substitui somente o programa e preserva as configurações e o índice. O download ainda precisa ser feito manualmente; o aplicativo não consulta novas versões pela internet.
+
+Se a mesma versão já estiver instalada, o instalador oferece abrir o TagEX. Se a versão instalada for mais recente que o pacote, ele não faz downgrade. O instalador verifica a integridade dos arquivos e testa o runtime antes de substituir o programa.
 
 Se a instalação anterior estiver aberta, o instalador pede que seja encerrada. Um pacote incompleto/alterado interrompe a instalação. O manifesto SHA-256 detecta danos; não substitui uma assinatura digital de autoria.
 

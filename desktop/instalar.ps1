@@ -28,9 +28,41 @@ $instalar = New-Object Windows.Forms.Button; $instalar.SetBounds(342,424,230,36)
 $cancelar = New-Object Windows.Forms.Button; $cancelar.SetBounds(198,424,132,36); $cancelar.Text = (T 'Cancelar'); $cancelar.DialogResult = 'Cancel'
 $form.Controls.AddRange(@($titulo,$texto,$local,$atalho,$status,$instalar,$cancelar)); $form.CancelButton = $cancelar
 $seletorIdioma=AdicionarSeletorIdiomaTagEX $form 28 360 260
+$script:acaoInstalador = 'instalar'
+try { $estadoInstalacao = EstadoInstalacaoTagEX $origem $Destino } catch { $estadoInstalacao = @{estado='pacote-invalido'} }
+switch ($estadoInstalacao.estado) {
+    'atualizacao' {
+        $texto.Text = T 'Encontramos o TagEX {0}. Este pacote traz a versão {1}. Deseja atualizar?' @($estadoInstalacao.atual,$estadoInstalacao.disponivel)
+        $status.Text = T 'A atualização substitui somente o programa. Configurações, pastas e dados do navegador serão preservados.'
+        $form.Text = T 'Atualizar TagEX'; $titulo.Text = T 'Atualizar TagEX neste computador'
+        $instalar.Text = T 'Atualizar'; $script:acaoInstalador = 'atualizar'
+    }
+    'versao-desconhecida' {
+        $texto.Text = T 'Encontramos uma instalação, mas não foi possível identificar a versão. Deseja continuar com a atualização para {0}?' @($estadoInstalacao.disponivel)
+        $status.Text = T 'A atualização substitui somente o programa. Configurações, pastas e dados do navegador serão preservados.'
+        $form.Text = T 'Atualizar TagEX'; $titulo.Text = T 'Atualizar TagEX neste computador'
+        $instalar.Text = T 'Atualizar'; $script:acaoInstalador = 'atualizar'
+    }
+    { $_ -in @('igual','mais-nova') } {
+        if ($estadoInstalacao.estado -eq 'igual') { $texto.Text = T 'A versão {0} já está instalada. Você pode abrir o TagEX agora.' @($estadoInstalacao.atual) }
+        else { $texto.Text = T 'O TagEX instalado ({0}) é mais recente que este pacote ({1}). Não será rebaixado.' @($estadoInstalacao.atual,$estadoInstalacao.disponivel) }
+        if ($estadoInstalacao.estado -eq 'igual') { $status.Text = T 'Este pacote corresponde à versão instalada. Nenhuma atualização é necessária.' }
+        else { $status.Text = T 'Para atualizar, baixe um pacote mais recente.' }
+        $instalar.Text = T 'Abrir TagEX'; $cancelar.Text = T 'Fechar'; $script:acaoInstalador = 'abrir'
+    }
+    'destino-ocupado' {
+        $texto.Text = T 'A pasta de destino já existe, mas não é uma instalação reconhecida do TagEX. Nada será alterado.'
+        $instalar.Enabled = $false
+    }
+    'pacote-invalido' {
+        $texto.Text = T 'Não foi possível ler a versão deste instalador. Extraia o ZIP completo novamente.'
+        $instalar.Enabled = $false
+    }
+}
 $script:instalou = $false
 $instalar.add_Click({
     if ($script:instalou) { Start-Process -FilePath (Join-Path $Destino 'Abrir TagEX.exe') -WindowStyle Hidden; $form.Close(); return }
+    if ($script:acaoInstalador -eq 'abrir') { Start-Process -FilePath (Join-Path $Destino 'Abrir TagEX.exe') -WindowStyle Hidden; $form.Close(); return }
     $instalar.Enabled = $false; $cancelar.Enabled = $false; $form.ControlBox = $false
     $status.Text = (T 'Conferindo e copiando o aplicativo. Aguarde...'); $form.Refresh()
     try {

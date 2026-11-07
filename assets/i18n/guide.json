@@ -42,10 +42,10 @@
     "下载 Windows 版 TagEX"
   ],
   [
-    "Versão 0.6.0-beta.1 · Windows 10/11 de 64 bits · Linux e macOS em breve.",
-    "Version 0.6.0-beta.1 · 64-bit Windows 10/11 · Linux and macOS coming soon.",
-    "Versión 0.6.0-beta.1 · Windows 10/11 de 64 bits · Linux y macOS próximamente.",
-    "版本 0.6.0-beta.1 · 64 位 Windows 10/11 · Linux 与 macOS 敬请期待。"
+    "Versão 0.6.0-beta.2 · Windows 10/11 de 64 bits · Linux e macOS em breve.",
+    "Version 0.6.0-beta.2 · 64-bit Windows 10/11 · Linux and macOS coming soon.",
+    "Versión 0.6.0-beta.2 · Windows 10/11 de 64 bits · Linux y macOS próximamente.",
+    "版本 0.6.0-beta.2 · 64 位 Windows 10/11 · Linux 与 macOS 敬请期待。"
   ],
   [
     "Internet só para baixar; depois você pode levar o ZIP por pendrive.",
@@ -66,10 +66,10 @@
     "下载 Windows 安装包"
   ],
   [
-    "Use o botão acima. No GitHub, baixe TagEX-Windows-0.6.0-beta.1.zip em Releases; “Source code” é para desenvolvedores.",
-    "Use the button above. On GitHub, download TagEX-Windows-0.6.0-beta.1.zip from Releases; “Source code” is for developers.",
-    "Use el botón de arriba. En GitHub, descargue TagEX-Windows-0.6.0-beta.1.zip en Releases; “Source code” es para desarrolladores.",
-    "使用上方按钮，或在 GitHub 的 Releases 下载 TagEX-Windows-0.6.0-beta.1.zip。“Source code”供开发者使用。"
+    "Use o botão acima. No GitHub, baixe TagEX-Windows-0.6.0-beta.2.zip em Releases; “Source code” é para desenvolvedores.",
+    "Use the button above. On GitHub, download TagEX-Windows-0.6.0-beta.2.zip from Releases; “Source code” is for developers.",
+    "Use el botón de arriba. En GitHub, descargue TagEX-Windows-0.6.0-beta.2.zip en Releases; “Source code” es para desarrolladores.",
+    "使用上方按钮，或在 GitHub 的 Releases 下载 TagEX-Windows-0.6.0-beta.2.zip。“Source code”供开发者使用。"
   ],
   [
     "Extraia todos os arquivos",
@@ -240,10 +240,10 @@
     "如何更新？"
   ],
   [
-    "Baixe o pacote novo, extraia tudo, encerre o TagEX na bandeja e execute o novo Instalar TagEX.exe. Pastas configuradas e índice ficam em %LOCALAPPDATA%\\EtiquetasExpedicao. Use o mesmo navegador e endereço para manter o lote e os cadastros. Não há atualização automática.",
-    "Download the new package, extract all files, exit TagEX from the tray and run the new Instalar TagEX.exe. Folder settings and the index stay in %LOCALAPPDATA%\\EtiquetasExpedicao. Use the same browser and address to retain batches and companies. Updates are manual.",
-    "Descargue el paquete nuevo, extraiga todo, cierre TagEX desde la bandeja y ejecute el nuevo Instalar TagEX.exe. Carpetas e índice quedan en %LOCALAPPDATA%\\EtiquetasExpedicao. Use el mismo navegador y dirección para conservar los datos. La actualización es manual.",
-    "下载新安装包并全部解压，从托盘退出 TagEX，然后运行新的 Instalar TagEX.exe。文件夹设置和索引保留在 %LOCALAPPDATA%\\EtiquetasExpedicao。请使用相同浏览器及地址保留批次与企业信息。更新需手动进行。"
+    "Baixe o pacote mais recente e extraia tudo. Encerre o TagEX na bandeja e abra Instalar TagEX.exe. Se encontrar uma versão anterior, o instalador mostra as versões e pergunta se deseja atualizar. Configurações e índice ficam em %LOCALAPPDATA%\\EtiquetasExpedicao; use o mesmo navegador e endereço para manter lote e cadastros. O download ainda é manual.",
+    "Download the latest package and extract all files. Exit TagEX from the tray and open Instalar TagEX.exe. If an older version is found, the installer shows both versions and asks whether to update. Settings and the index stay in %LOCALAPPDATA%\\EtiquetasExpedicao; use the same browser and address to retain batches and company profiles. Downloads are still manual.",
+    "Descargue el paquete más reciente y extraiga todos los archivos. Cierre TagEX desde la bandeja y abra Instalar TagEX.exe. Si encuentra una versión anterior, el instalador muestra ambas versiones y pregunta si desea actualizar. La configuración y el índice quedan en %LOCALAPPDATA%\\EtiquetasExpedicao; use el mismo navegador y dirección para conservar los lotes y las empresas. La descarga sigue siendo manual.",
+    "下载最新安装包并解压所有文件。从托盘退出 TagEX，然后打开 Instalar TagEX.exe。如果检测到旧版本，安装程序会显示两个版本并询问是否更新。设置和索引保存在 %LOCALAPPDATA%\\EtiquetasExpedicao；请使用相同浏览器和地址保留批次及企业资料。安装包仍需手动下载。"
   ],
   [
     "Quero usar sem instalar",

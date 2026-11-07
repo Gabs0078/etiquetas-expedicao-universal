@@ -3,8 +3,8 @@
    Ao alterar qualquer arquivo da lista, incremente CACHE_VERSION
    para que os usuários recebam a versão nova. */
 
-const CACHE_VERSION = 'etiquetas-v97-illustrator-brand-spacing';
-const ASSET_VERSION = '97';
+const CACHE_VERSION = 'etiquetas-v98-installer-update-detection';
+const ASSET_VERSION = '98';
 
 const ARQUIVOS = [
   './assets/brand/tagex-wordmark.svg',

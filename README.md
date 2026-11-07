@@ -4,7 +4,7 @@
 
 **Open-source shipping labels for paper and thermal rolls.** Enter shipment details manually, import Brazilian NF-e XML files, or search configured company folders using the optional local service.
 
-**[Try the web app](https://gabs0078.github.io/etiquetas-expedicao-universal/)** · **[Download Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/tag/v0.6.0-beta.1)** · **[Installation guide](https://gabs0078.github.io/etiquetas-expedicao-universal/instalar.html)** · **[Contributing](CONTRIBUTING.md)**
+**[Try the web app](https://gabs0078.github.io/etiquetas-expedicao-universal/)** · **[Download Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/tag/v0.6.0-beta.2)** · **[Installation guide](https://gabs0078.github.io/etiquetas-expedicao-universal/instalar.html)** · **[Contributing](CONTRIBUTING.md)**
 
 ## What it does
 
@@ -19,12 +19,12 @@
 
 ## Windows: no commands needed
 
-1. Download **TagEX-Windows-0.6.0-beta.1.zip** from Releases. “Source code” is for developers and does not contain the bundled runtime.
+1. Download **TagEX-Windows-0.6.0-beta.2.zip** from Releases. “Source code” is for developers and does not contain the bundled runtime.
 2. Extract the entire ZIP and open **Instalar TagEX.exe**.
 3. Install for your Windows account, then open the **TagEX** shortcut.
 4. Choose manual/XML use or configure invoice folders. Folder integration is optional.
 
-Windows 10/11 x64. Node.js and the XML parser are bundled; installing the downloaded package needs no internet or administrator access. The installer is currently unsigned and updates are manual. Linux and macOS packages are planned; the web app can be used in a compatible browser.
+Windows 10/11 x64. Node.js and the XML parser are bundled; installing the downloaded package needs no internet or administrator access. The unsigned installer detects an older TagEX version and asks before updating, while preserving settings. Package downloads remain manual; it does not check online for releases. Linux and macOS packages are planned; the web app can be used in a compatible browser.
 
 ## Offline and data
 

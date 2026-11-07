@@ -12,11 +12,11 @@ TagEX 是开源发货标签应用，支持普通纸张和热敏标签卷。可�
 
 ## 开始使用
 
-1. [下载 Windows 安装包](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/tag/v0.6.0-beta.1)，不要选择 Source code。
+1. [下载 Windows 安装包](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/tag/v0.6.0-beta.2)，不要选择 Source code。
 2. 解压整个 ZIP，然后打开 **Instalar TagEX.exe**。
 3. 安装并打开 TagEX，选择导入 XML、手动填写或设置文件夹。
 
-支持 Windows 10/11 x64，安装包已包含 Node.js 和依赖组件。目前尚无数字签名和自动更新功能。Linux/macOS 安装包计划后续提供。
+支持 Windows 10/11 x64，安装包已包含 Node.js 和依赖组件。安装程序会检测旧版 TagEX 并询问是否更新，同时保留设置；安装包仍需手动下载，不会自动在线检查版本。目前尚无数字签名。Linux/macOS 安装包计划后续提供。
 
 [网页应用](https://gabs0078.github.io/etiquetas-expedicao-universal/) · [安装指南](https://gabs0078.github.io/etiquetas-expedicao-universal/instalar.html) · [参与贡献](CONTRIBUTING.md)
 

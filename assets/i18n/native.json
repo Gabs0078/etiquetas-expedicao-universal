@@ -6,6 +6,18 @@
     "安装 TagEX"
   ],
   [
+    "Atualizar TagEX",
+    "Update TagEX",
+    "Actualizar TagEX",
+    "更新 TagEX"
+  ],
+  [
+    "Atualizar TagEX neste computador",
+    "Update TagEX on this computer",
+    "Actualizar TagEX en este equipo",
+    "在此电脑上更新 TagEX"
+  ],
+  [
     "TagEX no seu computador",
     "TagEX on your computer",
     "TagEX en su equipo",
@@ -16,6 +28,66 @@
     "Install",
     "Instalar",
     "安装"
+  ],
+  [
+    "Atualizar",
+    "Update",
+    "Actualizar",
+    "更新"
+  ],
+  [
+    "Encontramos o TagEX {0}. Este pacote traz a versão {1}. Deseja atualizar?",
+    "TagEX {0} is installed. This package contains version {1}. Would you like to update?",
+    "TagEX {0} está instalado. Este paquete contiene la versión {1}. ¿Desea actualizar?",
+    "已安装 TagEX {0}。此安装包包含版本 {1}。是否更新？"
+  ],
+  [
+    "Encontramos uma instalação, mas não foi possível identificar a versão. Deseja continuar com a atualização para {0}?",
+    "An installation was found, but its version could not be identified. Continue updating to {0}?",
+    "Se encontró una instalación, pero no se pudo identificar la versión. ¿Desea continuar con la actualización a {0}?",
+    "检测到已有安装，但无法识别版本。是否继续更新到 {0}？"
+  ],
+  [
+    "A atualização substitui somente o programa. Configurações, pastas e dados do navegador serão preservados.",
+    "The update replaces only the app. Settings, folders and browser data will be preserved.",
+    "La actualización solo reemplaza la aplicación. Se conservarán la configuración, las carpetas y los datos del navegador.",
+    "更新只替换应用程序。设置、文件夹和浏览器数据都会保留。"
+  ],
+  [
+    "Este pacote corresponde à versão instalada. Nenhuma atualização é necessária.",
+    "This package matches the installed version. No update is needed.",
+    "Este paquete coincide con la versión instalada. No hace falta actualizar.",
+    "此安装包与已安装版本相同，无需更新。"
+  ],
+  [
+    "Para atualizar, baixe um pacote mais recente.",
+    "To update, download a newer package.",
+    "Para actualizar, descargue un paquete más reciente.",
+    "如需更新，请下载较新的安装包。"
+  ],
+  [
+    "A versão {0} já está instalada. Você pode abrir o TagEX agora.",
+    "Version {0} is already installed. You can open TagEX now.",
+    "La versión {0} ya está instalada. Puede abrir TagEX ahora.",
+    "版本 {0} 已安装。您现在可以打开 TagEX。"
+  ],
+  [
+    "O TagEX instalado ({0}) é mais recente que este pacote ({1}). Não será rebaixado.",
+    "The installed TagEX ({0}) is newer than this package ({1}). It will not be downgraded.",
+    "El TagEX instalado ({0}) es más reciente que este paquete ({1}). No se instalará una versión anterior.",
+    "已安装的 TagEX（{0}）比此安装包（{1}）更新，不会降级。"
+  ],
+  [
+    "A pasta de destino já existe, mas não é uma instalação reconhecida do TagEX. Nada será alterado.",
+    "The destination folder exists, but is not a recognized TagEX installation. Nothing will be changed.",
+    "La carpeta de destino ya existe, pero no es una instalación reconocida de TagEX. No se modificará nada.",
+    "目标文件夹已存在，但不是可识别的 TagEX 安装目录。不会进行任何更改。"
+  ],
+  [
+    "Não foi possível ler a versão deste instalador. Extraia o ZIP completo novamente.",
+    "Could not read this installer's version. Extract the complete ZIP again.",
+    "No se pudo leer la versión del instalador. Vuelva a extraer el ZIP completo.",
+    "无法读取此安装程序的版本。请重新解压完整 ZIP 文件。"
   ],
   [
     "Cancelar",

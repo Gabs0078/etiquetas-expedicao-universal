@@ -6,7 +6,7 @@ Projeto open-source sob a licença MIT. A interface começa em inglês e permite
 
 Etiquetas de expedição com volumes numerados automaticamente, para folhas de papel ou bobina térmica. O aplicativo oferece formatos A4, A3, A2, A5, Carta e Ofício, disposições maiores por folha, organização Grade/Lista e bobinas de 80 × 35 até 100 × 150 mm. Digite os dados, importe XMLs de NF-e ou conecte o serviço opcional de busca em pastas da empresa.
 
-A versão beta 0.6.0-beta.1 inclui um relatório A4 para cotação de frete, com medidas iguais ou diferentes por volume, cubagem automática e campos opcionais para preencher à caneta.
+A versão beta 0.6.0-beta.2 inclui um relatório A4 para cotação de frete, com medidas iguais ou diferentes por volume, cubagem automática e campos opcionais para preencher à caneta.
 
 ## Três formas de trabalhar
 
@@ -28,7 +28,7 @@ A publicação na branch main passa pelos testes antes de atualizar o site. Apen
 
 ### Windows: instalar uma vez, usar offline
 
-**[Baixar TagEX para Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.6.0-beta.1/TagEX-Windows-0.6.0-beta.1.zip)** · versão 0.6.0-beta.1, Windows 10/11 x64.
+**[Baixar TagEX para Windows](https://github.com/Gabs0078/etiquetas-expedicao-universal/releases/download/v0.6.0-beta.2/TagEX-Windows-0.6.0-beta.2.zip)** · versão 0.6.0-beta.2, Windows 10/11 x64.
 
 1. Extraia todo o ZIP.
 2. Abra **Instalar TagEX.exe** e clique em **Instalar**. Não precisa instalar Node.js, usar comandos ou ser administrador.
@@ -36,7 +36,7 @@ A publicação na branch main passa pelos testes antes de atualizar o site. Apen
 
 O pacote inclui os componentes e um guia offline. A busca em pastas compartilhadas exige rede/VPN da empresa; manual, XMLs do disco e impressão funcionam sem internet. Site e aplicativo local mantêm dados separados.
 
-Veja o **[passo a passo de instalação, atualização e uso offline](docs/instalacao-windows.md)**, também disponível [no site](https://gabs0078.github.io/etiquetas-expedicao-universal/instalar.html). O pacote ainda não tem assinatura digital nem atualização automática.
+Veja o **[passo a passo de instalação, atualização e uso offline](docs/instalacao-windows.md)**, também disponível [no site](https://gabs0078.github.io/etiquetas-expedicao-universal/instalar.html). O instalador detecta uma versão anterior e pergunta se deseja atualizar, preservando as configurações. O download do pacote continua manual; não há busca automática por versões online. O pacote ainda não tem assinatura digital.
 
 ### Sem instalar / para desenvolvedores
 
